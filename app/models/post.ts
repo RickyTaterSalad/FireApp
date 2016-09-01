@@ -2,6 +2,7 @@ import {Account} from "./account";
 import {Station} from "./station";
 
 export interface Post {
+  id:string,
   creator:Account,
   shift:Number
   department:string,

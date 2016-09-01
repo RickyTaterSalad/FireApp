@@ -1,17 +1,37 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http,Headers,RequestOptions } from '@angular/http';
+import { ConfigProvider } from "./config-provider";
+import {Station} from "../models/station";
+import {Observable} from "rxjs";
+import {HelperMethods} from "../utils/helper-methods";
+import {Message} from "../models/message";
 import 'rxjs/add/operator/map';
-
+import 'rxjs/add/operator/cache';
 /*
-  Generated class for the MessageProvider provider.
+ Generated class for the DepartmentProvider provider.
 
-  See https://angular.io/docs/ts/latest/guide/dependency-injection.html
-  for more info on providers and Angular 2 DI.
-*/
+ See https://angular.io/docs/ts/latest/guide/dependency-injection.html
+ for more info on providers and Angular 2 DI.
+ */
 @Injectable()
 export class MessageProvider {
+  messageEndpoint:string;
+  helperMethods:HelperMethods = new HelperMethods();
 
-  constructor(private http: Http) {}
+  constructor(private http:Http, private config:ConfigProvider) {
+    this.messageEndpoint = config.restApiUrl + "/messages";
+  }
 
+  create:Function = function (message:Message) {
+    if (message) {
+      let body = JSON.stringify({message: message});
+      let headers = this.helperMethods.generateJsonContentHeader();
+      let options = new RequestOptions({headers: headers});
+      return this.http.post(this.messageEndpoint, body, options).map(res => res.json());
+    }
+    else {
+      return Observable.empty();
+    }
+  }
 }
 
