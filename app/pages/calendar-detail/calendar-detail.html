@@ -1,0 +1,133 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{day.date |date:'mediumDate'}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding class="calendarDetailContent">
+  <ion-grid>
+    <ion-row>
+      <ion-col width-50>
+        <button primary medium
+                (click)="createPost()"
+          >
+          <ion-icon name="add"></ion-icon>
+        </button>
+        <button primary medium
+                (click)="removePost()"
+          >
+          <ion-icon name="remove"></ion-icon>
+        </button>
+        <button primary medium
+                (click)="searchParameters.showListOptions = !searchParameters.showListOptions">
+          <ion-icon name="switch"></ion-icon>
+        </button>
+      </ion-col>
+      <ion-col width-40 offset-10 [hidden]="!searchParameters.showListOptions">
+        <ion-item>
+          <ion-label stacked>Sort By</ion-label>
+          <ion-select [(ngModel)]="searchParameters.sortField" (ngModelChange)="sortPosts()">
+            <ion-option value="sortByStationNumberAscending"><p>Station</p></ion-option>
+            <ion-option value="sortByCreatedDescending"><p>Newest</p></ion-option>
+            <ion-option value="sortByCreatedAscending"><p>Oldest</p></ion-option>
+            <ion-option value="sortByLastNameAscending"><p>User</p></ion-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-grid [hidden]="!searchParameters.showListOptions">
+
+    <ion-row>
+      <ion-col width-50>
+        <ion-item>
+          <p>What Would You Like To Do?</p>
+        </ion-item>
+        <ion-item>
+          <ion-label>Work A Shift</ion-label>
+          <ion-toggle [(ngModel)]="searchParameters.isOffType" (ionChange)="filterResults()"></ion-toggle>
+        </ion-item>
+        <ion-item>
+          <ion-label>Give Away A Shift</ion-label>
+          <ion-toggle [(ngModel)]="searchParameters.isOnType" (ionChange)="filterResults()"></ion-toggle>
+        </ion-item>
+      </ion-col>
+      <ion-col width-50>
+        <ion-item>
+          <p>Posting Types</p>
+        </ion-item>
+        <ion-item>
+          <ion-label>Swap Shifts</ion-label>
+          <ion-toggle [(ngModel)]="searchParameters.isTrade" (ionChange)="filterResults()"></ion-toggle>
+        </ion-item>
+        <ion-item>
+          <ion-label>Overtime</ion-label>
+          <ion-toggle [(ngModel)]="searchParameters.isCover" (ionChange)="filterResults()"></ion-toggle>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+
+  <ion-card *ngFor="let post of filteredPosts" class="shiftPostingCard">
+    <ion-item class="shiftPostingStation">
+      <ion-icon medium name="home"></ion-icon>
+      Station {{stationList[post.station].stationNumber}}
+      <!-- <div>{{post.station_address}}
+       </div> -->
+    </ion-item>
+    <ion-item>
+      <p>
+        <ion-icon name="person"></ion-icon>
+        {{post.creator.firstName}} {{post.creator.lastName}}
+      </p>
+<!--
+      <p>
+        <ion-icon name="clock"></ion-icon>
+        {{post.shift}}
+      </p>
+      -->
+      <span item-right class="postingInterestedInContainer">
+             <p>Posting Type</p>
+           <div class="postingTypeText" [hidden]="post.requestType != 'on'">
+             Wants To Work
+           </div>
+      <div class="postingTypeText" [hidden]="post.requestType != 'off'">
+        Wants Off
+      </div>
+
+              <p style="margin-top:5px;">Interested In</p>
+	   <ion-icon [hidden]="!post.isTrade" name="checkbox"></ion-icon>
+                      <ion-icon [hidden]="post.isTrade" name="square-outline"></ion-icon>
+                      <span style="margin-right:5px;">Trade</span>
+            <ion-icon [hidden]="!post.isOvertime" name="checkbox"></ion-icon>
+            <ion-icon [hidden]="post.isOvertime" name="square-outline"></ion-icon>
+            <span>Overtime</span>
+            </span>
+    </ion-item>
+    <ion-item>
+            <span item-left>
+      <button clear (click)="offerOnPost(post)">
+        <ion-icon name="thumbs-up"></ion-icon>
+        Make Offer
+      </button>
+      <button clear (click)="messageUser(post)">
+        <ion-icon name="chatboxes"></ion-icon>
+        Message User
+      </button>
+        </span>
+      <span item-right class="postingTimestampContainer">
+      <p>
+        Posted
+      </p>
+      <p style="color:black">
+        {{post.createdString}}
+      </p>
+</span>
+
+    </ion-item>
+  </ion-card>
+
+</ion-content>
+
+

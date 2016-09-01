@@ -1,0 +1,115 @@
+@import '../../theme/app.variables';
+
+.calendarView {
+  height: 100%;
+  .calendarMonthAndYearHeader {
+    float: right;
+    margin-right: 20px;
+  }
+
+  .calendarEntry {
+    cursor: pointer;
+    background: white;
+  }
+  .calendarDateLabel {
+    font-size: 1.5rem;
+  }
+  .calendarContent {
+    overflow: auto;
+  }
+  .calendarEntry-NotInMonth {
+    background: rgba(233, 233, 233, 0.6);
+  }
+
+  .calendarCol:nth-child(even) {
+    border-right: 1px solid lightgray;
+    border-left: 1px solid lightgray;
+
+  }
+  .calendarCol {
+    &.pressed {
+      color: white;
+      background: rgba(56, 126, 245, 0.6);
+      .calendarDateLabel {
+        color: white !important;
+      }
+    }
+  }
+
+  .calendarWeekRow {
+    flex: 1;
+    border: 1px solid lightgray;
+    border-top: 0;
+
+  }
+
+  .calendarDayLabelCol {
+    border: 1px solid lightgray;
+    font-size: 1.1rem;
+    background: dodgerblue;
+    color: white;
+
+  }
+  .calendarDayNameRow{
+    .calendarDayLabelCol:first-child{
+      border-width: 1px 1px 1px 0;
+      border-radius:3px 0 0 0;
+    }
+    .calendarDayLabelCol:last-child{
+      border-width: 1px 0 1px 1px;
+      border-radius:0 3px 0 0;
+    }
+
+  }
+
+  .calendarDayLabelCol:nth-child(even) {
+    border-width: 1px 0 1px 0;
+    vertical-align: top;
+
+  }
+
+  .calendarActionIcon {
+    float: right;
+    cursor: pointer;
+    font-size: 2.5rem;
+    color: white;
+
+  }
+
+  .calendarDayInfoContainer {
+    margin-right: 10px;
+    float: right;
+    margin-top: 5%;
+    border-radius: 3px;
+    padding: 5px;
+    color: white;
+  }
+
+  .calendarDayOfWeekLabel {
+    text-align: center;
+  }
+
+  .calendarMonthYearSplitter {
+    margin: 0 2px 0 2px;
+  }
+  .calendarMonthLabel, .calendarMonthYearSplitter, .calendarYearLabel {
+    display: inline-block;
+
+  }
+  .calendarMonthLabel {
+    min-width: 120px;
+    text-align: right;
+  }
+  .calendarMonthBackButton {
+    margin-right: 10px;
+  }
+  .calendarMonthLabel, .calendarMonthYearSplitter {
+    color: #00897B;
+  }
+  .calendarWeekRow-5{
+    border-radius: 0 0 3px 3px;
+  }
+}
+
+
+
