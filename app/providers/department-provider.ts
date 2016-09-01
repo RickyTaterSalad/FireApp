@@ -19,9 +19,6 @@ export class DepartmentProvider {
   constructor(private http:Http, private config:ConfigProvider) {
     this.departmentEndpoint = config.restApiUrl + "/department/" + config.departmentName;
   }
-
-
-
   get Department() {
     let headers = new Headers();
     this.helperMethods.createAuthorizationHeader(headers);

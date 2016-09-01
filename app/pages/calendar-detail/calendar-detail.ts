@@ -42,7 +42,6 @@ export class CalendarDetailPage {
   constructor(nav:NavController, private navParams:NavParams, private postProviders:PostProvider, private stationProvider:StationProvider) {
     this.day = navParams.data;
     this.nav = nav;
-
     stationProvider.Stations.subscribe(stationList => {
       this.stationList = stationList || {};
       postProviders.getPostsForDay(this.day).subscribe(posts=> {
