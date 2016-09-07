@@ -47,9 +47,8 @@ export class CalendarDetailPage {
     showListOptions: false
   };
   private filteredPosts:Array<Post>;
-  private nav:NavController;
 
-  constructor(nav:NavController, private accountProvider:AccountProvider, private alertCtrl:AlertController, private navParams:NavParams, private postProvider:PostProvider, private stationProvider:StationProvider) {
+  constructor(private nav:NavController, private accountProvider:AccountProvider, private alertCtrl:AlertController, private navParams:NavParams, private postProvider:PostProvider, private stationProvider:StationProvider) {
     this.day = navParams.data;
   }
   private showMessage:Function = function (title,message) {

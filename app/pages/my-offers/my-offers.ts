@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
-import { NavController,ActionSheetController} from 'ionic-angular';
+import { NavController,ActionSheetController,AlertController} from 'ionic-angular';
 import {PostProvider} from "../../providers/post-provider";
 import {Post} from "../../models/post";
 import {MomentToString} from "../../pipes/moment-to-string";
-
+import {ObjectContainsProperty} from "../../pipes/object-contains-property";
+import {MessageUserPage} from "../message-user/message-user";
+import {AccountProvider} from "../../providers/account-provider";
+import {Account} from "../../models/account"
 /*
  Generated class for the MyOffersPage page.
 
@@ -12,15 +15,27 @@ import {MomentToString} from "../../pipes/moment-to-string";
  */
 @Component({
   templateUrl: 'build/pages/my-offers/my-offers.html',
-  pipes:[MomentToString]
+  pipes: [MomentToString, ObjectContainsProperty]
 })
 export class MyOffersPage {
-  posts:Array<Post> = [];
+  private posts:Array<Post> = [];
+  private conversations:Object = {};
+  private account:Account = {
+    firstName: "",
+    lastName: "",
+    platoon: "",
+    department: "",
+    station: "",
+    id: "",
+    photo: "",
+    assignedHireCode: ""
+  };
 
-  constructor(private navCtrl:NavController, private postProvider:PostProvider, private actionSheetCtrl:ActionSheetController) {
+  constructor(private nav:NavController, private postProvider:PostProvider, private actionSheetCtrl:ActionSheetController, private alertCtrl:AlertController, private accountProvider:AccountProvider) {
 
   }
-  showPostOptions:Function = function(post){
+
+  showPostOptions:Function = function (post) {
     var buttons =
       [
         {
@@ -36,13 +51,91 @@ export class MyOffersPage {
     });
     actionSheet.present();
   };
+
   onPageDidEnter() {
     this.reloadPosts();
   }
-  reloadPosts:Function = function(){
-    this.postProvider.getMyOffers().subscribe(
-      (response) => {this.posts = response ? response.posts: []},
-      (err) => {console.log("could not load posts")});
+
+  toggleConversation:Function = function (conversation) {
+    if (conversation) {
+      conversation.collapsed = !conversation.collapsed;
+    }
+  };
+  replyToConversation:Function = function (conversation, evt:Event) {
+    if (evt) {
+      evt.stopPropagation();
+    }
+    if (!conversation) {
+      return;
+    }
+    this.nav.push(MessageUserPage, {conversation: conversation});
+  };
+  confirmShift:Function = function (conversation) {
+
+    this.postProvider.claimPost(conversation.post, conversation.recipient).subscribe(
+      (response)=> {
+        console.log("claimed shift");
+        console.dir(response);
+      },
+      (err) => {
+        console.log("could not claim shift");
+        console.dir(err);
+      }
+    )
+  };
+  showConversationOptions:Function = function (conversation) {
+    var buttons =
+      [
+        {
+          text: 'Reply',
+          role: null,
+          handler: () => {
+            this.replyToConversation(conversation, null);
+          }
+        },
+
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+          }
+        }];
+    let actionSheet = this.actionSheetCtrl.create({
+      title: 'Post Options',
+      buttons: buttons
+    });
+    actionSheet.present();
+  };
+
+  reloadPosts:Function = function () {
+    this.accountProvider.self().subscribe((account) => {
+      this.account = account;
+      this.postProvider.getMyPosts().subscribe(
+        (response) => {
+          this.posts = [];
+          this.conversations = {};
+          if (response) {
+            this.posts = response ? response.posts : [];
+            if (response.conversations) {
+              for (var i = 0; i < response.conversations.length; i++) {
+                let curr = response.conversations[i];
+                if (!curr || !curr.post) {
+                  continue;
+                }
+                curr.collapsed = true;
+                if (!this.conversations[curr.post]) {
+                  this.conversations[curr.post] = [];
+                }
+                this.conversations[curr.post].push(curr);
+              }
+              console.dir(this.conversations);
+            }
+          }
+        },
+        (err) => {
+          console.log("could not load posts")
+        });
+    });
   }
 
 }
