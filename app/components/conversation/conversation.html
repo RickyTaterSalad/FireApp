@@ -1,0 +1,27 @@
+<ion-card class="shiftPostingCard" [hidden]="conversation.messages.length == 0">
+  <ion-item (click)="toggleConversation(conversation)">
+    <p [hidden]="account.id != conversation.creator.id" >
+      {{conversation.recipient.firstName}}  {{conversation.recipient.lastName}}
+    </p>
+    <p [hidden]="account.id != conversation.recipient.id" >
+      {{conversation.creator.firstName}}  {{conversation.creator.lastName}}
+    </p>
+    <button small clear (click)="showConversationOptions(conversation)" item-right>
+      <ion-icon name="options"></ion-icon>
+    </button>
+    <button small clear (click)="replyToConversation(conversation,$event)" item-right>
+      <ion-icon name="share-alt"></ion-icon>
+    </button>
+  </ion-item>
+
+  <ion-item *ngFor="let message of conversation.messages" [hidden]="conversation.collapsed">
+    <ion-avatar item-left [hidden]="message.sender != conversation.creator.id">
+      <img src="{{conversation.creator.photo}}"/>
+      <img [hidden]="message.sender != conversation.recipient.id" src="{{conversation.recipient.photo}}"/>
+    </ion-avatar>
+    <ion-avatar item-right [hidden]="message.sender != conversation.recipient.id">
+      <img src="{{conversation.recipient.photo}}"/>
+    </ion-avatar>
+    <ion-item text-wrap> {{message.content}}</ion-item>
+  </ion-item>
+</ion-card>

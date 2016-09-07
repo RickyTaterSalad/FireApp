@@ -1,0 +1,51 @@
+<ion-item class="shiftPostingStation">
+  <div item-left [hidden]="showuserinheader">
+    {{post.shift | momentToString}}
+  </div>
+  <div item-left [hidden]="!showuserinheader">
+    <ion-avatar style="float:left">
+      <img src="{{post.creator.photo}}"/>
+    </ion-avatar>
+    {{post.creator.firstName}} {{post.creator.lastName}}
+  </div>
+  <button small clear [hidden]="account.id != post.creator" (click)="showPostOptions(post)" item-right>
+    <ion-icon name="options"></ion-icon>
+  </button>
+</ion-item>
+<ion-item>
+      <span item-left class="postingInterestedInContainer">
+             <p>Posting Type</p>
+           <div class="postingTypeText" [hidden]="post.requestType != 'on'">Wants To Work</div>
+      <div class="postingTypeText" [hidden]="post.requestType != 'off'">Wants Off</div>
+
+              <p style="margin-top:5px;">Interested In</p>
+	   <ion-icon [hidden]="!post.isTrade" name="checkbox"></ion-icon>
+                      <ion-icon [hidden]="post.isTrade" name="square-outline"></ion-icon>
+                      <span style="margin-right:5px;">Trade</span>
+            <ion-icon [hidden]="!post.isOvertime" name="checkbox"></ion-icon>
+            <ion-icon [hidden]="post.isOvertime" name="square-outline"></ion-icon>
+            <span>Overtime</span>
+        </span>
+
+  <div class="commentsContainer" item-right [hidden]="!post.comments">
+    <p>Comments</p>
+
+    <p class="postComments">{{post.comments}}</p>
+  </div>
+</ion-item>
+<ion-item>
+    <span item-left [hidden]="!showmessageuser">
+      <button clear (click)="messageUser()">
+        <ion-icon name="chatboxes"></ion-icon>
+        Message User
+      </button>
+        </span>
+      <span item-right class="postingTimestampContainer">
+      <p>
+        Posted
+      </p>
+      <p class="postCreatedString">
+        {{post.createdString}}
+      </p>
+</span>
+</ion-item>

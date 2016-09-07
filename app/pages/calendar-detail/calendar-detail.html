@@ -8,11 +8,6 @@
         >
         <ion-icon name="add"></ion-icon>
       </button>
-      <!--        <button primary medium
-                      (click)="removePost()"
-                >
-                <ion-icon name="remove"></ion-icon>
-              </button> -->
       <button primary medium
               (click)="searchParameters.showListOptions = !searchParameters.showListOptions">
         <ion-icon name="switch"></ion-icon>
@@ -38,7 +33,6 @@
     </ion-row>
   </ion-grid>
   <ion-grid [hidden]="!searchParameters.showListOptions">
-
     <ion-row>
       <ion-col width-50>
         <ion-item>
@@ -68,60 +62,8 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-  <ion-card *ngFor="let post of filteredPosts" class="shiftPostingCard">
-    <ion-item class="shiftPostingStation">
-      <div item-left>
-        <ion-icon medium name="home"></ion-icon>
-        {{post.station.stationNumber}}
-      </div>
-      <div item-right>
-        <ion-icon name="person"></ion-icon>
-        {{post.creator.firstName}} {{post.creator.lastName}}
-      </div>
-    </ion-item>
-    <ion-item>
-      <span item-left class="postingInterestedInContainer">
-             <p>Posting Type</p>
-           <div class="postingTypeText" [hidden]="post.requestType != 'on'">Wants To Work</div>
-      <div class="postingTypeText" [hidden]="post.requestType != 'off'">Wants Off</div>
-
-              <p style="margin-top:5px;">Interested In</p>
-	   <ion-icon [hidden]="!post.isTrade" name="checkbox"></ion-icon>
-                      <ion-icon [hidden]="post.isTrade" name="square-outline"></ion-icon>
-                      <span style="margin-right:5px;">Trade</span>
-            <ion-icon [hidden]="!post.isOvertime" name="checkbox"></ion-icon>
-            <ion-icon [hidden]="post.isOvertime" name="square-outline"></ion-icon>
-            <span>Overtime</span>
-        </span>
-
-      <div class="commentsContainer" item-right [hidden]="!post.comments" style="margin-right:5px;">
-          <p>Comments</p>
-        <p style="font-size:1.2rem;color:black">{{post.comments}}</p>
-      </div>
-    </ion-item>
-    <ion-item>
-             <span item-left [hidden]="post.creator.id != account.id">
-      <button clear (click)="removePost(post)">
-        <ion-icon danger name="remove-circle"></ion-icon>
-        <span danger>Remove Post</span>
-      </button>
-        </span>
-            <span item-left [hidden]="post.creator.id == account.id">
-      <button clear (click)="messageUser(post)">
-        <ion-icon name="chatboxes"></ion-icon>
-        Message User
-      </button>
-        </span>
-      <span item-right class="postingTimestampContainer">
-      <p>
-        Posted
-      </p>
-      <p style="color:black">
-        {{post.createdString}}
-      </p>
-</span>
-
-    </ion-item>
+  <ion-card class="shiftPostingCard" *ngFor="let post of filteredPosts;let ndx=index">
+    <post [(showmessageuser)]="yes" [(showuserinheader)]="yes" [(account)]="account" [(day)]="day" [(post)]="filteredPosts[ndx]"></post>
   </ion-card>
 
 </ion-content>

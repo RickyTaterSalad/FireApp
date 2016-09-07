@@ -11,6 +11,7 @@ import {Station} from "../../models/station";
 import {PostProvider} from "../../providers/post-provider";
 import {AccountProvider} from "../../providers/account-provider";
 import {StationProvider} from "../../providers/station-provider";
+import {PostComponent} from "../../components/post/post";
 
 import * as moment from 'moment';
 
@@ -23,10 +24,12 @@ import * as moment from 'moment';
  Ionic pages and navigation.
  */
 @Component({
-  templateUrl: 'build/pages/calendar-detail/calendar-detail.html'
+  templateUrl: 'build/pages/calendar-detail/calendar-detail.html',
+  directives:[PostComponent],
 })
 export class CalendarDetailPage {
   private day:any;
+  yes:boolean = true;
   private account:Account = {
     firstName: "",
     lastName: "",

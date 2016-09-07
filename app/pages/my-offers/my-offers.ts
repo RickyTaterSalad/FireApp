@@ -7,6 +7,8 @@ import {ObjectContainsProperty} from "../../pipes/object-contains-property";
 import {MessageUserPage} from "../message-user/message-user";
 import {AccountProvider} from "../../providers/account-provider";
 import {Account} from "../../models/account"
+import {ConversationComponent} from "../../components/conversation/conversation";
+import {PostComponent} from "../../components/post/post";
 /*
  Generated class for the MyOffersPage page.
 
@@ -15,6 +17,7 @@ import {Account} from "../../models/account"
  */
 @Component({
   templateUrl: 'build/pages/my-offers/my-offers.html',
+  directives:[ConversationComponent,PostComponent],
   pipes: [MomentToString, ObjectContainsProperty]
 })
 export class MyOffersPage {
@@ -34,7 +37,6 @@ export class MyOffersPage {
   constructor(private nav:NavController, private postProvider:PostProvider, private actionSheetCtrl:ActionSheetController, private alertCtrl:AlertController, private accountProvider:AccountProvider) {
 
   }
-
   showPostOptions:Function = function (post) {
     var buttons =
       [
@@ -56,22 +58,7 @@ export class MyOffersPage {
     this.reloadPosts();
   }
 
-  toggleConversation:Function = function (conversation) {
-    if (conversation) {
-      conversation.collapsed = !conversation.collapsed;
-    }
-  };
-  replyToConversation:Function = function (conversation, evt:Event) {
-    if (evt) {
-      evt.stopPropagation();
-    }
-    if (!conversation) {
-      return;
-    }
-    this.nav.push(MessageUserPage, {conversation: conversation});
-  };
   confirmShift:Function = function (conversation) {
-
     this.postProvider.claimPost(conversation.post, conversation.recipient).subscribe(
       (response)=> {
         console.log("claimed shift");
@@ -83,34 +70,10 @@ export class MyOffersPage {
       }
     )
   };
-  showConversationOptions:Function = function (conversation) {
-    var buttons =
-      [
-        {
-          text: 'Reply',
-          role: null,
-          handler: () => {
-            this.replyToConversation(conversation, null);
-          }
-        },
-
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          handler: () => {
-          }
-        }];
-    let actionSheet = this.actionSheetCtrl.create({
-      title: 'Post Options',
-      buttons: buttons
-    });
-    actionSheet.present();
-  };
-
   reloadPosts:Function = function () {
     this.accountProvider.self().subscribe((account) => {
       this.account = account;
-      this.postProvider.getMyPosts().subscribe(
+      this.postProvider.getMyOffers().subscribe(
         (response) => {
           this.posts = [];
           this.conversations = {};
