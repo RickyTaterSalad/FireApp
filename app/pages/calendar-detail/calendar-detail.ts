@@ -1,14 +1,15 @@
-import {Component} from '@angular/core';
-import {NavParams, NavController} from 'ionic-angular';
+import {Component } from '@angular/core';
+import {NavParams, NavController,AlertController} from 'ionic-angular';
 import {Day} from '../../models/day';
+import {Account} from '../../models/Account';
 import {MessageUserPage} from '../message-user/message-user';
 import {CreatePostPage} from '../create-post/create-post';
-import {RemovePostPage} from '../remove-post/remove-post';
-import {OfferPostPage} from '../offer-post/offer-post';
+import {CreateConversationPage} from '../create-conversation/create-conversation';
 import {PostFilter} from "../../models/post-filter";
 import {Post} from "../../models/post";
 import {Station} from "../../models/station";
 import {PostProvider} from "../../providers/post-provider";
+import {AccountProvider} from "../../providers/account-provider";
 import {StationProvider} from "../../providers/station-provider";
 
 import * as moment from 'moment';
@@ -26,6 +27,16 @@ import * as moment from 'moment';
 })
 export class CalendarDetailPage {
   private day:any;
+  private account:Account = {
+    firstName: "",
+    lastName: "",
+    platoon: "",
+    department: "",
+    station: "",
+    id: "",
+    photo: "",
+    assignedHireCode: ""
+  };
   private posts:Array<Post> = new Array<Post>();
   private searchParameters:PostFilter = {
     isCover: true,
@@ -37,18 +48,41 @@ export class CalendarDetailPage {
   };
   private filteredPosts:Array<Post>;
   private nav:NavController;
-  private stationList:Object;
 
-  constructor(nav:NavController, private navParams:NavParams, private postProviders:PostProvider, private stationProvider:StationProvider) {
+  constructor(nav:NavController, private accountProvider:AccountProvider, private alertCtrl:AlertController, private navParams:NavParams, private postProvider:PostProvider, private stationProvider:StationProvider) {
     this.day = navParams.data;
-    this.nav = nav;
-    stationProvider.Stations.subscribe(stationList => {
-      this.stationList = stationList || {};
-      postProviders.getPostsForDay(this.day).subscribe(posts=> {
+  }
+  private showMessage:Function = function (title,message) {
+    let alert = this.alertCtrl.create({
+      title: title,
+      subTitle: message,
+      buttons: ['OK']
+    });
+    alert.present();
+  };
+  private showError:Function = function (message) {
+    let alert = this.alertCtrl.create({
+      title: 'Error',
+      subTitle: message,
+      buttons: ['OK']
+    });
+    alert.present();
+  };
+
+  onPageDidEnter() {
+   this.reloadPosts();
+  }
+  reloadPosts:Function = function(){
+    console.log("reloadPosts");
+    this.accountProvider.self().subscribe((account) => {
+      console.log("Account");
+      console.dir(account);
+      this.account = account;
+      this.postProvider.getPostsForDay(this.day).subscribe(posts=> {
         this.posts = this.filteredPosts = posts;
       });
-    });
-  }
+    })
+  };
 
 
   private sortPostArray:Function = function (postArray:Array<Post>) {
@@ -87,17 +121,49 @@ export class CalendarDetailPage {
   sortPosts:Function = function () {
     this.sortPostArray(this.filteredPosts);
   };
-
-
-  offerOnPost:Function = function (post) {
-    this.nav.push(OfferPostPage, {day: this.day, post: post});
+  messageUser:Function = function (post) {
+    this.nav.push(CreateConversationPage, {day: this.day, post: post});
   };
-  removePost:Function = function () {
-    //get the users posts
-    this.nav.push(RemovePostPage, this.day);
+  removePost:Function = function (post) {
+    if(!post){
+      return;
+    }
+    let confirm = this.alertCtrl.create({
+      title: 'Remove Post?',
+      message: 'Are You Sure You Want To Remove This Post?',
+      buttons: [
+        {
+          text: 'Yes',
+          handler: () => {
+            this.postProvider.delete(post).subscribe(
+              (response)=> {
+                this.reloadPosts();
+              },
+              (err) =>{
+                this.showError("Could Not Delete Post.");
+              }
+            )
+          }
+        },
+        {
+          text: 'No',
+          handler: () => {
+
+          }
+        }
+
+      ]
+    });
+    confirm.present();
+
   };
   createPost:Function = function () {
-    this.nav.push(CreatePostPage, this.day);
+    this.postProvider.userHasPostForDate(this.day).subscribe(
+        response => {
+        this.nav.push(CreatePostPage, {day: this.day});
+      },
+      (err) => {this.showError(err && err._body ? err._body : "Could Not Create Post")}
+    );
   };
 
   filterResults:Function = function () {
@@ -119,11 +185,6 @@ export class CalendarDetailPage {
     });
     this.filteredPosts = this.sortPostArray(tempFilteredPosts);
   };
-  messageUser:Function = function (post) {
-    if (post) {
-      this.nav.push(MessageUserPage, post);
-    }
-  }
   private sortByLastNameAscending:Function = function (a:Post, b:Post):Number {
     if (a.creator.lastName < b.creator.lastName) {
       return -1;

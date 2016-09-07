@@ -1,27 +1,25 @@
 @import '../../theme/app.variables';
-
-
-.calendarDetailContent {
-
   .shiftPostingCard {
-
-  }
-  .postingTypeText {
-    font-weight: bold;
-    font-size: 1.4rem;
-  }
-  .shiftPostingStation {
-    background: #4885ed;
-    color: white;
-
-  }
-  .postingTimestampContainer, .postingInterestedInContainer {
-    p, span {
-      font-size: 1.2rem;
+    .postingTypeText {
+      font-weight: bold;
+      font-size: 1.4rem;
     }
-    .item-icon {
-      font-size: 1.5rem;
-      color: #4885ed;
+    .shiftPostingStation {
+     /* background: #4885ed;
+      color: white;*/
+      font-size: 1.3rem;
+      ion-label: {
+        margin: 0 !important;
+      }
+
+    }
+    .postingTimestampContainer, .postingInterestedInContainer, .commentsContainer {
+      p, span {
+        font-size: 1.2rem;
+      }
+      .item-icon {
+        font-size: 1.5rem;
+        color: #4885ed;
+      }
     }
   }
-}

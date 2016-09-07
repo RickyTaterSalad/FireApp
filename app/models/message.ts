@@ -1,5 +1,7 @@
+import {Conversation} from "./conversation";
+
 export interface Message {
-  conversation:string;
+  conversation:Conversation;
   sender:string;
   recipient:string;
   content:string;

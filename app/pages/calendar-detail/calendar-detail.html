@@ -1,29 +1,30 @@
 <ion-header>
   <ion-navbar>
+
     <ion-title>{{day.date |date:'mediumDate'}}</ion-title>
+    <ion-buttons end>
+      <button primary medium
+              (click)="createPost()"
+        >
+        <ion-icon name="add"></ion-icon>
+      </button>
+      <!--        <button primary medium
+                      (click)="removePost()"
+                >
+                <ion-icon name="remove"></ion-icon>
+              </button> -->
+      <button primary medium
+              (click)="searchParameters.showListOptions = !searchParameters.showListOptions">
+        <ion-icon name="switch"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding class="calendarDetailContent">
   <ion-grid>
     <ion-row>
-      <ion-col width-50>
-        <button primary medium
-                (click)="createPost()"
-          >
-          <ion-icon name="add"></ion-icon>
-        </button>
-        <button primary medium
-                (click)="removePost()"
-          >
-          <ion-icon name="remove"></ion-icon>
-        </button>
-        <button primary medium
-                (click)="searchParameters.showListOptions = !searchParameters.showListOptions">
-          <ion-icon name="switch"></ion-icon>
-        </button>
-      </ion-col>
-      <ion-col width-40 offset-10 [hidden]="!searchParameters.showListOptions">
+      <ion-col width-40 offset-60 [hidden]="!searchParameters.showListOptions">
         <ion-item>
           <ion-label stacked>Sort By</ion-label>
           <ion-select [(ngModel)]="searchParameters.sortField" (ngModelChange)="sortPosts()">
@@ -67,34 +68,22 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-
-
   <ion-card *ngFor="let post of filteredPosts" class="shiftPostingCard">
     <ion-item class="shiftPostingStation">
-      <ion-icon medium name="home"></ion-icon>
-      Station {{stationList[post.station].stationNumber}}
-      <!-- <div>{{post.station_address}}
-       </div> -->
-    </ion-item>
-    <ion-item>
-      <p>
+      <div item-left>
+        <ion-icon medium name="home"></ion-icon>
+        {{post.station.stationNumber}}
+      </div>
+      <div item-right>
         <ion-icon name="person"></ion-icon>
         {{post.creator.firstName}} {{post.creator.lastName}}
-      </p>
-<!--
-      <p>
-        <ion-icon name="clock"></ion-icon>
-        {{post.shift}}
-      </p>
-      -->
-      <span item-right class="postingInterestedInContainer">
-             <p>Posting Type</p>
-           <div class="postingTypeText" [hidden]="post.requestType != 'on'">
-             Wants To Work
-           </div>
-      <div class="postingTypeText" [hidden]="post.requestType != 'off'">
-        Wants Off
       </div>
+    </ion-item>
+    <ion-item>
+      <span item-left class="postingInterestedInContainer">
+             <p>Posting Type</p>
+           <div class="postingTypeText" [hidden]="post.requestType != 'on'">Wants To Work</div>
+      <div class="postingTypeText" [hidden]="post.requestType != 'off'">Wants Off</div>
 
               <p style="margin-top:5px;">Interested In</p>
 	   <ion-icon [hidden]="!post.isTrade" name="checkbox"></ion-icon>
@@ -103,14 +92,21 @@
             <ion-icon [hidden]="!post.isOvertime" name="checkbox"></ion-icon>
             <ion-icon [hidden]="post.isOvertime" name="square-outline"></ion-icon>
             <span>Overtime</span>
-            </span>
+        </span>
+
+      <div class="commentsContainer" item-right [hidden]="!post.comments" style="margin-right:5px;">
+          <p>Comments</p>
+        <p style="font-size:1.2rem;color:black">{{post.comments}}</p>
+      </div>
     </ion-item>
     <ion-item>
-            <span item-left>
-      <button clear (click)="offerOnPost(post)">
-        <ion-icon name="thumbs-up"></ion-icon>
-        Make Offer
+             <span item-left [hidden]="post.creator.id != account.id">
+      <button clear (click)="removePost(post)">
+        <ion-icon danger name="remove-circle"></ion-icon>
+        <span danger>Remove Post</span>
       </button>
+        </span>
+            <span item-left [hidden]="post.creator.id == account.id">
       <button clear (click)="messageUser(post)">
         <ion-icon name="chatboxes"></ion-icon>
         Message User

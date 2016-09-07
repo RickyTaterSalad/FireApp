@@ -1,5 +1,5 @@
 <!--
-  Generated template for the CreatePostPage page.
+  Generated template for the EditPostPage page.
 
   See http://ionicframework.com/docs/v2/components/#navigation for more info on
   Ionic pages and navigation.
@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Create A Post</ion-title>
+    <ion-title>edit-post</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -16,18 +16,18 @@
 <ion-content padding>
   <ion-item>
     <ion-label>Trade</ion-label>
-    <ion-checkbox [(ngModel)]="post.isTrade"></ion-checkbox>
+    <ion-checkbox [(ngModel)]="postModel.isTrade"></ion-checkbox>
   </ion-item>
   <ion-item>
     <ion-label>Overtime</ion-label>
-    <ion-checkbox [(ngModel)]="post.isOvertime"></ion-checkbox>
+    <ion-checkbox [(ngModel)]="postModel.isOvertime"></ion-checkbox>
   </ion-item>
   <ion-item>
     <ion-label stacked>Message</ion-label>
-    <ion-textarea [(ngModel)]="post.comments"></ion-textarea>
+    <ion-textarea [(ngModel)]="postModel.comments"></ion-textarea>
   </ion-item>
   <button style="float:right" primary item-right
-          (click)="createPost()"item-right>
+          (click)="editPost()"item-right>
     <ion-icon name="checkmark"></ion-icon>
     <ion-label>Create Post</ion-label>
   </button>

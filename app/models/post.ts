@@ -14,5 +14,6 @@ export interface Post {
   requestType:string,
   shiftStartTime:string,
   platoon:string,
-  created:Number
+  created:Number,
+  comments:string
 }

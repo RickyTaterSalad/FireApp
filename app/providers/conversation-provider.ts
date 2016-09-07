@@ -28,9 +28,10 @@ export class ConversationProvider {
     return this.http.get(this.conversationEndpoint, {headers: headers}).map(res => res.json()).cache();
   }
 
+
   create:Function = function (conversation:Conversation) {
     if (conversation) {
-      let body = JSON.stringify({conversation: conversation});
+      let body = JSON.stringify(conversation);
       let headers = this.helperMethods.generateJsonContentHeader();
       let options = new RequestOptions({headers: headers});
       return this.http.post(this.conversationEndpoint, body, options).map(res => res.json());

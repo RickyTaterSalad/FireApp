@@ -6,19 +6,19 @@
 -->
 <ion-header>
   <ion-navbar>
-    <ion-title>Offer On Post</ion-title>
+    <ion-title>Make Offer</ion-title>
   </ion-navbar>
 </ion-header>
 <ion-content padding>
   <ion-item>
-    <ion-icon primary name="person"></ion-icon>
-    <span style="margin-left:5px;">{{post.first_name}} {{post.last_name}}</span>
+    <ion-icon primary name="home"></ion-icon>
+    <span style="margin-left:5px">   {{post.station.stationNumber}}</span>
+      <ion-icon primary name="person" style="margin-left:10px;"></ion-icon>
+      <span style="margin-left:5px;">   {{post.creator.firstName}} {{post.creator.lastName}}</span>
+    <ion-icon primary name="clock" style="margin-left:10px;"></ion-icon>
+    <span style="margin-left:5px">{{day.month}}-{{day.dayOfMonth}}-{{day.year}} {{post.shiftStartTime}}</span>
   </ion-item>
-  <ion-item>
-    <ion-icon primary name="clock"></ion-icon>
-    <span style="margin-left:5px">{{post.shift.month}}-{{post.shift.day}}-{{post.shift.year}} {{post.shift.start_time}} to {{post.shift.end_time}}</span>
-  </ion-item>
-  <ion-list radio-group [(ngModel)]="swapType">
+  <ion-list radio-group [(ngModel)]="swapType" [hidden]="!post.isOvertime || !post.isTrade">
     <ion-label>
       Swap Type
     </ion-label>
@@ -36,6 +36,7 @@
     <ion-textarea [(ngModel)]="messageData.message"></ion-textarea>
   </ion-item>
   <button style="float:right" primary item-right
+          (click)="createConversation()"
           [disabled]="messageData.message == null || messageData.message.length == 0" item-right>
     <ion-icon name="send"></ion-icon>
     <ion-label>Send</ion-label>

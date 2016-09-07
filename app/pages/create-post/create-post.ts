@@ -1,19 +1,92 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController,NavParams,AlertController } from 'ionic-angular';
+import {Post} from "../../models/post";
+import {Day} from "../../models/day";
+import {DateUtils} from "../../utils/date-utils";
+import {DepartmentProvider} from "../../providers/department-provider";
+import {PostProvider} from "../../providers/post-provider";
+import {Department} from "../../models/department";
 
 /*
-  Generated class for the CreatePostPage page.
+ Generated class for the CreatePostPage page.
 
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
-*/
+ See http://ionicframework.com/docs/v2/components/#navigation for more info on
+ Ionic pages and navigation.
+ */
 @Component({
   templateUrl: 'build/pages/create-post/create-post.html',
 })
 export class CreatePostPage {
+  post:Post = {
+    id: null,
+    creator: null,
+    shift: null,
+    isTrade: true,
+    comments: "",
+    isOvertime: true,
+    isAssignedHire: false,
+    isRegular: true,
+    requestType: "on",
+    shiftStartTime: null,
+    platoon: null,
+    department: null,
+    station: null,
+    created: null
+  };
+  day:Day;
+  dateUtils:DateUtils;
 
-  constructor(private nav: NavController) {
+  constructor(private nav:NavController, private alertCtrl:AlertController, private navParams:NavParams, private departmentProvider:DepartmentProvider, private postProvider:PostProvider) {
+    this.dateUtils = new DateUtils();
+    console.dir(navParams.data)
+    this.day = navParams.data.day;
+    if (!this.day) {
+      this.showError("No Date To Create Post On");
+      return;
+    }
+    departmentProvider.Department.subscribe((dept:Department) => {
+      if (dept && dept.schedule) {
+        this.post.shift =  this.dateUtils.dateFromDay(this.day);
+        this.post.shiftStartTime =  dept.schedule.shiftStartTime;
+        console.dir(this.post);
+      }
+      else {
+        this.showError("Could Not Retrieve Department");
+        return;
 
+      }
+    });
   }
+
+  createPost:Function = function () {
+    this.postProvider.create(this.post).subscribe(
+      (response) =>{
+        console.log("Create Post Response");
+        console.dir(response);
+        this.handleCreated();
+      },
+      (err) =>{
+        this.showError(err && err._body ? err._body : "Could Not Create Post")
+      }
+    )
+  };
+  handleCreated:Function = function(){
+    let alert = this.alertCtrl.create({
+      title: 'Success',
+      subTitle: "Your Post Was Created.",
+      buttons: ['OK']
+    });
+    alert.present();
+    this.nav.pop();
+  };
+  showError:Function = function (message) {
+    let alert = this.alertCtrl.create({
+      title: 'Error',
+      subTitle: message,
+      buttons: ['OK']
+    });
+    alert.present();
+    this.nav.pop();
+  };
 
 }

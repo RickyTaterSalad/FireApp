@@ -24,10 +24,10 @@ export class MessageProvider {
 
   create:Function = function (message:Message) {
     if (message) {
-      let body = JSON.stringify({message: message});
+      let body = JSON.stringify(message);
       let headers = this.helperMethods.generateJsonContentHeader();
       let options = new RequestOptions({headers: headers});
-      return this.http.post(this.messageEndpoint, body, options).map(res => res.json());
+      return this.http.post(this.messageEndpoint, body,options).map(res => res.json());
     }
     else {
       return Observable.empty();

@@ -1,9 +1,10 @@
 import {Component, ViewChild} from '@angular/core';
-import {ionicBootstrap, Platform, MenuController, Nav} from 'ionic-angular';
+import {ionicBootstrap, Platform, MenuController, Nav,AlertController} from 'ionic-angular';
 import {StatusBar} from 'ionic-native';
 import {CalendarPage} from './pages/calendar/calendar';
 import {AccountPage} from './pages/account/account';
-
+import {MyPostsPage} from './pages/my-posts/my-posts';
+import {MyOffersPage} from './pages/my-offers/my-offers';
 import {DepartmentProvider} from "./providers/department-provider";
 import {AccountProvider} from "./providers/account-provider";
 import {ConversationProvider} from "./providers/conversation-provider";
@@ -21,7 +22,8 @@ import {StationProvider} from "./providers/station-provider";
     PostProvider,
     MessageProvider,
     ConfigProvider,
-    StationProvider
+    StationProvider,
+    AlertController
   ]
 })
 class MyApp {
@@ -37,9 +39,12 @@ class MyApp {
     // set our app's pages
     this.pages = [
       {title: 'Calendar', component: CalendarPage},
-      {title: 'My Account', component: AccountPage}
+      {title: "My Posts",component:MyPostsPage},
+      {title: "My Offers",component:MyOffersPage},
+      {title: 'Account', component: AccountPage}
     ];
   }
+
 
   initializeApp() {
     this.platform.ready().then(() => {

@@ -1,5 +1,8 @@
 <ion-header>
-  <ion-navbar no-border-bottom>
+  <ion-navbar>
+    <button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
     <ion-title>Calendar</ion-title>
   </ion-navbar>
 </ion-header>
@@ -37,7 +40,6 @@
       <ion-col [class.calendarEntry-NotInMonth]="day.month != currentCalendarMonthAndYear.month" class="calendarEntry"
                *ngFor="let day of week.days" class="calendarCol" (click)="showDetails($event,day)">
         <label class="calendarDateLabel" [style.color]="day.color">{{day.dayOfMonth}}</label>
-        {{day.platoon}}
       </ion-col>
     </ion-row>
   </ion-grid>
