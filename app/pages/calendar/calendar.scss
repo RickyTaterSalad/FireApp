@@ -2,6 +2,15 @@
 
 .calendarView {
   height: 100%;
+  .postCountContainer{
+    margin-top: 5px;
+    margin-right:5px;
+    background: dodgerblue;
+    color: white;
+    padding:3px 5px;
+    border-radius: 2px;
+    float:right;
+  }
   .calendarMonthAndYearHeader {
     float: right;
     margin-right: 20px;

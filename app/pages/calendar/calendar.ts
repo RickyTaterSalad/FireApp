@@ -12,12 +12,16 @@ import {CalendarMonth} from "../../models/calendar-month";
 import {MonthAndYear} from "../../models/month-and-year";
 import {Department} from "../../models/department";
 import {DepartmentProvider} from "../../providers/department-provider";
+import {PostProvider} from "../../providers/post-provider";
+import {ObjectContainsProperty} from "../../pipes/object-contains-property";
+
 import {DateUtils} from "../../utils/date-utils";
 
 import * as moment from 'moment';
 
 @Component({
   templateUrl: 'build/pages/calendar/calendar.html',
+  pipes:[ObjectContainsProperty],
   animations: [
     trigger('fade', [
       state('visible', style({
@@ -53,11 +57,12 @@ export class CalendarPage/* implements OnInit, OnDestroy */ {
   fadeState:string = "visible";
   systemMonthAndYear:MonthAndYear;
   currentCalendarMonthAndYear:MonthAndYear;
+  postCounts:Object = {};
   department:Department;
   dateUtils:DateUtils = new DateUtils();
   private nav:NavController;
 
-  constructor(nav:NavController, private departmentController:DepartmentProvider) {
+  constructor(nav:NavController, private departmentController:DepartmentProvider,private postProvider:PostProvider) {
     this.nav = nav;
     this.updateCurrentSystemMonthAndYear();
     this.currentCalendarMonthAndYear = new MonthAndYear(this.systemMonthAndYear.month, this.systemMonthAndYear.year);
@@ -130,6 +135,24 @@ export class CalendarPage/* implements OnInit, OnDestroy */ {
     let dayOfTheWeekOffset = date.getDay();
     //back up the date so we fill in dates before the first day of the month (previous month)
     date.setDate(date.getDate() - dayOfTheWeekOffset);
+
+    //load the post count
+    var obj = {year: date.getFullYear(), month: date.getMonth(), day: date.getDay()};
+    console.dir(obj);
+    var startMoment =  moment.utc(obj);
+    this.postCounts = {};
+    this.postProvider.postCountForCalendar(startMoment).subscribe(
+      (response)=>{
+        console.log("Response");
+        console.dir(response);
+        this.postCounts = response || {};
+      },
+      (err) =>{
+        console.log("err")
+      }
+    );
+
+    //load the calendar days
     var calendarMonth = new CalendarMonth();
     calendarMonth.yearShort = this.currentCalendarMonthAndYear.year.toString().substr(2, 2);
     //loop through all cells in the calendar, populating the date
@@ -139,7 +162,9 @@ export class CalendarPage/* implements OnInit, OnDestroy */ {
         day.dayOfMonth = date.getDate();
         day.year = date.getFullYear();
         day.month = date.getMonth();
+        day.utcDayStart = this.dateUtils.dateFromDay(day).valueOf();
         day.date = new Date(date.getTime());
+
         calendarMonth.weeks[i].days[j] = day;
         day.platoon = this.department.schedule.platoonSchedule[scheduleOffset % this.department.schedule.platoonSchedule.length];
         day.startTime = this.department.schedule.shiftStartTime;
@@ -157,6 +182,7 @@ export class CalendarPage/* implements OnInit, OnDestroy */ {
       this.fadeState = "visible";
     }, 100);
   };
+
   private getScheduleOffset:Function = function (month, year) {
     var dt = this.dateUtils.dateFromMS(this.department.schedule.platoonScheduleStartDate);
     var dt2 = moment([year, month, 1, 0, 0]);

@@ -39,7 +39,13 @@
              class="calendarWeekRow calendarWeekRow-{{i}}">
       <ion-col [class.calendarEntry-NotInMonth]="day.month != currentCalendarMonthAndYear.month" class="calendarEntry"
                *ngFor="let day of week.days" class="calendarCol" (click)="showDetails($event,day)">
-        <label class="calendarDateLabel" [style.color]="day.color">{{day.dayOfMonth}}</label>
+        <div style="float:left;">
+          <label class="calendarDateLabel" [style.color]="day.color">{{day.dayOfMonth}}</label>
+
+        </div>
+          <label *ngIf="postCounts | objectContainsProperty:day.utcDayStart" class="postCountContainer">
+            {{postCounts[day.utcDayStart]}}
+          </label>
       </ion-col>
     </ion-row>
   </ion-grid>

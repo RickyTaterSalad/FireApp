@@ -6,4 +6,5 @@ export class Day {
   platoon:string;
   startTime:string;
   color:string = "#DFDFDF";
+  utcDayStart:number;
 }

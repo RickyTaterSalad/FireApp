@@ -9,10 +9,12 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class ConfigProvider {
 
+
   constructor() {
   }
 
-  restApiUrl:string = "https://fireappdev.herokuapp.com/api/v1";
+ // restApiUrl:string = "https://fireappdev.herokuapp.com/api/v1";
+  restApiUrl:string = "http://localhost:3000/api/v1";
   departmentName:String = "LAFD";
 
 }

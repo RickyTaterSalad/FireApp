@@ -27,7 +27,8 @@ export class PostProvider {
     this.dateUtils = new DateUtils();
     this.http = http;
   }
-  getMyPosts:Function = function(){
+
+  getMyPosts:Function = function () {
     let headers = new Headers();
     this.helperMethods.createAuthorizationHeader(headers);
     console.log("sending dept query");
@@ -35,7 +36,7 @@ export class PostProvider {
     let options = new RequestOptions({headers: headers});
     return this.http.get(url, options).map(res => res.json());
   };
-  getMyOffers:Function = function(){
+  getMyOffers:Function = function () {
     let headers = new Headers();
     this.helperMethods.createAuthorizationHeader(headers);
     console.log("sending dept query");
@@ -48,7 +49,7 @@ export class PostProvider {
     let headers = new Headers();
     this.helperMethods.createAuthorizationHeader(headers);
     console.log("sending dept query");
-    var url = this.postsEndpoint + "/" + date.year + "/" + (date.month +1) + "/" + date.dayOfMonth;
+    var url = this.postsEndpoint + "/" + date.year + "/" + (date.month + 1) + "/" + date.dayOfMonth;
     let options = new RequestOptions({headers: headers});
     return this.http.get(url, options).map(res => res.json());
   };
@@ -64,6 +65,28 @@ export class PostProvider {
       return Observable.empty();
     }
   };
+  postCountForCalendar:Function = function (startDay) {
+    return Observable.create((observer) => {
+      if (!startDay || !startDay.valueOf) {
+        observer.next({});
+        observer.complete()
+      }
+      else {
+        let headers = new Headers();
+        this.helperMethods.createAuthorizationHeader(headers);
+        console.log("headers");
+        console.dir(headers);
+        let url = this.postsEndpoint + "/postCounts/" + startDay.valueOf();
+        return this.http.get(url, {headers: headers}).map(res => res.json()).subscribe(
+          (response)=> {
+            observer.next(response);
+            observer.complete();
+          }
+        )
+      }
+    });
+
+  };
   userHasPostForDate:Function = function (day:Day) {
     ///hasPost/:year/:month/:day
     var dateTime = this.dateUtils.dateFromDay(day);
@@ -75,17 +98,17 @@ export class PostProvider {
       this.helperMethods.createAuthorizationHeader(headers);
       console.log("headers");
       console.dir(headers);
-      let url = this.postsEndpoint + "/hasPost/" + day.year + "/" +(day.month + 1) + "/" + day.dayOfMonth;
+      let url = this.postsEndpoint + "/hasPost/" + day.year + "/" + (day.month + 1) + "/" + day.dayOfMonth;
       return this.http.get(url, {headers: headers}).map(res => res.json());
     }
   };
-  claimPost:Function = function(post:Post,account:Account){
+  claimPost:Function = function (post:Post, account:Account) {
     if (post && account) {
       let body = JSON.stringify({
         post: {
           id: post.id
         },
-        claiment:{
+        claiment: {
           id: account.id
         }
 
