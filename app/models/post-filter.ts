@@ -1,6 +1,6 @@
 export interface PostFilter {
   isTrade:boolean,
-  isCover:boolean,
+  isOvertime:boolean,
   isOnType:boolean,
   isOffType:boolean,
   sortField:string,

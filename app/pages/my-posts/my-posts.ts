@@ -20,6 +20,7 @@ import {PostComponent} from "../../components/post/post";
   pipes: [ObjectContainsProperty]
 })
 export class MyPostsPage {
+  private loading:boolean = true;
   posts:Array<Post> = [];
   conversations:Object = {};
   private account:Account = {
@@ -51,31 +52,38 @@ export class MyPostsPage {
     )
   };
   reloadPosts:Function = function () {
+    this.loading = true;
     this.accountProvider.self().subscribe((account) => {
-      this.account = account;
-      this.postProvider.getMyPosts().subscribe(
-        (response) => {
-          this.posts = [];
-          this.conversations = {};
-          this.posts = response ? response.posts : [];
-          if (response.conversations) {
-            for (var i = 0; i < response.conversations.length; i++) {
-              let curr = response.conversations[i];
-              if (!curr || !curr.post) {
-                continue;
+        this.account = account;
+        this.postProvider.getMyPosts().subscribe(
+          (response) => {
+            this.posts = [];
+            this.conversations = {};
+            this.posts = response ? response.posts : [];
+            if (response.conversations) {
+              for (var i = 0; i < response.conversations.length; i++) {
+                let curr = response.conversations[i];
+                if (!curr || !curr.post) {
+                  continue;
+                }
+                curr.collapsed = true;
+                if (!this.conversations[curr.post]) {
+                  this.conversations[curr.post] = [];
+                }
+                this.conversations[curr.post].push(curr);
               }
-              curr.collapsed = true;
-              if (!this.conversations[curr.post]) {
-                this.conversations[curr.post] = [];
-              }
-              this.conversations[curr.post].push(curr);
+              console.dir(this.conversations);
             }
-            console.dir(this.conversations);
-          }
-        },
-        (err) => {
-          console.log("could not load posts")
-        });
-    });
+            this.loading = false;
+          },
+          (err) => {
+            console.log("could not load posts")
+            this.loading = false;
+          });
+      },
+      (err) => {
+        console.log("could not load account")
+        this.loading = false;
+      });
   }
 }

@@ -21,6 +21,7 @@ import {PostComponent} from "../../components/post/post";
   pipes: [MomentToString, ObjectContainsProperty]
 })
 export class MyOffersPage {
+  private loading:boolean = true;
   private posts:Array<Post> = [];
   private conversations:Object = {};
   private account:Account = {
@@ -71,6 +72,7 @@ export class MyOffersPage {
     )
   };
   reloadPosts:Function = function () {
+    this.loading = true;
     this.accountProvider.self().subscribe((account) => {
       this.account = account;
       this.postProvider.getMyOffers().subscribe(
@@ -91,14 +93,19 @@ export class MyOffersPage {
                 }
                 this.conversations[curr.post].push(curr);
               }
-              console.dir(this.conversations);
+              this.loading = false;
             }
           }
         },
         (err) => {
-          console.log("could not load posts")
+          console.log("could not load posts");
+          this.loading = false;
         });
-    });
+    },
+      (err) => {
+        console.log("could not load posts");
+        this.loading = false;
+      });
   }
 
 }

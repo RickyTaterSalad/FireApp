@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController,NavParams,AlertController } from 'ionic-angular';
+import { NavController,NavParams,AlertController ,Platform} from 'ionic-angular';
 import {Post} from "../../models/post";
 import {Day} from "../../models/day";
 import {Account} from "../../models/account";
@@ -9,6 +9,7 @@ import {MessageProvider} from "../../providers/message-provider"
 import {Conversation} from "../../models/conversation";
 import {Message} from "../../models/message";
 import {PostBriefComponent} from "../../components/post-brief/post-brief";
+import {Toast} from 'ionic-native';
 import 'rxjs/add/operator/catch';
 
 interface CreateConversation {
@@ -33,7 +34,7 @@ export class CreateConversationPage {
   private day:Day;
   private messageData:CreateConversation;
 
-  constructor(private nav:NavController,private alertCtrl:AlertController, private navParams:NavParams, private conversationProvider:ConversationProvider, private accountProvider:AccountProvider, private messageProvider:MessageProvider) {
+  constructor(private platform:Platform,private nav:NavController,private alertCtrl:AlertController, private navParams:NavParams, private conversationProvider:ConversationProvider, private accountProvider:AccountProvider, private messageProvider:MessageProvider) {
     this.post = navParams.data.post;
     this.day = navParams.data.day;
     this.messageData = {post: this.post, message: "", swapType: ""};
@@ -43,23 +44,18 @@ export class CreateConversationPage {
       }
     }
   }
-
-  showSuccess:Function = function () {
-    let alert = this.alertCtrl.create({
-      title: 'Success',
-      subTitle: 'Message Sent',
-      buttons: ['OK']
-    });
-    alert.present();
-    this.nav.pop();
-  };
-  showError:Function = function (err) {
-    let alert = this.alertCtrl.create({
-      title: 'Error',
-      subTitle: err._body || "Could Not Message User",
-      buttons: ['OK']
-    });
-    alert.present();
+  showMessage:Function = function (message,title) {
+    if (this.platform.is('ios') ||this.platform.is('android')) {
+      Toast.show(message, "short", "bottom")
+    }
+    else {
+      let alert = this.alertCtrl.create({
+        title: title || 'Alert',
+        subTitle: message,
+        buttons: ['OK']
+      });
+      alert.present();
+    }
     this.nav.pop();
   };
   createConversation:Function = function () {
@@ -82,11 +78,11 @@ export class CreateConversationPage {
           this.messageProvider.create(message).subscribe(
               response => {
               console.dir(response);
-              this.showSuccess();
+              this.showMessage('Message Sent','Success');
             }
           )
         },
-        (err) =>this.showError(err)
+        (err) =>{this.showMessage(err && err._body? err._body : "Could Not Message User","Error")}
       )
     });
   }

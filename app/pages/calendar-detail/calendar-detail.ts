@@ -43,7 +43,7 @@ export class CalendarDetailPage {
   };
   private posts:Array<Post> = new Array<Post>();
   private searchParameters:PostFilter = {
-    isCover: true,
+    isOvertime: true,
     isTrade: true,
     isOnType: true,
     isOffType: true,
@@ -112,7 +112,7 @@ export class CalendarDetailPage {
   };
   toggleOvertime:Function = function () {
     //console.log("toggle overtime");
-    this.searchParameters.isCover = !this.searchParameters.isCover;
+    this.searchParameters.isOvertime = !this.searchParameters.isOvertime;
     this.filterResults();
   };
   toggleOff:Function = function () {
@@ -174,18 +174,19 @@ export class CalendarDetailPage {
   };
 
   filterResults:Function = function () {
+    console.dir(this.searchParameters);
     // console.dir(this.searchParameters);
     let tempFilteredPosts = this.posts.filter((post:Post) => {
-      if (this.searchParameters.isOffType && post.requestType == "off") {
+      if (!this.searchParameters.isOffType && post.requestType == "off") {
         // console.log("off type and shift is off. return false");
         return false;
       }
-      if (this.searchParameters.isOnType && post.requestType == "on") {
+      if (!this.searchParameters.isOnType && post.requestType == "on") {
         //  console.log("on type and shift is on. return false");
         return false;
       }
       var tradeGood = this.searchParameters.isTrade && post.isTrade;
-      var overtimeGood = this.searchParameters.isCover && post.isOvertime;
+      var overtimeGood = this.searchParameters.isOvertime && post.isOvertime;
       //  console.log("trade good: " + tradeGood + " overtime: " + overtimeGood);
       return tradeGood || overtimeGood;
 
