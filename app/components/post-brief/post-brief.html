@@ -1,0 +1,46 @@
+<ion-card class="shiftPostingCard">
+  <ion-item class="postBrief">
+    <ion-item>
+      <p>
+        <ion-icon name="home" class="inlinePostIcon"></ion-icon>
+        {{post.station.stationNumber}} •
+        <ion-icon class="inlinePostIcon" name="clock"></ion-icon>
+        {{post.shiftStartTime}} •
+        <ion-icon class="inlinePostIcon" name="person"></ion-icon>
+        {{post.creator.firstName}} {{post.creator.lastName}}
+      </p>
+    </ion-item>
+    <ion-item>
+      <p item-left>
+        <span class="postingTypeText" [hidden]="post.requestType != 'on'">Wants To Work</span>
+        <span class="postingTypeText" [hidden]="post.requestType != 'off'">Wants Off</span>
+      </p>
+
+      <p item-right>
+        <ion-icon primary [hidden]="!post.isTrade" name="checkbox"></ion-icon>
+        <ion-icon primary [hidden]="post.isTrade" name="square-outline"></ion-icon>
+        Trade
+        <ion-icon style="margin-left:5px;" primary [hidden]="!post.isOvertime" name="checkbox"></ion-icon>
+        <ion-icon style="margin-left:5px;" primary [hidden]="post.isOvertime" name="square-outline"></ion-icon>
+        Overtime
+      </p>
+    </ion-item>
+    <ion-item>
+      <ion-avatar item-left>
+        <img src="{{post.creator.photo}}"/>
+      </ion-avatar>
+
+      <button clear item-right (click)="messageUser()">
+        <ion-icon name="chatboxes"></ion-icon>
+      </button>
+      <ion-item text-wrap [hidden]="post.comments">
+        No Comments
+      </ion-item>
+      <ion-item text-wrap [hidden]="!post.comments">
+        {{post.comments}}
+      </ion-item>
+    </ion-item>
+
+  </ion-item>
+
+</ion-card>

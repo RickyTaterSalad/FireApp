@@ -1,5 +1,5 @@
 import {Component } from '@angular/core';
-import {NavParams, NavController,AlertController} from 'ionic-angular';
+import {NavParams, NavController,AlertController,LoadingController } from 'ionic-angular';
 import {Day} from '../../models/day';
 import {Account} from '../../models/Account';
 import {MessageUserPage} from '../message-user/message-user';
@@ -11,7 +11,7 @@ import {Station} from "../../models/station";
 import {PostProvider} from "../../providers/post-provider";
 import {AccountProvider} from "../../providers/account-provider";
 import {StationProvider} from "../../providers/station-provider";
-import {PostComponent} from "../../components/post/post";
+import {PostBriefComponent} from "../../components/post-brief/post-brief";
 
 import * as moment from 'moment';
 
@@ -25,10 +25,11 @@ import * as moment from 'moment';
  */
 @Component({
   templateUrl: 'build/pages/calendar-detail/calendar-detail.html',
-  directives:[PostComponent],
+  directives:[PostBriefComponent],
 })
 export class CalendarDetailPage {
   private day:any;
+  private loading:boolean = true;
   yes:boolean = true;
   private account:Account = {
     firstName: "",
@@ -51,7 +52,7 @@ export class CalendarDetailPage {
   };
   private filteredPosts:Array<Post>;
 
-  constructor(private nav:NavController, private accountProvider:AccountProvider, private alertCtrl:AlertController, private navParams:NavParams, private postProvider:PostProvider, private stationProvider:StationProvider) {
+  constructor(private Loading:LoadingController,private nav:NavController, private accountProvider:AccountProvider, private alertCtrl:AlertController, private navParams:NavParams, private postProvider:PostProvider, private stationProvider:StationProvider) {
     this.day = navParams.data;
   }
   private showMessage:Function = function (title,message) {
@@ -72,16 +73,20 @@ export class CalendarDetailPage {
   };
 
   onPageDidEnter() {
+    console.dir(arguments);
    this.reloadPosts();
   }
-  reloadPosts:Function = function(){
+
+  private reloadPosts:Function = function(){
     console.log("reloadPosts");
+    this.loading = true;
     this.accountProvider.self().subscribe((account) => {
       console.log("Account");
       console.dir(account);
       this.account = account;
       this.postProvider.getPostsForDay(this.day).subscribe(posts=> {
         this.posts = this.filteredPosts = posts;
+        this.loading  = false;
       });
     })
   };
@@ -171,11 +176,11 @@ export class CalendarDetailPage {
   filterResults:Function = function () {
     // console.dir(this.searchParameters);
     let tempFilteredPosts = this.posts.filter((post:Post) => {
-      if (!this.searchParameters.isOffType && post.requestType == "off") {
+      if (this.searchParameters.isOffType && post.requestType == "off") {
         // console.log("off type and shift is off. return false");
         return false;
       }
-      if (!this.searchParameters.isOnType && post.requestType == "on") {
+      if (this.searchParameters.isOnType && post.requestType == "on") {
         //  console.log("on type and shift is on. return false");
         return false;
       }

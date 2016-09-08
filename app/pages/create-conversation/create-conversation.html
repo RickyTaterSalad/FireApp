@@ -1,23 +1,10 @@
-<!--
-  Generated template for the OfferPostPage page.
-
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
   <ion-navbar>
     <ion-title>Make Offer</ion-title>
   </ion-navbar>
 </ion-header>
 <ion-content padding>
-  <ion-item>
-    <ion-icon primary name="home"></ion-icon>
-    <span style="margin-left:5px">   {{post.station.stationNumber}}</span>
-      <ion-icon primary name="person" style="margin-left:10px;"></ion-icon>
-      <span style="margin-left:5px;">   {{post.creator.firstName}} {{post.creator.lastName}}</span>
-    <ion-icon primary name="clock" style="margin-left:10px;"></ion-icon>
-    <span style="margin-left:5px">{{day.month}}-{{day.dayOfMonth}}-{{day.year}} {{post.shiftStartTime}}</span>
-  </ion-item>
+ <post-brief [(post)]="post" [(account)]="account"></post-brief>
   <ion-list radio-group [(ngModel)]="swapType" [hidden]="!post.isOvertime || !post.isTrade">
     <ion-label>
       Swap Type
@@ -38,7 +25,6 @@
   <button style="float:right" primary item-right
           (click)="createConversation()"
           [disabled]="messageData.message == null || messageData.message.length == 0" item-right>
-    <ion-icon name="send"></ion-icon>
     <ion-label>Send</ion-label>
   </button>
 </ion-content>

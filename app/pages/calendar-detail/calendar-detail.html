@@ -1,6 +1,5 @@
 <ion-header>
   <ion-navbar>
-
     <ion-title>{{day.date |date:'mediumDate'}}</ion-title>
     <ion-buttons end>
       <button primary medium
@@ -15,56 +14,49 @@
     </ion-buttons>
   </ion-navbar>
 </ion-header>
-
 <ion-content padding class="calendarDetailContent">
-  <ion-grid>
-    <ion-row>
-      <ion-col width-40 offset-60 [hidden]="!searchParameters.showListOptions">
-        <ion-item>
-          <ion-label stacked>Sort By</ion-label>
-          <ion-select [(ngModel)]="searchParameters.sortField" (ngModelChange)="sortPosts()">
-            <ion-option value="sortByStationNumberAscending"><p>Station</p></ion-option>
-            <ion-option value="sortByCreatedDescending"><p>Newest</p></ion-option>
-            <ion-option value="sortByCreatedAscending"><p>Oldest</p></ion-option>
-            <ion-option value="sortByLastNameAscending"><p>User</p></ion-option>
-          </ion-select>
-        </ion-item>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+  <!-- <ion-grid>
+<ion-row>
+    <ion-col width-40 offset-60 [hidden]="!searchParameters.showListOptions">
+      <ion-item>
+        <ion-label stacked>Sort By</ion-label>
+        <ion-select [(ngModel)]="searchParameters.sortField" (ngModelChange)="sortPosts()">
+          <ion-option value="sortByStationNumberAscending"><p>Station</p></ion-option>
+          <ion-option value="sortByCreatedDescending"><p>Newest</p></ion-option>
+          <ion-option value="sortByCreatedAscending"><p>Oldest</p></ion-option>
+          <ion-option value="sortByLastNameAscending"><p>User</p></ion-option>
+        </ion-select>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+  </ion-grid>-->
   <ion-grid [hidden]="!searchParameters.showListOptions">
     <ion-row>
       <ion-col width-50>
         <ion-item>
-          <p>What Would You Like To Do?</p>
-        </ion-item>
-        <ion-item>
-          <ion-label>Work A Shift</ion-label>
+          <ion-label class="smallLabel">Work</ion-label>
           <ion-toggle [(ngModel)]="searchParameters.isOffType" (ionChange)="filterResults()"></ion-toggle>
         </ion-item>
         <ion-item>
-          <ion-label>Give Away A Shift</ion-label>
+          <ion-label class="smallLabel">Off</ion-label>
           <ion-toggle [(ngModel)]="searchParameters.isOnType" (ionChange)="filterResults()"></ion-toggle>
         </ion-item>
       </ion-col>
       <ion-col width-50>
         <ion-item>
-          <p>Posting Types</p>
-        </ion-item>
-        <ion-item>
-          <ion-label>Swap Shifts</ion-label>
+          <ion-label class="smallLabel">Swap</ion-label>
           <ion-toggle [(ngModel)]="searchParameters.isTrade" (ionChange)="filterResults()"></ion-toggle>
         </ion-item>
         <ion-item>
-          <ion-label>Overtime</ion-label>
+          <ion-label class="smallLabel">Overtime</ion-label>
           <ion-toggle [(ngModel)]="searchParameters.isCover" (ionChange)="filterResults()"></ion-toggle>
         </ion-item>
       </ion-col>
     </ion-row>
   </ion-grid>
-  <ion-card class="shiftPostingCard" *ngFor="let post of filteredPosts;let ndx=index">
-    <post [(showmessageuser)]="yes" [(showuserinheader)]="yes" [(account)]="account" [(day)]="day" [(post)]="filteredPosts[ndx]"></post>
-  </ion-card>
+  <p [hidden]="loading || (filteredPosts != null && filteredPosts.length > 0)">There Are No Posts</p>
+  <post-brief class="shiftPostingCard" *ngFor="let post of filteredPosts;let ndx=index"  [(showuserinheader)]="yes" [(account)]="account" [(day)]="day" [(post)]="filteredPosts[ndx]">
+  </post-brief>
 
 </ion-content>
 

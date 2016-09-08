@@ -8,6 +8,7 @@ import {AccountProvider} from "../../providers/account-provider"
 import {MessageProvider} from "../../providers/message-provider"
 import {Conversation} from "../../models/conversation";
 import {Message} from "../../models/message";
+import {PostBriefComponent} from "../../components/post-brief/post-brief";
 import 'rxjs/add/operator/catch';
 
 interface CreateConversation {
@@ -24,6 +25,7 @@ interface CreateConversation {
  */
 @Component({
   templateUrl: 'build/pages/create-conversation/create-conversation.html',
+  directives:[PostBriefComponent]
 })
 export class CreateConversationPage {
   private post:Post;

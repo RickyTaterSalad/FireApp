@@ -47,7 +47,7 @@ import * as moment from 'moment';
 })
 export class CalendarPage/* implements OnInit, OnDestroy */ {
   calendarMonth:CalendarMonth = new CalendarMonth();
-  daysOfWeek:string[] = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  daysOfWeek:string[] = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
   monthLookup:string[] = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   flyInOutState:string = "in";
   fadeState:string = "visible";

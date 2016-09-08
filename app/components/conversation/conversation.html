@@ -1,14 +1,14 @@
 <ion-card class="shiftPostingCard" [hidden]="conversation.messages.length == 0">
-  <ion-item (click)="toggleConversation(conversation)">
+  <ion-item (click)="toggleConversation(conversation)" style="cursor:pointer">
     <p [hidden]="account.id != conversation.creator.id" >
       {{conversation.recipient.firstName}}  {{conversation.recipient.lastName}}
     </p>
     <p [hidden]="account.id != conversation.recipient.id" >
       {{conversation.creator.firstName}}  {{conversation.creator.lastName}}
     </p>
-    <button small clear (click)="showConversationOptions(conversation)" item-right>
+    <!--<button small clear (click)="showConversationOptions(conversation)" item-right>
       <ion-icon name="options"></ion-icon>
-    </button>
+    </button> -->
     <button small clear (click)="replyToConversation(conversation,$event)" item-right>
       <ion-icon name="share-alt"></ion-icon>
     </button>

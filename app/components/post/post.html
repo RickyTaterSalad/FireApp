@@ -33,19 +33,3 @@
     <p class="postComments">{{post.comments}}</p>
   </div>
 </ion-item>
-<ion-item>
-    <span item-left [hidden]="!showmessageuser">
-      <button clear (click)="messageUser()">
-        <ion-icon name="chatboxes"></ion-icon>
-        Message User
-      </button>
-        </span>
-      <span item-right class="postingTimestampContainer">
-      <p>
-        Posted
-      </p>
-      <p class="postCreatedString">
-        {{post.createdString}}
-      </p>
-</span>
-</ion-item>

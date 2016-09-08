@@ -34,12 +34,9 @@ export class MyPostsPage {
   };
 
   constructor(private nav:NavController, private postProvider:PostProvider, private actionSheetCtrl:ActionSheetController, private alertCtrl:AlertController, private accountProvider:AccountProvider) {
-
-  }
-
-  onPageDidEnter() {
     this.reloadPosts();
   }
+
 
   confirmShift:Function = function (conversation) {
     this.postProvider.claimPost(conversation.post, conversation.recipient).subscribe(
