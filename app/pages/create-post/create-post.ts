@@ -39,7 +39,6 @@ export class CreatePostPage {
 
   constructor(private nav:NavController, private alertCtrl:AlertController, private navParams:NavParams, private departmentProvider:DepartmentProvider, private postProvider:PostProvider) {
     this.dateUtils = new DateUtils();
-    console.dir(navParams.data)
     this.day = navParams.data.day;
     if (!this.day) {
       this.showError("No Date To Create Post On");
@@ -49,7 +48,6 @@ export class CreatePostPage {
       if (dept && dept.schedule) {
         this.post.shift =  this.dateUtils.dateFromDay(this.day);
         this.post.shiftStartTime =  dept.schedule.shiftStartTime;
-        console.dir(this.post);
       }
       else {
         this.showError("Could Not Retrieve Department");
@@ -62,8 +60,6 @@ export class CreatePostPage {
   createPost:Function = function () {
     this.postProvider.create(this.post).subscribe(
       (response) =>{
-        console.log("Create Post Response");
-        console.dir(response);
         this.handleCreated();
       },
       (err) =>{

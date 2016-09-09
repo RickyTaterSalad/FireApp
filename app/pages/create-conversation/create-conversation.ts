@@ -65,19 +65,14 @@ export class CreateConversationPage {
       }
     };
     this.accountProvider.self().subscribe(account => {
-      console.dir(account);
       this.conversationProvider.create(conversation).subscribe(
           response => {
-          console.dir(response);
           var message = {
             conversation: {id:response.id},
             content: this.messageData.message
           };
-            console.log("MESSAGE");
-            console.dir(message);
           this.messageProvider.create(message).subscribe(
               response => {
-              console.dir(response);
               this.showMessage('Message Sent','Success');
             }
           )

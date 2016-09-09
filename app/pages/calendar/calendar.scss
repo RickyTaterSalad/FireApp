@@ -2,23 +2,22 @@
 
 .calendarView {
   height: 100%;
-  .postCountContainer{
-   // background: dodgerblue;
+  .postCountContainer {
+    // background: dodgerblue;
     color: white;
-    position:absolute;
-    bottom:10px;
-    right:5px;
+    position: absolute;
+    bottom: 10px;
+    right: 5px;
 
-
-    .postOnContainer,.postOffContainer{
-      font-size:1.2rem;
-      padding:2px 4px;
+    .postOnContainer, .postOffContainer {
+      font-size: 1.2rem;
+      padding: 2px 4px;
       border-radius: 3px;
     }
-    .postOnContainer{
+    .postOnContainer {
       background: #3F51B5;
     }
-    .postOffContainer{
+    .postOffContainer {
       background: #00897B;
     }
 
@@ -48,7 +47,7 @@
 
   }
   .calendarCol {
-    position:relative;
+    position: relative;
     &.pressed {
       color: white;
       background: rgba(56, 126, 245, 0.6);
@@ -72,14 +71,14 @@
     color: white;
 
   }
-  .calendarDayNameRow{
-    .calendarDayLabelCol:first-child{
+  .calendarDayNameRow {
+    .calendarDayLabelCol:first-child {
       border-width: 1px 1px 1px 0;
-      border-radius:3px 0 0 0;
+      border-radius: 3px 0 0 0;
     }
-    .calendarDayLabelCol:last-child{
+    .calendarDayLabelCol:last-child {
       border-width: 1px 0 1px 1px;
-      border-radius:0 3px 0 0;
+      border-radius: 0 3px 0 0;
     }
 
   }
@@ -128,8 +127,23 @@
   .calendarMonthLabel, .calendarMonthYearSplitter {
     color: #00897B;
   }
-  .calendarWeekRow-5{
+  .calendarWeekRow-5 {
     border-radius: 0 0 3px 3px;
+  }
+  .wantOffForMonth, .wantToWorkForMonth {
+    font-size: 1.2rem;
+    color:white;
+    padding:2px 5px;
+    border-radius:5px;
+    margin-right:5px;
+
+  }
+  .wantOffForMonth {
+    background: #00897B;
+  }
+  .wantToWorkForMonth {
+    background: #3F51B5;
+
   }
 }
 

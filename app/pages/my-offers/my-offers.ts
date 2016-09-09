@@ -63,12 +63,8 @@ export class MyOffersPage {
   confirmShift:Function = function (conversation) {
     this.postProvider.claimPost(conversation.post, conversation.recipient).subscribe(
       (response)=> {
-        console.log("claimed shift");
-        console.dir(response);
       },
       (err) => {
-        console.log("could not claim shift");
-        console.dir(err);
       }
     )
   };
@@ -91,12 +87,10 @@ export class MyOffersPage {
 
           },
           (err) => {
-            console.log("could not load posts");
             this.loading = false;
           });
       },
       (err) => {
-        console.log("could not load posts");
         this.loading = false;
       });
   }

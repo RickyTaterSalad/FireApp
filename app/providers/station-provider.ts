@@ -33,7 +33,6 @@ export class StationProvider {
         else {
           let headers = new Headers();
           this.helperMethods.createAuthorizationHeader(headers);
-          console.log("sending dept query");
           this.http.get(this.stationsEndpoint, {headers: headers}).map(res => res.json()).cache().subscribe(stationList => {
             this.storage.set('station_list', JSON.stringify(stationList));
             observer.next(stationList);

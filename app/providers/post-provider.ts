@@ -31,7 +31,6 @@ export class PostProvider {
   getMyPosts:Function = function () {
     let headers = new Headers();
     this.helperMethods.createAuthorizationHeader(headers);
-    console.log("sending dept query");
     var url = this.postsEndpoint + "/myPosts";
     let options = new RequestOptions({headers: headers});
     return this.http.get(url, options).map(res => res.json());
@@ -39,7 +38,6 @@ export class PostProvider {
   getMyOffers:Function = function () {
     let headers = new Headers();
     this.helperMethods.createAuthorizationHeader(headers);
-    console.log("sending dept query");
     var url = this.postsEndpoint + "/myOffers";
     let options = new RequestOptions({headers: headers});
     return this.http.get(url, options).map(res => res.json());
@@ -48,7 +46,6 @@ export class PostProvider {
   getPostsForDay:Function = function (date:Day) {
     let headers = new Headers();
     this.helperMethods.createAuthorizationHeader(headers);
-    console.log("sending dept query");
     var url = this.postsEndpoint + "/" + date.year + "/" + (date.month + 1) + "/" + date.dayOfMonth;
     let options = new RequestOptions({headers: headers});
     return this.http.get(url, options).map(res => res.json());
@@ -74,8 +71,6 @@ export class PostProvider {
       else {
         let headers = new Headers();
         this.helperMethods.createAuthorizationHeader(headers);
-        console.log("headers");
-        console.dir(headers);
         let url = this.postsEndpoint + "/postCounts/" + startDay.valueOf();
         return this.http.get(url, {headers: headers}).map(res => res.json()).subscribe(
           (response)=> {
@@ -96,8 +91,6 @@ export class PostProvider {
     else {
       let headers = new Headers();
       this.helperMethods.createAuthorizationHeader(headers);
-      console.log("headers");
-      console.dir(headers);
       let url = this.postsEndpoint + "/hasPost/" + day.year + "/" + (day.month + 1) + "/" + day.dayOfMonth;
       return this.http.get(url, {headers: headers}).map(res => res.json());
     }
@@ -115,7 +108,6 @@ export class PostProvider {
       });
       let headers = this.helperMethods.generateJsonContentHeader();
       let options = new RequestOptions({headers: headers});
-      console.dir(options);
       let url = this.postsEndpoint + "/claim";
       return this.http.post(url, body, options).map(res => res.json());
     }
@@ -138,7 +130,6 @@ export class PostProvider {
       });
       let headers = this.helperMethods.generateJsonContentHeader();
       let options = new RequestOptions({headers: headers});
-      console.dir(options);
       return this.http.post(this.postsEndpoint, body, options).map(res => res.json());
     }
     else {

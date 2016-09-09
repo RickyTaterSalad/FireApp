@@ -21,7 +21,7 @@ import * as moment from 'moment';
 
 @Component({
   templateUrl: 'build/pages/calendar/calendar.html',
-  pipes:[ObjectContainsProperty],
+  pipes: [ObjectContainsProperty],
   animations: [
     trigger('fade', [
       state('visible', style({
@@ -58,22 +58,25 @@ export class CalendarPage/* implements OnInit, OnDestroy */ {
   systemMonthAndYear:MonthAndYear;
   currentCalendarMonthAndYear:MonthAndYear;
   postCounts:Object = {};
+  totalOn:number = 0;
+  totalOff:number = 0;
   department:Department;
   dateUtils:DateUtils = new DateUtils();
   private nav:NavController;
 
-  constructor(nav:NavController, private departmentController:DepartmentProvider,private postProvider:PostProvider) {
+  constructor(nav:NavController, private departmentController:DepartmentProvider, private postProvider:PostProvider) {
     this.nav = nav;
     this.updateCurrentSystemMonthAndYear();
     this.currentCalendarMonthAndYear = new MonthAndYear(this.systemMonthAndYear.month, this.systemMonthAndYear.year);
 
-    console.log("Get dept");
-    departmentController.Department.subscribe((dept) =>{
+    departmentController.Department.subscribe((dept) => {
       this.department = dept;
       this.populateCalendar();
 
     });
-  };
+  }
+
+;
 
   private updateCurrentSystemMonthAndYear:Function = function () {
     let dt = new Date();
@@ -136,19 +139,27 @@ export class CalendarPage/* implements OnInit, OnDestroy */ {
     //back up the date so we fill in dates before the first day of the month (previous month)
     date.setDate(date.getDate() - dayOfTheWeekOffset);
 
+    console.dir(date);
     //load the post count
-    var obj = {year: date.getFullYear(), month: date.getMonth(), day: date.getDay()};
+    var obj = {year: date.getFullYear(), month: date.getMonth(), day: date.getDate()};
     console.dir(obj);
-    var startMoment =  moment.utc(obj);
+    var startMoment = moment.utc(obj);
     this.postCounts = {};
     this.postProvider.postCountForCalendar(startMoment).subscribe(
-      (response)=>{
-        console.log("Response");
-        console.dir(response);
-        this.postCounts = response || {};
+      (response)=> {
+        if (response) {
+          this.postCounts = response.days || {};
+          this.totalOn = response.totalOn || 0;
+          this.totalOff = response.totalOff || 0;
+        }
+        else {
+          this.totalOn = 0;
+          this.totalOff = 0;
+          this.postCounts = {};
+        }
+
       },
-      (err) =>{
-        console.log("err")
+      (err) => {
       }
     );
 

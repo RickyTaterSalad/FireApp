@@ -86,10 +86,8 @@ export class PostComponent {
     actionSheet.present();
   };
   goToConversations:Function = function () {
-    console.log("Account");
     this.conversationProvider.getConversationsForPost(this.post.id).subscribe((conversations) => {
         //should be able to use the observable methods to add collapsed
-        console.dir(conversations);
         this.nav.push(ConversationsPage, {conversations: conversations,account: this.account,post: this.post});
 
       }

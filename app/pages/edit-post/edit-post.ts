@@ -21,7 +21,6 @@ export class EditPostPage {
 
   constructor(private navCtrl:NavController, private navParams:NavParams) {
     this.post = navParams.data.post;
-    console.dir(this.post);
 
     if(this.post){
       this.postModel.isTrade = this.post.isTrade;

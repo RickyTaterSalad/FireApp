@@ -24,9 +24,14 @@
           </button>
         </div>
         <div style="float:right">
-          <h4 class="calendarMonthLabel">{{calendarMonth.month}}</h4>
-          <h4 class="calendarMonthYearSplitter">|</h4>
-          <h4 class="calendarYearLabel" primary>{{calendarMonth.yearShort}}</h4>
+          <span class="wantOffForMonth">Want off {{totalOff}}</span>
+          <span class="wantToWorkForMonth">Want To Work {{totalOn}}</span>
+
+          <div>
+            <h5 class="calendarMonthLabel">{{calendarMonth.month}}</h5>
+            <h5 class="calendarMonthYearSplitter">|</h5>
+            <h5 class="calendarYearLabel" primary>{{calendarMonth.yearShort}}</h5>
+          </div>
         </div>
       </ion-col>
     </ion-row>
@@ -43,10 +48,10 @@
           <label class="calendarDateLabel" [style.color]="day.color">{{day.dayOfMonth}}</label>
 
         </div>
-          <div *ngIf="postCounts | objectContainsProperty:day.utcDayStart" class="postCountContainer">
-            <span  class="postOnContainer">{{postCounts[day.utcDayStart].on}}</span>
-            <span class="postOffContainer">{{postCounts[day.utcDayStart].off}}</span>
-          </div>
+        <div *ngIf="postCounts | objectContainsProperty:day.utcDayStart" class="postCountContainer">
+          <span [hidden]="postCounts[day.utcDayStart].on==0" class="postOnContainer">{{postCounts[day.utcDayStart].on}}</span>
+          <span [hidden]="postCounts[day.utcDayStart].off==0" class="postOffContainer">{{postCounts[day.utcDayStart].off}}</span>
+        </div>
       </ion-col>
     </ion-row>
   </ion-grid>

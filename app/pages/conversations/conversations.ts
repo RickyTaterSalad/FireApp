@@ -63,12 +63,8 @@ export class ConversationsPage {
   confirmShift:Function = function (conversation) {
     this.postProvider.claimPost(conversation.post, conversation.recipient).subscribe(
       (response)=> {
-        console.log("claimed shift");
-        console.dir(response);
       },
       (err) => {
-        console.log("could not claim shift");
-        console.dir(err);
       }
     )
   };

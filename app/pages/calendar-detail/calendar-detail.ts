@@ -74,16 +74,12 @@ export class CalendarDetailPage {
   };
 
   onPageDidEnter() {
-    console.dir(arguments);
    this.reloadPosts();
   }
 
   private reloadPosts:Function = function(){
-    console.log("reloadPosts");
     this.loading = true;
     this.accountProvider.self().subscribe((account) => {
-      console.log("Account");
-      console.dir(account);
       this.account = account;
       this.postProvider.getPostsForDay(this.day).subscribe(posts=> {
         this.posts =  posts;
@@ -100,11 +96,9 @@ export class CalendarDetailPage {
       return;
     }
     if (this[this.searchParameters.sortField] instanceof Function) {
-      console.log("sorting by " + this.searchParameters.sortField);
       return postArray.sort(this[this.searchParameters.sortField]);
     }
     else {
-      console.log("cannot sort by field: " + this.searchParameters.sortField);
       return postArray;
     }
   };
@@ -177,7 +171,6 @@ export class CalendarDetailPage {
   };
 
   filterResults:Function = function () {
-    console.dir(this.searchParameters);
     // console.dir(this.searchParameters);
     let tempFilteredPosts = this.posts.filter((post:Post) => {
       if (!this.searchParameters.isOffType && post.requestType == "off") {
