@@ -5,9 +5,12 @@ import {Day} from "../../models/day";
 import {EditPostPage} from "../../pages/edit-post/edit-post"
 import {MomentToString} from "../../pipes/moment-to-string";
 import {PostProvider} from "../../providers/post-provider";
+import {ConversationProvider} from "../../providers/conversation-provider";
 import {Account} from "../../models/Account";
 import {MessageUserPage} from "../../pages/message-user/message-user";
 import {CreateConversationPage} from '../../pages/create-conversation/create-conversation';
+import {ConversationsPage} from '../../pages/conversations/conversations';
+
 @Component({
   selector: 'post',
   templateUrl: 'build/components/post/post.html',
@@ -21,8 +24,9 @@ export class PostComponent {
   @Input() showuserinheader:boolean = false;
 
 
-  constructor(private nav:NavController,private actionSheetCtrl:ActionSheetController, private alertCtrl:AlertController,private postProvider:PostProvider) {
+  constructor(private nav:NavController, private actionSheetCtrl:ActionSheetController, private alertCtrl:AlertController, private postProvider:PostProvider ,private conversationProvider:ConversationProvider) {
   }
+
   editPost:Function = function (post) {
     this.nav.push(EditPostPage, {post: post});
   };
@@ -51,21 +55,21 @@ export class PostComponent {
       }
     )
   };
-  showPostOptions:Function = function (post) {
+  showPostOptions:Function = function () {
     var buttons =
       [
         {
           text: 'Edit Post',
           role: null,
           handler: () => {
-            this.editPost(post);
+            this.editPost(this.post);
           }
         },
         {
           text: 'Remove Post',
           role: null,
           handler: () => {
-            this.removePost(post);
+            this.removePost(this.post);
           }
         },
         {
@@ -81,5 +85,15 @@ export class PostComponent {
     });
     actionSheet.present();
   };
+  goToConversations:Function = function () {
+    console.log("Account");
+    this.conversationProvider.getConversationsForPost(this.post.id).subscribe((conversations) => {
+        //should be able to use the observable methods to add collapsed
+        console.dir(conversations);
+        this.nav.push(ConversationsPage, {conversations: conversations,account: this.account,post: this.post});
+
+      }
+    )
+  }
 
 }

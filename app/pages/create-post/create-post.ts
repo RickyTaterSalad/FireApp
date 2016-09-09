@@ -18,6 +18,7 @@ import {Department} from "../../models/department";
 })
 export class CreatePostPage {
   post:Post = {
+    conversationCount: 0,
     id: null,
     creator: null,
     shift: null,

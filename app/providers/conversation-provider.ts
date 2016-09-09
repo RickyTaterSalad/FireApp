@@ -28,6 +28,13 @@ export class ConversationProvider {
     return this.http.get(this.conversationEndpoint, {headers: headers}).map(res => res.json()).cache();
   }
 
+  getConversationsForPost:Function = function (postId) {
+    let headers = new Headers();
+    this.helperMethods.createAuthorizationHeader(headers);
+    let url = this.conversationEndpoint + "/" + postId;
+    return this.http.get(url, {headers: headers}).map(res => res.json());
+  }
+
 
   create:Function = function (conversation:Conversation) {
     if (conversation) {

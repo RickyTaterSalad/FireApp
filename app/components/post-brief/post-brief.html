@@ -1,6 +1,6 @@
 <ion-card class="shiftPostingCard">
   <ion-item class="postBrief" [ngClass]="{onRequestType: post.requestType == 'on', offRequestType: post.requestType == 'off'}">
-    <div>
+    <ion-card-header style="padding:0">
       <p class="postBriefHeader">
         <ion-icon name="home" class="inlinePostIcon"></ion-icon>
         {{post.station.stationNumber}} •
@@ -9,7 +9,7 @@
         <ion-icon class="inlinePostIcon" name="person"></ion-icon>
         {{post.creator.firstName}} {{post.creator.lastName}}
       </p>
-    </div>
+   </ion-card-header>
     <hr/>
     <p style="font-size:1.2rem">
         <span [hidden]="!post.isTrade">

@@ -22,7 +22,7 @@ import {PostComponent} from "../../components/post/post";
 export class MyPostsPage {
   private loading:boolean = true;
   posts:Array<Post> = [];
-  conversations:Object = {};
+  private conversations:Object = {};
   private account:Account = {
     firstName: "",
     lastName: "",
@@ -58,31 +58,20 @@ export class MyPostsPage {
         this.postProvider.getMyPosts().subscribe(
           (response) => {
             this.posts = [];
-            this.conversations = {};
-            this.posts = response ? response.posts : [];
-            if (response.conversations) {
-              for (var i = 0; i < response.conversations.length; i++) {
-                let curr = response.conversations[i];
-                if (!curr || !curr.post) {
-                  continue;
-                }
-                curr.collapsed = true;
-                if (!this.conversations[curr.post]) {
-                  this.conversations[curr.post] = [];
-                }
-                this.conversations[curr.post].push(curr);
-              }
-              console.dir(this.conversations);
+            this.posts =  response.posts || [];
+            this.conversations = response.conversations || {};
+            for (var i = 0; i < this.posts.length; i++) {
+                this.posts[i].conversationCount = this.conversations[this.posts[i].id] ? this.conversations[this.posts[i].id].length : 0;
             }
             this.loading = false;
           },
           (err) => {
-            console.log("could not load posts")
+            console.log("could not load posts");
             this.loading = false;
           });
       },
       (err) => {
-        console.log("could not load account")
+        console.log("could not load account");
         this.loading = false;
       });
   }

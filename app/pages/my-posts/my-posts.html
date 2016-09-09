@@ -20,9 +20,5 @@
   <p [hidden]="loading || (posts != null && posts.length > 0)">You Have No Posts</p>
   <ion-card *ngFor="let post of posts;let postNdx = index" class="shiftPostingCard">
     <post [(post)]="posts[postNdx]"  [(account)]="account"></post>
-    <ion-item *ngIf="conversations | objectContainsProperty:post.id">
-      <h3>Conversations ({{conversations[post.id].length}})</h3>
-      <conversation *ngFor="let conversation of conversations[post.id]; let convNdx=index" [(conversation)]="conversations[post.id][convNdx]" [(account)]="account"></conversation>
-    </ion-item>
   </ion-card>
 </ion-content>

@@ -1,18 +1,27 @@
 <ion-item class="shiftPostingStation">
-  <div item-left [hidden]="showuserinheader">
-    {{post.shift | momentToString}}
-  </div>
-  <div item-left [hidden]="!showuserinheader">
-    <ion-avatar style="float:left">
-      <img src="{{post.creator.photo}}"/>
-    </ion-avatar>
-    {{post.creator.firstName}} {{post.creator.lastName}}
-  </div>
-  <button small clear [hidden]="account.id != post.creator" (click)="showPostOptions(post)" item-right>
-    <ion-icon name="options"></ion-icon>
-  </button>
-</ion-item>
-<ion-item>
+  <ion-row>
+    <ion-col width-80>
+      {{post.shift | momentToString}}
+    </ion-col>
+    <ion-col>
+      <ion-row>
+        <ion-col width-50>
+          <span [hidden]="post.conversationCount < 1">
+          <button small clear (click)="goToConversations()">
+            <ion-icon name="mail"></ion-icon>
+            {{post.conversationCount}}
+          </button>
+          </span>
+        </ion-col>
+        <ion-col width-50>
+          <button small clear [hidden]="account.id != post.creator" (click)="showPostOptions()">
+            <ion-icon name="options"></ion-icon>
+          </button>
+        </ion-col>
+      </ion-row>
+    </ion-col>
+  </ion-row>
+  <ion-item>
       <span item-left class="postingInterestedInContainer">
              <p>Posting Type</p>
            <div class="postingTypeText" [hidden]="post.requestType != 'on'">Wants To Work</div>
@@ -27,9 +36,9 @@
             <span>Overtime</span>
         </span>
 
-  <div class="commentsContainer" item-right [hidden]="!post.comments">
-    <p>Comments</p>
+    <div class="commentsContainer" item-right [hidden]="!post.comments">
+      <p>Comments</p>
 
-    <p class="postComments">{{post.comments}}</p>
-  </div>
-</ion-item>
+      <p class="postComments">{{post.comments}}</p>
+    </div>
+  </ion-item>

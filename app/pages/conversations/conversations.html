@@ -9,35 +9,40 @@
     <button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Messages</ion-title>
+    <ion-title> {{post.shift | momentToString}}</ion-title>
   </ion-navbar>
 </ion-header>
 <ion-content padding>
   <ion-card *ngFor="let conversation of conversations" class="shiftPostingCard"
             [hidden]="conversation.messages.length == 0">
+    <ion-row>
+      <ion-col width-90>
+        <p style="margin:0;margin-left:5px;" [hidden]="conversation.creator == account.id">
+          <ion-icon name="person"></ion-icon>
+          {{conversation.creator.firstName}} {{conversation.creator.lastName}}
+        </p>
 
-    <ion-item style="margin-right:5px;margin-top:5px;cursor:pointer" (click)="toggleConversation(conversation)">
-      <p item-left>
-        {{conversation.post.shift | momentToString}}
-        ({{conversation.post.platoon}})
-      </p>
-      <button small clear (click)="showConversationOptions(conversation)" item-right>
-        <ion-icon name="options"></ion-icon>
-      </button>
-      <button small clear (click)="replyToConversation(conversation,$event)" item-right>
-        <ion-icon name="share-alt"></ion-icon>
-      </button>
-    </ion-item>
-
+        <p style="margin:0" [hidden]="conversation.recipient != account.id">
+          <ion-icon name="person"></ion-icon>
+          {{conversation.recipient.firstName}} {{conversation.recipient.lastName}}
+        </p>
+      </ion-col>
+      <ion-col width-10>
+        <button small clear (click)="replyToConversation(conversation,$event)" item-right style="margin:0">
+          <ion-icon name="share-alt"></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
     <ion-item *ngFor="let message of conversation.messages" [hidden]="conversation.collapsed">
-      <ion-avatar item-left [hidden]="message.sender != conversation.creator.id">
-        <img src="{{conversation.creator.photo}}"/>
-        <img [hidden]="message.sender != conversation.recipient.id" src="{{conversation.recipient.photo}}"/>
+      <ion-avatar item-left [hidden]="message.sender== account.id">
+        <img [hidden]="conversation.creator.id == account.id" src="{{conversation.creator.photo}}"/>
+        <img [hidden]="conversation.recipient.id == account.id" src="{{conversation.recipient.photo}}"/>
       </ion-avatar>
-      <ion-avatar item-right [hidden]="message.sender != conversation.recipient.id">
-        <img src="{{conversation.recipient.photo}}"/>
+      <ion-item text-wrap [style.text-align]="message.sender != account.id ? 'left' : 'right'">{{message.content}}
+      </ion-item>
+      <ion-avatar item-right [hidden]="message.sender != account.id">
+        <img src="{{account.photo}}"/>
       </ion-avatar>
-      <ion-item text-wrap> {{message.content}}</ion-item>
     </ion-item>
   </ion-card>
 </ion-content>

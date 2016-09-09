@@ -17,7 +17,7 @@ import {PostComponent} from "../../components/post/post";
  */
 @Component({
   templateUrl: 'build/pages/my-offers/my-offers.html',
-  directives:[ConversationComponent,PostComponent],
+  directives: [ConversationComponent, PostComponent],
   pipes: [MomentToString, ObjectContainsProperty]
 })
 export class MyOffersPage {
@@ -38,6 +38,7 @@ export class MyOffersPage {
   constructor(private nav:NavController, private postProvider:PostProvider, private actionSheetCtrl:ActionSheetController, private alertCtrl:AlertController, private accountProvider:AccountProvider) {
 
   }
+
   showPostOptions:Function = function (post) {
     var buttons =
       [
@@ -73,39 +74,30 @@ export class MyOffersPage {
   };
   reloadPosts:Function = function () {
     this.loading = true;
+    this.conversations = {};
     this.accountProvider.self().subscribe((account) => {
-      this.account = account;
-      this.postProvider.getMyOffers().subscribe(
-        (response) => {
-          this.posts = [];
-          this.conversations = {};
-          if (response) {
-            this.posts = response ? response.posts : [];
-            if (response.conversations) {
-              for (var i = 0; i < response.conversations.length; i++) {
-                let curr = response.conversations[i];
-                if (!curr || !curr.post) {
-                  continue;
-                }
-                curr.collapsed = true;
-                if (!this.conversations[curr.post]) {
-                  this.conversations[curr.post] = [];
-                }
-                this.conversations[curr.post].push(curr);
+        this.account = account;
+        this.postProvider.getMyOffers().subscribe(
+          (response) => {
+            this.posts = [];
+            if (response) {
+              this.posts = response.posts || [];
+              this.conversations = response.conversations || {};
+              for (var i = 0; i < this.posts.length; i++) {
+                this.posts[i].conversationCount = this.conversations[this.posts[i].id] ? this.conversations[this.posts[i].id].length : 0;
               }
               this.loading = false;
             }
-          }
-        },
-        (err) => {
-          console.log("could not load posts");
-          this.loading = false;
-        });
-    },
+
+          },
+          (err) => {
+            console.log("could not load posts");
+            this.loading = false;
+          });
+      },
       (err) => {
         console.log("could not load posts");
         this.loading = false;
       });
   }
-
 }

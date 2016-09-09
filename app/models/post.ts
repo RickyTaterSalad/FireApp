@@ -15,5 +15,6 @@ export interface Post {
   shiftStartTime:string,
   platoon:string,
   created:Number,
-  comments:string
+  comments:string,
+  conversationCount:number;
 }

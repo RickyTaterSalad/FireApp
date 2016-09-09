@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { NavController,ActionSheetController  } from 'ionic-angular';
+import { NavController,ActionSheetController,NavParams  } from 'ionic-angular';
 import {Account} from '../../models/Account';
+import {Post} from '../../models/Post';
 import {Station} from '../../models/station';
 import {Conversation} from "../../models/conversation";
 import {ConversationProvider} from "../../providers/conversation-provider";
@@ -30,13 +31,14 @@ export class ConversationsPage {
     photo: "",
     assignedHireCode: ""
   };
+  post:Post;
   conversations:Array<Conversation> = [];
-  stations:Object = {};
 
-  constructor(private postProvider:PostProvider, private actionSheetCtrl:ActionSheetController, private nav:NavController, private conversationProvider:ConversationProvider, private accountProvider:AccountProvider, private stationProvider:StationProvider) {
-
+  constructor(private navParams:NavParams,private postProvider:PostProvider, private actionSheetCtrl:ActionSheetController, private nav:NavController, private conversationProvider:ConversationProvider, private accountProvider:AccountProvider, private stationProvider:StationProvider) {
+    this.conversations   = navParams.data.conversations || [];
+    this.post = navParams.data.post;
+    this.account = navParams.data.account;
   }
-
   replyToConversation:Function = function (conversation, evt:Event) {
     if (evt) {
       evt.stopPropagation();
@@ -47,13 +49,6 @@ export class ConversationsPage {
     this.nav.push(MessageUserPage, {conversation: conversation});
   };
 
-  onPageDidEnter() {
-    this.reloadConversations();
-  }
-
-  toggleConversation:Function = function (conversation) {
-    conversation.collapsed = !conversation.collapsed;
-  };
   sortConversations:Function = function (a, b) {
     if (a.post.shift < b.post.shift) {
       return -1;
@@ -63,32 +58,9 @@ export class ConversationsPage {
     }
     return 0;
 
-  }
-
-  reloadConversations:Function = function () {
-    this.accountProvider.self().subscribe((account) => {
-      this.stationProvider.Stations.subscribe((stations) => {
-        this.stations = stations;
-        console.log("Account");
-        console.dir(account);
-        this.account = account;
-        this.conversationProvider.Conversations.subscribe((conversations) => {
-            //should be able to use the observable methods to add collapsed
-            if (conversations) {
-              for (var i = 0; i < conversations.length; i++) {
-                conversations[i].collapsed = false;
-              }
-              conversations.sort(this.sortConversations);
-            }
-            console.dir(conversations);
-            this.conversations = conversations || [];
-          }
-        )
-      });
-    });
   };
-  confirmShift:Function = function (conversation) {
 
+  confirmShift:Function = function (conversation) {
     this.postProvider.claimPost(conversation.post, conversation.recipient).subscribe(
       (response)=> {
         console.log("claimed shift");
@@ -100,7 +72,6 @@ export class ConversationsPage {
       }
     )
   };
-
   showConversationOptions:Function = function (conversation) {
     var buttons =
       [
