@@ -15,38 +15,24 @@
   </ion-navbar>
 </ion-header>
 <ion-content padding class="calendarDetailContent">
-  <!-- <ion-grid>
-<ion-row>
-    <ion-col width-40 offset-60 [hidden]="!searchParameters.showListOptions">
-      <ion-item>
-        <ion-label stacked>Sort By</ion-label>
-        <ion-select [(ngModel)]="searchParameters.sortField" (ngModelChange)="sortPosts()">
-          <ion-option value="sortByStationNumberAscending"><p>Station</p></ion-option>
-          <ion-option value="sortByCreatedDescending"><p>Newest</p></ion-option>
-          <ion-option value="sortByCreatedAscending"><p>Oldest</p></ion-option>
-          <ion-option value="sortByLastNameAscending"><p>User</p></ion-option>
-        </ion-select>
-      </ion-item>
-    </ion-col>
-  </ion-row>
-  </ion-grid>-->
+
+  <ion-segment [(ngModel)]="postTypeToDisplay">
+    <ion-segment-button (click)="showWantsToWork()" value="on">
+      Wants To Work
+    </ion-segment-button>
+    <ion-segment-button (click)="showWantsOff()" value="off">
+      Wants Off
+    </ion-segment-button>
+  </ion-segment>
   <ion-grid [hidden]="!searchParameters.showListOptions">
     <ion-row>
-      <ion-col width-50>
-        <ion-item>
-          <ion-label class="smallLabel">Wants Off</ion-label>
-          <ion-toggle [(ngModel)]="searchParameters.isOffType" (ionChange)="filterResults()"></ion-toggle>
-        </ion-item>
-        <ion-item>
-          <ion-label class="smallLabel">Wants Work</ion-label>
-          <ion-toggle [(ngModel)]="searchParameters.isOnType" (ionChange)="filterResults()"></ion-toggle>
-        </ion-item>
-      </ion-col>
       <ion-col width-50>
         <ion-item>
           <ion-label class="smallLabel">Trade</ion-label>
           <ion-toggle [(ngModel)]="searchParameters.isTrade" (ionChange)="filterResults()"></ion-toggle>
         </ion-item>
+        </ion-col>
+      <ion-col width-50>
         <ion-item>
           <ion-label class="smallLabel">Overtime</ion-label>
           <ion-toggle [(ngModel)]="searchParameters.isOvertime" (ionChange)="filterResults()"></ion-toggle>

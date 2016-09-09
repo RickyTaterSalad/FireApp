@@ -43,9 +43,10 @@
           <label class="calendarDateLabel" [style.color]="day.color">{{day.dayOfMonth}}</label>
 
         </div>
-          <label *ngIf="postCounts | objectContainsProperty:day.utcDayStart" class="postCountContainer">
-            {{postCounts[day.utcDayStart]}}
-          </label>
+          <div *ngIf="postCounts | objectContainsProperty:day.utcDayStart" class="postCountContainer">
+            <span  class="postOnContainer">{{postCounts[day.utcDayStart].on}}</span>
+            <span class="postOffContainer">{{postCounts[day.utcDayStart].off}}</span>
+          </div>
       </ion-col>
     </ion-row>
   </ion-grid>

@@ -31,6 +31,7 @@ export class CalendarDetailPage {
   private day:any;
   private loading:boolean = true;
   yes:boolean = true;
+  postTypeToDisplay:string = "on";
   private account:Account = {
     firstName: "",
     lastName: "",
@@ -46,7 +47,7 @@ export class CalendarDetailPage {
     isOvertime: true,
     isTrade: true,
     isOnType: true,
-    isOffType: true,
+    isOffType: false,
     sortField: "sortByCreatedDescending",
     showListOptions: false
   };
@@ -85,10 +86,12 @@ export class CalendarDetailPage {
       console.dir(account);
       this.account = account;
       this.postProvider.getPostsForDay(this.day).subscribe(posts=> {
-        this.posts = this.filteredPosts = posts;
+        this.posts =  posts;
+        this.filterResults();
         this.loading  = false;
       });
-    })
+    });
+
   };
 
 
@@ -231,6 +234,17 @@ export class CalendarDetailPage {
     } else {
       return 0;
     }
+  };
+  private showWantsToWork:Function = function(){
+    this.searchParameters.isOnType = true;
+    this.searchParameters.isOffType = false;
+    this.filterResults();
+
+  };
+  private showWantsOff:Function = function(){
+    this.searchParameters.isOnType = false;
+    this.searchParameters.isOffType = true;
+    this.filterResults();
   };
 
 }
