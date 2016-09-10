@@ -9,6 +9,7 @@ import {DepartmentProvider} from "./providers/department-provider";
 import {AccountProvider} from "./providers/account-provider";
 import {ConversationProvider} from "./providers/conversation-provider";
 import {PostProvider} from "./providers/post-provider";
+import {NotificationProvider} from "./providers/notification-provider";
 import {MessageProvider} from "./providers/message-provider";
 import {ConfigProvider} from "./providers/config-provider";
 
@@ -23,7 +24,8 @@ import {StationProvider} from "./providers/station-provider";
     MessageProvider,
     ConfigProvider,
     StationProvider,
-    AlertController
+    AlertController,
+    NotificationProvider
   ]
 })
 class MyApp {
