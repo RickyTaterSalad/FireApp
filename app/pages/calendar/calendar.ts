@@ -1,6 +1,7 @@
 import {Component,
   OnInit,
   OnDestroy,
+  ViewChild,
   ElementRef,
   trigger, state, style, transition, animate, keyframes
 } from '@angular/core';
@@ -50,6 +51,7 @@ import * as moment from 'moment';
   ]
 })
 export class CalendarPage/* implements OnInit, OnDestroy */ {
+
   calendarMonth:CalendarMonth = new CalendarMonth();
   daysOfWeek:string[] = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
   monthLookup:string[] = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -64,6 +66,7 @@ export class CalendarPage/* implements OnInit, OnDestroy */ {
   dateUtils:DateUtils = new DateUtils();
   private nav:NavController;
 
+
   constructor(nav:NavController, private departmentController:DepartmentProvider, private postProvider:PostProvider) {
     this.nav = nav;
     this.updateCurrentSystemMonthAndYear();
@@ -76,7 +79,6 @@ export class CalendarPage/* implements OnInit, OnDestroy */ {
     });
   }
 
-;
 
   private updateCurrentSystemMonthAndYear:Function = function () {
     let dt = new Date();
@@ -92,7 +94,7 @@ export class CalendarPage/* implements OnInit, OnDestroy */ {
     this.nav.push(CalendarDetailPage, day);
   };
   previousMonth:Function = function () {
-    this.animateCalendarChange("outRight");
+    this.animateCalendarChange("outLeft");
     if (this.currentCalendarMonthAndYear.month == 0) {
       this.currentCalendarMonthAndYear.year--;
       this.currentCalendarMonthAndYear.month = 11;
@@ -105,7 +107,7 @@ export class CalendarPage/* implements OnInit, OnDestroy */ {
 
   };
   nextMonth:Function = function () {
-    this.animateCalendarChange("outLeft");
+    this.animateCalendarChange("outRight");
     if (this.currentCalendarMonthAndYear.month == 11) {
       this.currentCalendarMonthAndYear.year++;
       this.currentCalendarMonthAndYear.month = 0;

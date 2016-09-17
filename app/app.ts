@@ -3,6 +3,7 @@ import {ionicBootstrap, Platform, MenuController, Nav,AlertController} from 'ion
 import {StatusBar} from 'ionic-native';
 import {CalendarPage} from './pages/calendar/calendar';
 import {AccountPage} from './pages/account/account';
+import {NotificationsPage} from './pages/notifications/notifications';
 import {MyPostsPage} from './pages/my-posts/my-posts';
 import {MyOffersPage} from './pages/my-offers/my-offers';
 import {DepartmentProvider} from "./providers/department-provider";
@@ -40,10 +41,11 @@ class MyApp {
     this.initializeApp();
     // set our app's pages
     this.pages = [
+      {title: "Notifications", component: NotificationsPage},
       {title: 'Calendar', component: CalendarPage},
-      {title: "My Posts",component:MyPostsPage},
-      {title: "My Offers",component:MyOffersPage},
-      {title: 'Account', component: AccountPage}
+      {title: "My Posts", component: MyPostsPage},
+      {title: "My Offers", component: MyOffersPage},
+      {title: 'Account', component: AccountPage},
     ];
   }
 
@@ -55,6 +57,7 @@ class MyApp {
       StatusBar.styleDefault();
     });
   }
+
 
   openPage(page) {
     // close the menu when clicking a link from the menu

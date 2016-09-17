@@ -12,6 +12,7 @@ import {PostProvider} from "../../providers/post-provider";
 import {AccountProvider} from "../../providers/account-provider";
 import {StationProvider} from "../../providers/station-provider";
 import {PostBriefComponent} from "../../components/post-brief/post-brief";
+import {Observable} from "rxjs";
 
 import * as moment from 'moment';
 
@@ -25,7 +26,7 @@ import * as moment from 'moment';
  */
 @Component({
   templateUrl: 'build/pages/calendar-detail/calendar-detail.html',
-  directives:[PostBriefComponent],
+  directives: [PostBriefComponent],
 })
 export class CalendarDetailPage {
   private day:any;
@@ -53,10 +54,11 @@ export class CalendarDetailPage {
   };
   private filteredPosts:Array<Post>;
 
-  constructor(private Loading:LoadingController,private nav:NavController, private accountProvider:AccountProvider, private alertCtrl:AlertController, private navParams:NavParams, private postProvider:PostProvider, private stationProvider:StationProvider) {
+  constructor(private Loading:LoadingController, private nav:NavController, private accountProvider:AccountProvider, private alertCtrl:AlertController, private navParams:NavParams, private postProvider:PostProvider, private stationProvider:StationProvider) {
     this.day = navParams.data;
   }
-  private showMessage:Function = function (title,message) {
+
+  private showMessage:Function = function (title, message) {
     let alert = this.alertCtrl.create({
       title: title,
       subTitle: message,
@@ -74,23 +76,45 @@ export class CalendarDetailPage {
   };
 
   onPageDidEnter() {
-   this.reloadPosts();
+    this.reloadPosts().subscribe();
   }
 
-  private reloadPosts:Function = function(){
-    this.loading = true;
-    this.accountProvider.self().subscribe((account) => {
-      this.account = account;
-      this.postProvider.getPostsForDay(this.day).subscribe(posts=> {
-        this.posts =  posts;
-        this.filterResults();
-        this.loading  = false;
+  private refreshPosts:Function = function (refresher) {
+    this.reloadPosts().subscribe((res)=> {
+      refresher.complete();
+    });
+  };
+  private reloadPosts:Function = function () {
+    return Observable.create((observer) => {
+      this.loading = true;
+      this.accountProvider.self().subscribe((account) => {
+        this.account = account;
+        this.postProvider.getPostsForDay(this.day).subscribe(posts=> {
+          this.posts = posts;
+          this.filterResults();
+          this.loading = false;
+          if (this.posts != null) {
+            let hasWantsToWork = false;
+            let hasWantsOff = false;
+            for (let i = 0; i < this.posts.length; i++) {
+              if (this.posts[i].requestType == "on") {
+                hasWantsToWork = true;
+                break;
+              }
+              else {
+                hasWantsOff = true;
+              }
+            }
+            if (!hasWantsToWork && hasWantsOff) {
+              this.showWantsOff();
+            }
+          }
+
+          observer.next(true);
+        });
       });
     });
-
   };
-
-
   private sortPostArray:Function = function (postArray:Array<Post>) {
     if (!postArray || !this.searchParameters || !this.searchParameters.sortField) {
       return;
@@ -129,7 +153,7 @@ export class CalendarDetailPage {
     this.nav.push(CreateConversationPage, {day: this.day, post: post});
   };
   removePost:Function = function (post) {
-    if(!post){
+    if (!post) {
       return;
     }
     let confirm = this.alertCtrl.create({
@@ -143,7 +167,7 @@ export class CalendarDetailPage {
               (response)=> {
                 this.reloadPosts();
               },
-              (err) =>{
+              (err) => {
                 this.showError("Could Not Delete Post.");
               }
             )
@@ -166,7 +190,9 @@ export class CalendarDetailPage {
         response => {
         this.nav.push(CreatePostPage, {day: this.day});
       },
-      (err) => {this.showError(err && err._body ? err._body : "Could Not Create Post")}
+      (err) => {
+        this.showError(err && err._body ? err._body : "Could Not Create Post")
+      }
     );
   };
 
@@ -228,13 +254,13 @@ export class CalendarDetailPage {
       return 0;
     }
   };
-  private showWantsToWork:Function = function(){
+  private showWantsToWork:Function = function () {
     this.searchParameters.isOnType = true;
     this.searchParameters.isOffType = false;
     this.filterResults();
 
   };
-  private showWantsOff:Function = function(){
+  private showWantsOff:Function = function () {
     this.searchParameters.isOnType = false;
     this.searchParameters.isOffType = true;
     this.filterResults();

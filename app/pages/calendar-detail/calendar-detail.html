@@ -15,7 +15,9 @@
   </ion-navbar>
 </ion-header>
 <ion-content padding class="calendarDetailContent">
-
+  <ion-refresher (ionRefresh)="refreshPosts($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <ion-segment [(ngModel)]="postTypeToDisplay">
     <ion-segment-button (click)="showWantsToWork()" value="on">
       Wants To Work
