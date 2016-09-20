@@ -5,7 +5,6 @@ import {Day} from "../../models/day";
 import {EditPostPage} from "../../pages/edit-post/edit-post"
 import {MomentToString} from "../../pipes/moment-to-string";
 import {PostProvider} from "../../providers/post-provider";
-import {Account} from "../../models/Account";
 import {MessageUserPage} from "../../pages/message-user/message-user";
 import {CreateConversationPage} from '../../pages/create-conversation/create-conversation';
 @Component({
@@ -15,7 +14,7 @@ import {CreateConversationPage} from '../../pages/create-conversation/create-con
 })
 export class PostBriefComponent {
   @Input() post:Post;
-  @Input() account:Account;
+  @Input() account:any;
   @Input() day:Day;
   @Input() showuserinheader:boolean = false;
 

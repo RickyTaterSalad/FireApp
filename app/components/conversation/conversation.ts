@@ -1,7 +1,6 @@
 import {Component,Input} from '@angular/core'
 import { NavController,ActionSheetController,AlertController} from 'ionic-angular';
 import {Conversation} from "../../models/conversation";
-import {Account} from "../../models/Account";
 import {MessageUserPage} from "../../pages/message-user/message-user";
 @Component({
   selector: 'conversation',
@@ -9,7 +8,7 @@ import {MessageUserPage} from "../../pages/message-user/message-user";
 })
 export class ConversationComponent {
   @Input() conversation:Conversation;
-  @Input() account:Account;
+  @Input() account:any;
 
 
   constructor(private nav:NavController,private actionSheetCtrl:ActionSheetController, private alertCtrl:AlertController) {

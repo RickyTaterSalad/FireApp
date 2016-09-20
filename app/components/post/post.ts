@@ -6,7 +6,6 @@ import {EditPostPage} from "../../pages/edit-post/edit-post"
 import {MomentToString} from "../../pipes/moment-to-string";
 import {PostProvider} from "../../providers/post-provider";
 import {ConversationProvider} from "../../providers/conversation-provider";
-import {Account} from "../../models/Account";
 import {MessageUserPage} from "../../pages/message-user/message-user";
 import {CreateConversationPage} from '../../pages/create-conversation/create-conversation';
 import {ConversationsPage} from '../../pages/conversations/conversations';
@@ -18,7 +17,7 @@ import {ConversationsPage} from '../../pages/conversations/conversations';
 })
 export class PostComponent {
   @Input() post:Post;
-  @Input() account:Account;
+  @Input() account:any;
   @Input() day:Day;
   @Input() showmessageuser:boolean = false;
   @Input() showuserinheader:boolean = false;
