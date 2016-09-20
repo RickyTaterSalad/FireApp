@@ -12,7 +12,7 @@
     <ion-row class="calendarHeader">
       <ion-col responsive-sm>
         <div style="float:left">
-          <button primary (click)="previousMonth()">
+          <button primary (click)="previousMonth()" [disabled]="currentCalendarMonthAndYear.month == systemMonthAndYear.month && currentCalendarMonthAndYear.year == systemMonthAndYear.year">
             <ion-icon class="calendarActionIcon calendarMonthForwardIcon" name="arrow-back"></ion-icon>
           </button>
           <button title="Current Month"

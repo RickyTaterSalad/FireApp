@@ -94,6 +94,9 @@ export class CalendarPage/* implements OnInit, OnDestroy */ {
     this.nav.push(CalendarDetailPage, day);
   };
   previousMonth:Function = function () {
+    if (this.currentCalendarMonthAndYear.month == this.systemMonthAndYear.month && this.currentCalendarMonthAndYear.year == this.systemMonthAndYear.year) {
+      return;
+    }
     this.animateCalendarChange("outLeft");
     if (this.currentCalendarMonthAndYear.month == 0) {
       this.currentCalendarMonthAndYear.year--;
