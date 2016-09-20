@@ -72,7 +72,7 @@ export class CalendarPage/* implements OnInit, OnDestroy */ {
     this.updateCurrentSystemMonthAndYear();
     this.currentCalendarMonthAndYear = new MonthAndYear(this.systemMonthAndYear.month, this.systemMonthAndYear.year);
 
-    departmentController.Department.subscribe((dept) => {
+    departmentController.Department().subscribe((dept) => {
       this.department = dept;
       this.populateCalendar();
 
@@ -149,6 +149,8 @@ export class CalendarPage/* implements OnInit, OnDestroy */ {
     this.postCounts = {};
     this.postProvider.postCountForCalendar(startMoment).subscribe(
       (response)=> {
+        console.log("POST COUNT");
+        console.dir(response);
         if (response) {
           this.postCounts = response.days || {};
           this.totalOn = response.totalOn || 0;

@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Http,Headers,RequestOptions } from '@angular/http';
 import { ConfigProvider } from "./config-provider";
 import {Day} from "../models/day";
 import {Account} from "../models/account";
@@ -19,62 +18,40 @@ import 'rxjs/add/operator/map';
 export class PostProvider {
   postsEndpoint:string;
   dateUtils:DateUtils;
-
-
-  constructor(private http:Http, private config:ConfigProvider,private httpProvider:HttpProvider) {
+  constructor( private config:ConfigProvider, private httpProvider:HttpProvider) {
     this.postsEndpoint = config.restApiUrl + "/posts";
     this.dateUtils = new DateUtils();
-    this.http = http;
   }
 
   getMyPosts:Function = function () {
-    let headers =  this.httpProvider.createAuthorizationHeader();
     var url = this.postsEndpoint + "/myPosts";
-    let options = new RequestOptions({headers: headers});
-    return this.http.get(url, options).map(res => res.json());
+    return this.httpProvider.get(url);
   };
   getMyOffers:Function = function () {
-    let headers =  this.httpProvider.createAuthorizationHeader();
     var url = this.postsEndpoint + "/myOffers";
-    let options = new RequestOptions({headers: headers});
-    return this.http.get(url, options).map(res => res.json());
+    return this.httpProvider.get(url);
   };
-
   getPostsForDay:Function = function (date:Day) {
-    let headers =  this.httpProvider.createAuthorizationHeader();
     var url = this.postsEndpoint + "/" + date.year + "/" + (date.month + 1) + "/" + date.dayOfMonth;
-    let options = new RequestOptions({headers: headers});
-    return this.http.get(url, options).map(res => res.json());
+    return this.httpProvider.get(url);
   };
   delete:Function = function (post:Post) {
-    if (post && this.helperMethods.validObjectId(post.id)) {
-      let headers =  this.httpProvider.createAuthorizationHeader();
-      let options = new RequestOptions({headers: headers});
+    if (post && post.id) {
       let url = this.postsEndpoint + "/" + post.id;
-      return this.http.delete(url, options).map(res => res.json());
+      return this.httpProvider.delete(url);
     }
     else {
       return Observable.empty();
     }
   };
   postCountForCalendar:Function = function (startDay) {
-    return Observable.create((observer) => {
-      if (!startDay || !startDay.valueOf) {
-        observer.next({});
-        observer.complete()
-      }
-      else {
-        let headers =  this.httpProvider.createAuthorizationHeader();
-        let url = this.postsEndpoint + "/postCounts/" + startDay.valueOf();
-        return this.http.get(url, {headers: headers}).map(res => res.json()).subscribe(
-          (response)=> {
-            observer.next(response);
-            observer.complete();
-          }
-        )
-      }
-    });
-
+    if (!startDay || !startDay.valueOf) {
+      return Observable.empty();
+    }
+    else {
+      let url = this.postsEndpoint + "/postCounts/" + startDay.valueOf();
+      return this.httpProvider.get(url);
+    }
   };
   userHasPostForDate:Function = function (day:Day) {
     ///hasPost/:year/:month/:day
@@ -83,9 +60,8 @@ export class PostProvider {
       return Observable.empty();
     }
     else {
-      let headers =  this.httpProvider.createAuthorizationHeader();
       let url = this.postsEndpoint + "/hasPost/" + day.year + "/" + (day.month + 1) + "/" + day.dayOfMonth;
-      return this.http.get(url, {headers: headers}).map(res => res.json());
+      return this.httpProvider.get(url);
     }
   };
   claimPost:Function = function (post:Post, account:Account) {
@@ -97,12 +73,9 @@ export class PostProvider {
         claiment: {
           id: account.id
         }
-
       });
-      let headers = this.httpProvider.generateJsonContentHeader();
-      let options = new RequestOptions({headers: headers});
       let url = this.postsEndpoint + "/claim";
-      return this.http.post(url, body, options).map(res => res.json());
+      return this.httpProvider.postJSON(url, body);
     }
     else {
       return Observable.empty();
@@ -121,9 +94,7 @@ export class PostProvider {
           comments: post.comments
         }
       });
-      let headers = this.httpProvider.generateJsonContentHeader();
-      let options = new RequestOptions({headers: headers});
-      return this.http.post(this.postsEndpoint, body, options).map(res => res.json());
+      return this.httpProvider.postJSON(this.postsEndpoint, body);
     }
     else {
       return Observable.empty();

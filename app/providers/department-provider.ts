@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Http,Headers } from '@angular/http';
-import { ConfigProvider } from "./config-provider";
-import {Department} from "../models/department";
+import {ConfigProvider } from "./config-provider";
 import {HttpProvider} from "./http-provider";
+import {AuthProvider} from "./auth-provider";
+import {Observable} from "rxjs";
 import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/cache';
 /*
  Generated class for the DepartmentProvider provider.
 
@@ -14,13 +13,24 @@ import 'rxjs/add/operator/cache';
 @Injectable()
 export class DepartmentProvider {
   departmentEndpoint:string;
+  department:any;
 
-  constructor(private http:Http, private config:ConfigProvider, private httpProvider:HttpProvider) {
+  constructor( private config:ConfigProvider, private httpProvider:HttpProvider,private authProvider:AuthProvider) {
     this.departmentEndpoint = config.restApiUrl + "/department/" + config.departmentName;
+    this.authProvider.loggedOut.subscribe(()=> {
+      this.department = null;
+    });
   }
-  get Department() {
-    let headers = this.httpProvider.createAuthorizationHeader();
-    return this.http.get(this.departmentEndpoint, {headers: headers}).map(res => res.json()).cache();
+
+  Department:Function = function () {
+    if(this.department){
+      return Observable.of(this.department);
+    }
+    var subject = this.httpProvider.get(this.departmentEndpoint);
+    subject.subscribe((department)=> {
+      this.department = department;
+    });
+    return subject;
   }
 
 

@@ -6,7 +6,6 @@ import {Station} from '../../models/station';
 import {Conversation} from "../../models/conversation";
 import {ConversationProvider} from "../../providers/conversation-provider";
 import {AccountProvider} from "../../providers/account-provider";
-import {StationProvider} from "../../providers/station-provider";
 import {PostProvider} from "../../providers/post-provider";
 import {MomentToString} from "../../pipes/moment-to-string";
 import {MessageUserPage} from "../message-user/message-user";
@@ -36,7 +35,7 @@ export class ConversationsPage {
   post:Post;
   conversations:Array<Conversation> = [];
 
-  constructor(private navParams:NavParams,private postProvider:PostProvider, private actionSheetCtrl:ActionSheetController, private nav:NavController, private conversationProvider:ConversationProvider, private accountProvider:AccountProvider, private stationProvider:StationProvider) {
+  constructor(private navParams:NavParams,private postProvider:PostProvider, private actionSheetCtrl:ActionSheetController, private nav:NavController, private conversationProvider:ConversationProvider, private accountProvider:AccountProvider) {
     this.conversations   = navParams.data.conversations || [];
     this.post = navParams.data.post;
     this.account = navParams.data.account;

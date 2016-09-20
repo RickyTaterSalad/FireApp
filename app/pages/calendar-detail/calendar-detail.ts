@@ -10,7 +10,6 @@ import {Post} from "../../models/post";
 import {Station} from "../../models/station";
 import {PostProvider} from "../../providers/post-provider";
 import {AccountProvider} from "../../providers/account-provider";
-import {StationProvider} from "../../providers/station-provider";
 import {PostBriefComponent} from "../../components/post-brief/post-brief";
 import {Observable} from "rxjs";
 
@@ -54,7 +53,7 @@ export class CalendarDetailPage {
   };
   private filteredPosts:Array<Post>;
 
-  constructor(private Loading:LoadingController, private nav:NavController, private accountProvider:AccountProvider, private alertCtrl:AlertController, private navParams:NavParams, private postProvider:PostProvider, private stationProvider:StationProvider) {
+  constructor(private Loading:LoadingController, private nav:NavController, private accountProvider:AccountProvider, private alertCtrl:AlertController, private navParams:NavParams, private postProvider:PostProvider) {
     this.day = navParams.data;
   }
 

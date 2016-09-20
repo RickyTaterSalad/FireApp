@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http,Headers,RequestOptions } from '@angular/http';
 import { GooglePlus } from 'ionic-native';
-import {Observable,Subject} from "rxjs";
+import {Observable,Subject } from "rxjs";
 import {ConfigProvider} from "./config-provider"
 import {Storage, LocalStorage} from 'ionic-angular';
 import {PlatformProvider} from "./platform-provider";
@@ -12,12 +12,6 @@ interface UserData {
   user:Object;
 }
 
-/*
- Generated class for the AuthProvider provider.
-
- See https://angular.io/docs/ts/latest/guide/dependency-injection.html
- for more info on providers and Angular 2 DI.
- */
 @Injectable()
 export class AuthProvider {
   private storage:Storage;
@@ -25,13 +19,13 @@ export class AuthProvider {
   public  token:string;
   public loggedOut:Subject<any> = new Subject();
 
-  constructor( private configProvider:ConfigProvider, private http:Http,private platformProvider:PlatformProvider) {
+  constructor(  private configProvider:ConfigProvider, private http:Http,private platformProvider:PlatformProvider) {
     this.storage = new Storage(LocalStorage);
   }
 
   //reads local storage for JWT. if JWT not found it will fire the loggedOut subject
   isLoggedIn:Function = function () {
-    return Observable.create((observer) => {
+    var subject = new Subject();
       this.storage.get(this.userDataKey).then((userData:string)  => {
         console.log(userData);
         if (userData) {
@@ -40,28 +34,25 @@ export class AuthProvider {
             if (!userDataObj.token) {
               //storage is bad, log user out to clear
               this.logUserOut();
-              observer.complete();
             }
             else {
               //token is good
               this.token = userDataObj.token;
-              observer.next(true);
-              observer.complete();
+              subject.next(true);
             }
           }
           catch (err) {
             //oops
             this.logUserOut();
-            observer.complete();
           }
         }
         else {
           //nothing in storage
-          observer.next(false);
-          observer.complete();
+          subject.next(false);
         }
+        subject.complete();
       });
-    });
+    return subject;
   };
 
   //logs the user in and then stores the token in local storage
@@ -150,4 +141,5 @@ export class AuthProvider {
     this.loggedOut.next(null);
   }
 }
+
 

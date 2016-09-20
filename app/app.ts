@@ -19,7 +19,6 @@ import {AuthProvider} from "./providers/auth-provider";
 import {HttpProvider} from "./providers/http-provider";
 import {PlatformProvider} from "./providers/platform-provider";
 
-import {StationProvider} from "./providers/station-provider";
 @Component({
   templateUrl: 'build/app.html',
   providers: [
@@ -29,7 +28,6 @@ import {StationProvider} from "./providers/station-provider";
     PostProvider,
     MessageProvider,
     ConfigProvider,
-    StationProvider,
     AlertController,
     NotificationProvider,
     ConnectivityProvider,

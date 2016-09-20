@@ -44,7 +44,7 @@ export class CreatePostPage {
       this.showError("No Date To Create Post On");
       return;
     }
-    departmentProvider.Department.subscribe((dept:Department) => {
+    departmentProvider.Department().subscribe((dept:Department) => {
       if (dept && dept.schedule) {
         this.post.shift =  this.dateUtils.dateFromDay(this.day);
         this.post.shiftStartTime =  dept.schedule.shiftStartTime;
