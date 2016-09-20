@@ -5,6 +5,7 @@ import {Station} from "../models/station";
 import {Observable} from "rxjs";
 import {HelperMethods} from "../utils/helper-methods";
 import {Message} from "../models/message";
+import {HttpProvider} from "./http-provider";
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/cache';
 /*
@@ -16,16 +17,15 @@ import 'rxjs/add/operator/cache';
 @Injectable()
 export class MessageProvider {
   messageEndpoint:string;
-  helperMethods:HelperMethods = new HelperMethods();
 
-  constructor(private http:Http, private config:ConfigProvider) {
+  constructor(private http:Http, private config:ConfigProvider,private httpProvider:HttpProvider) {
     this.messageEndpoint = config.restApiUrl + "/messages";
   }
 
   create:Function = function (message:Message) {
     if (message) {
       let body = JSON.stringify(message);
-      let headers = this.helperMethods.generateJsonContentHeader();
+      let headers = this.httpProvider.generateJsonContentHeader();
       let options = new RequestOptions({headers: headers});
       return this.http.post(this.messageEndpoint, body,options).map(res => res.json());
     }

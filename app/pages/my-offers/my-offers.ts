@@ -7,7 +7,6 @@ import {ObjectContainsProperty} from "../../pipes/object-contains-property";
 import {MessageUserPage} from "../message-user/message-user";
 import {AccountProvider} from "../../providers/account-provider";
 import {Account} from "../../models/account"
-import {ConversationComponent} from "../../components/conversation/conversation";
 import {PostComponent} from "../../components/post/post";
 /*
  Generated class for the MyOffersPage page.
@@ -17,7 +16,7 @@ import {PostComponent} from "../../components/post/post";
  */
 @Component({
   templateUrl: 'build/pages/my-offers/my-offers.html',
-  directives: [ConversationComponent, PostComponent],
+  directives: [ PostComponent],
   pipes: [MomentToString, ObjectContainsProperty]
 })
 export class MyOffersPage {

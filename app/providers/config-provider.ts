@@ -8,14 +8,13 @@ import { Injectable } from '@angular/core';
  */
 @Injectable()
 export class ConfigProvider {
-
-
   constructor() {
   }
-
-
-  restApiUrl:string = "https://fireappdev.herokuapp.com/api/v1";
- // restApiUrl:string = "http://localhost:3000/api/v1";
+ // private serverUrl = "https://fireappdev.herokuapp.com";
+  private serverUrl = "http://localhost:3000";
+  googleAuthUrl:string = this.serverUrl + "/auth/google";
+  debugTokenUrl:string  = this.serverUrl + "/auth/generateToken";
+  restApiUrl:string = this.serverUrl + "/api/v1";
   departmentName:String = "LAFD";
 
 }

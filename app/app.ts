@@ -5,6 +5,7 @@ import {CalendarPage} from './pages/calendar/calendar';
 import {AccountPage} from './pages/account/account';
 import {NotificationsPage} from './pages/notifications/notifications';
 import {MyPostsPage} from './pages/my-posts/my-posts';
+import {LoginPage} from './pages/login/login';
 import {MyOffersPage} from './pages/my-offers/my-offers';
 import {DepartmentProvider} from "./providers/department-provider";
 import {AccountProvider} from "./providers/account-provider";
@@ -13,6 +14,10 @@ import {PostProvider} from "./providers/post-provider";
 import {NotificationProvider} from "./providers/notification-provider";
 import {MessageProvider} from "./providers/message-provider";
 import {ConfigProvider} from "./providers/config-provider";
+import {ConnectivityProvider} from "./providers/connectivity-provider";
+import {AuthProvider} from "./providers/auth-provider";
+import {HttpProvider} from "./providers/http-provider";
+import {PlatformProvider} from "./providers/platform-provider";
 
 import {StationProvider} from "./providers/station-provider";
 @Component({
@@ -26,18 +31,22 @@ import {StationProvider} from "./providers/station-provider";
     ConfigProvider,
     StationProvider,
     AlertController,
-    NotificationProvider
+    NotificationProvider,
+    ConnectivityProvider,
+    PlatformProvider,
+    HttpProvider,
+    AuthProvider
   ]
 })
 class MyApp {
   @ViewChild(Nav) nav:Nav;
 
   // make HelloIonicPage the root (or first) page
-  rootPage:any = CalendarPage;
+  rootPage:any = null;
   pages:Array<{title: string, component: any}>;
 
   constructor(public platform:Platform,
-              public menu:MenuController) {
+              public menu:MenuController, private authProvider:AuthProvider, private accountProvider:AccountProvider) {
     this.initializeApp();
     // set our app's pages
     this.pages = [
@@ -49,12 +58,28 @@ class MyApp {
     ];
   }
 
-
   initializeApp() {
     this.platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
       StatusBar.styleDefault();
+
+      this.authProvider.loggedOut.subscribe(()=>{
+        this.nav.setRoot(LoginPage);
+      });
+
+      this.authProvider.isLoggedIn().subscribe((res)=> {
+          console.log(res);
+          if (!res) {
+            this.nav.setRoot(LoginPage);
+          }
+          else {
+            this.nav.setRoot(CalendarPage);
+          }
+        },
+        (err) => {
+          this.nav.setRoot(LoginPage);
+        }
+      );
+
     });
   }
 

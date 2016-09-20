@@ -4,7 +4,7 @@ import { ConfigProvider } from "./config-provider";
 import {Station} from "../models/station";
 import {Observable} from "rxjs";
 import {Storage, LocalStorage} from 'ionic-angular';
-import {HelperMethods} from "../utils/helper-methods";
+import {HttpProvider} from "./http-provider";
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/cache';
 /*
@@ -17,9 +17,8 @@ import 'rxjs/add/operator/cache';
 export class StationProvider {
   stationsEndpoint:string;
   storage:Storage;
-  helperMethods:HelperMethods = new HelperMethods();
 
-  constructor(private http:Http, private config:ConfigProvider) {
+  constructor(private http:Http, private config:ConfigProvider, private httpProvider:HttpProvider) {
     this.stationsEndpoint = config.restApiUrl + "/stations";
     this.storage = new Storage(LocalStorage);
   }
@@ -31,8 +30,7 @@ export class StationProvider {
           observer.complete()
         }
         else {
-          let headers = new Headers();
-          this.helperMethods.createAuthorizationHeader(headers);
+          let headers =  this.httpProvider.createAuthorizationHeader();
           this.http.get(this.stationsEndpoint, {headers: headers}).map(res => res.json()).cache().subscribe(stationList => {
             this.storage.set('station_list', JSON.stringify(stationList));
             observer.next(stationList);

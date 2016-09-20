@@ -16,14 +16,14 @@
   <ion-list>
     <ion-item>
       <ion-avatar item-left>
-          <img  [hidden]="account.id != message.conversation.recipient.id" src="{{message.conversation.creator.photo}}"/>
-             <img [hidden]="account.id != message.conversation.creator.id" src="{{message.conversation.recipient.photo}}"/>
+          <img  [hidden]="account._id != message.conversation.recipient.id" src="{{message.conversation.creator.photo}}"/>
+             <img [hidden]="account._id != message.conversation.creator.id" src="{{message.conversation.recipient.photo}}"/>
 
       </ion-avatar>
-      <ion-label item-right [hidden]="account.id != message.conversation.recipient.id">
+      <ion-label item-right [hidden]="account._id != message.conversation.recipient.id">
         {{message.conversation.creator.firstName}} {{message.conversation.creator.lastName}}
         </ion-label>
-      <ion-label item-right [hidden]="account.id != message.conversation.creator.id">
+      <ion-label item-right [hidden]="account._id != message.conversation.creator.id">
         {{message.conversation.recipient.firstName}} {{message.conversation.recipient.lastName}}
       </ion-label>
     </ion-item>

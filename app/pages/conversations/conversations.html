@@ -13,36 +13,8 @@
   </ion-navbar>
 </ion-header>
 <ion-content padding>
-  <ion-card *ngFor="let conversation of conversations" class="shiftPostingCard"
+  <ion-card *ngFor="let conversation of conversations;let convNdx = index" class="shiftPostingCard"
             [hidden]="conversation.messages.length == 0">
-    <ion-row>
-      <ion-col width-90>
-        <p style="margin:0;margin-left:5px;" [hidden]="conversation.creator == account.id">
-          <ion-icon name="person"></ion-icon>
-          {{conversation.creator.firstName}} {{conversation.creator.lastName}}
-        </p>
-
-        <p style="margin:0" [hidden]="conversation.recipient != account.id">
-          <ion-icon name="person"></ion-icon>
-          {{conversation.recipient.firstName}} {{conversation.recipient.lastName}}
-        </p>
-      </ion-col>
-      <ion-col width-10>
-        <button small clear (click)="replyToConversation(conversation,$event)" item-right style="margin:0">
-          <ion-icon name="share-alt"></ion-icon>
-        </button>
-      </ion-col>
-    </ion-row>
-    <ion-item *ngFor="let message of conversation.messages" [hidden]="conversation.collapsed">
-      <ion-avatar item-left [hidden]="message.sender== account.id">
-        <img [hidden]="conversation.creator.id == account.id" src="{{conversation.creator.photo}}"/>
-        <img [hidden]="conversation.recipient.id == account.id" src="{{conversation.recipient.photo}}"/>
-      </ion-avatar>
-      <ion-item text-wrap [style.text-align]="message.sender != account.id ? 'left' : 'right'">{{message.content}}
-      </ion-item>
-      <ion-avatar item-right [hidden]="message.sender != account.id">
-        <img src="{{account.photo}}"/>
-      </ion-avatar>
-    </ion-item>
+    <conversation [(conversation)]="conversations[convNdx]" [(account)]="account"></conversation>
   </ion-card>
 </ion-content>

@@ -10,6 +10,7 @@ import {StationProvider} from "../../providers/station-provider";
 import {PostProvider} from "../../providers/post-provider";
 import {MomentToString} from "../../pipes/moment-to-string";
 import {MessageUserPage} from "../message-user/message-user";
+import {ConversationComponent} from "../../components/conversation/conversation"
 /*
  Generated class for the ConversationsPage page.
 
@@ -18,6 +19,7 @@ import {MessageUserPage} from "../message-user/message-user";
  */
 @Component({
   templateUrl: 'build/pages/conversations/conversations.html',
+  directives: [ ConversationComponent],
   pipes: [MomentToString]
 })
 export class ConversationsPage {

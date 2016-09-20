@@ -109,7 +109,6 @@ export class CalendarDetailPage {
               this.showWantsOff();
             }
           }
-
           observer.next(true);
         });
       });

@@ -14,7 +14,7 @@
           </span>
         </ion-col>
         <ion-col width-50>
-          <button small clear [hidden]="account.id != post.creator" (click)="showPostOptions()">
+          <button small clear [hidden]="account._id != post.creator" (click)="showPostOptions()">
             <ion-icon name="options"></ion-icon>
           </button>
         </ion-col>

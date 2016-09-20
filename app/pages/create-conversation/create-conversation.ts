@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController,NavParams,AlertController ,Platform} from 'ionic-angular';
+import { NavController,NavParams,AlertController} from 'ionic-angular';
 import {Post} from "../../models/post";
 import {Day} from "../../models/day";
 import {Account} from "../../models/account";
@@ -9,6 +9,7 @@ import {MessageProvider} from "../../providers/message-provider"
 import {Conversation} from "../../models/conversation";
 import {Message} from "../../models/message";
 import {PostBriefComponent} from "../../components/post-brief/post-brief";
+import {PlatformProvider} from "../../providers/platform-provider";
 import {Toast} from 'ionic-native';
 import 'rxjs/add/operator/catch';
 
@@ -34,7 +35,7 @@ export class CreateConversationPage {
   private day:Day;
   private messageData:CreateConversation;
 
-  constructor(private platform:Platform,private nav:NavController,private alertCtrl:AlertController, private navParams:NavParams, private conversationProvider:ConversationProvider, private accountProvider:AccountProvider, private messageProvider:MessageProvider) {
+  constructor(private platformProvider:PlatformProvider,private nav:NavController,private alertCtrl:AlertController, private navParams:NavParams, private conversationProvider:ConversationProvider, private accountProvider:AccountProvider, private messageProvider:MessageProvider) {
     this.post = navParams.data.post;
     this.day = navParams.data.day;
     this.messageData = {post: this.post, message: "", swapType: ""};
@@ -45,7 +46,7 @@ export class CreateConversationPage {
     }
   }
   showMessage:Function = function (message,title) {
-    if (this.platform.is('ios') ||this.platform.is('android')) {
+    if (this.platformProvider.isMobile) {
       Toast.show(message, "short", "bottom")
     }
     else {
@@ -64,6 +65,8 @@ export class CreateConversationPage {
         post: {id: this.post.id}
       }
     };
+
+
     this.accountProvider.self().subscribe(account => {
       this.conversationProvider.create(conversation).subscribe(
           response => {
