@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { ConfigProvider } from "./config-provider";
 import {Observable} from "rxjs";
 import {HttpProvider} from "./http-provider";
-import 'rxjs/add/operator/cache';
 /*
  Generated class for the DepartmentProvider provider.
 

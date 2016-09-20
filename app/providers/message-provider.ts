@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ConfigProvider } from "./config-provider";
 import {Observable} from "rxjs";
-import {Message} from "../models/message";
+import {Message} from "../models/models";
 import {HttpProvider} from "./http-provider";
 @Injectable()
 export class MessageProvider {

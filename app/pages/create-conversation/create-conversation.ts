@@ -1,13 +1,9 @@
 import { Component } from '@angular/core';
 import { NavController,NavParams,AlertController} from 'ionic-angular';
-import {Post} from "../../models/post";
-import {Day} from "../../models/day";
-import {Account} from "../../models/account";
+import {Post,Day,Account,Conversation,Message} from "../../models/models";
 import {ConversationProvider} from "../../providers/conversation-provider"
 import {AccountProvider} from "../../providers/account-provider"
 import {MessageProvider} from "../../providers/message-provider"
-import {Conversation} from "../../models/conversation";
-import {Message} from "../../models/message";
 import {PostBriefComponent} from "../../components/post-brief/post-brief";
 import {PlatformProvider} from "../../providers/platform-provider";
 import {Toast} from 'ionic-native';

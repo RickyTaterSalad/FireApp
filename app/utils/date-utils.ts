@@ -1,4 +1,4 @@
-import {Day} from "../models/day";
+import {Day} from "../models/models";
 import * as moment from 'moment';
 
 export class DateUtils {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ConfigProvider } from "./config-provider";
-import {Conversation} from "../models/conversation";
+import {Conversation} from "../models/models";
 import {Observable} from "rxjs";
 import {HttpProvider} from "./http-provider";
 
@@ -8,7 +8,7 @@ import {HttpProvider} from "./http-provider";
 export class ConversationProvider {
   conversationEndpoint:string;
 
-  constructor( private config:ConfigProvider, private httpProvider:HttpProvider) {
+  constructor(private config:ConfigProvider, private httpProvider:HttpProvider) {
     this.conversationEndpoint = config.restApiUrl + "/conversations";
   }
 

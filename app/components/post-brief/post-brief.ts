@@ -1,7 +1,6 @@
 import {Component,Input} from '@angular/core'
 import { NavController,ActionSheetController,AlertController} from 'ionic-angular';
-import {Post} from "../../models/post";
-import {Day} from "../../models/day";
+import {Post,Day} from "../../models/models";
 import {EditPostPage} from "../../pages/edit-post/edit-post"
 import {MomentToString} from "../../pipes/moment-to-string";
 import {PostProvider} from "../../providers/post-provider";
@@ -41,7 +40,7 @@ export class PostBriefComponent {
     if (!post) {
       return;
     }
-    this.postProvider.delete(post).subscribe(
+    this.postProvider.remove(post).subscribe(
       (response)=> {
         this.reloadPosts();
       },

@@ -7,11 +7,7 @@ import {Component,
 } from '@angular/core';
 import {NavController,Loading } from 'ionic-angular';
 import { CalendarDetailPage } from '../calendar-detail/calendar-detail';
-import {Day} from "../../models/day";
-import {Week} from "../../models/week";
-import {CalendarMonth} from "../../models/calendar-month";
-import {MonthAndYear} from "../../models/month-and-year";
-import {Department} from "../../models/department";
+import {Day,Week,CalendarMonth,MonthAndYear,Department} from "../../models/models";
 import {DepartmentProvider} from "../../providers/department-provider";
 import {PostProvider} from "../../providers/post-provider";
 import {ObjectContainsProperty} from "../../pipes/object-contains-property";

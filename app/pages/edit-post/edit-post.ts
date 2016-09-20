@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController,NavParams } from 'ionic-angular';
-import {Post} from "../../models/post"
+import {Post} from "../../models/models"
 
 /*
  Generated class for the EditPostPage page.

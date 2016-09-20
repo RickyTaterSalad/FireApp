@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ConfigProvider } from "./config-provider";
-import {Day} from "../models/day";
-import {Account} from "../models/account";
-import {Post} from "../models/post";
+import {Day,Account,Post} from "../models/models";
 import {Observable} from "rxjs";
 import {DateUtils} from "../utils/date-utils";
 import {HttpProvider} from "./http-provider";
@@ -18,7 +16,8 @@ import 'rxjs/add/operator/map';
 export class PostProvider {
   postsEndpoint:string;
   dateUtils:DateUtils;
-  constructor( private config:ConfigProvider, private httpProvider:HttpProvider) {
+
+  constructor(private config:ConfigProvider, private httpProvider:HttpProvider) {
     this.postsEndpoint = config.restApiUrl + "/posts";
     this.dateUtils = new DateUtils();
   }
@@ -35,7 +34,7 @@ export class PostProvider {
     var url = this.postsEndpoint + "/" + date.year + "/" + (date.month + 1) + "/" + date.dayOfMonth;
     return this.httpProvider.get(url);
   };
-  delete:Function = function (post:Post) {
+  remove:Function = function (post:Post) {
     if (post && post.id) {
       let url = this.postsEndpoint + "/" + post.id;
       return this.httpProvider.delete(url);

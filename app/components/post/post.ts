@@ -1,7 +1,6 @@
 import {Component,Input} from '@angular/core'
 import { NavController,ActionSheetController,AlertController} from 'ionic-angular';
-import {Post} from "../../models/post";
-import {Day} from "../../models/day";
+import {Post,Day,Account} from "../../models/models";
 import {EditPostPage} from "../../pages/edit-post/edit-post"
 import {MomentToString} from "../../pipes/moment-to-string";
 import {PostProvider} from "../../providers/post-provider";
@@ -17,7 +16,7 @@ import {ConversationsPage} from '../../pages/conversations/conversations';
 })
 export class PostComponent {
   @Input() post:Post;
-  @Input() account:any;
+  @Input() account:Account;
   @Input() day:Day;
   @Input() showmessageuser:boolean = false;
   @Input() showuserinheader:boolean = false;
@@ -45,7 +44,7 @@ export class PostComponent {
     if (!post) {
       return;
     }
-    this.postProvider.delete(post).subscribe(
+    this.postProvider.remove(post).subscribe(
       (response)=> {
         this.reloadPosts();
       },

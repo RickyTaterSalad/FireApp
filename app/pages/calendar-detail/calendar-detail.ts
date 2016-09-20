@@ -1,13 +1,9 @@
 import {Component } from '@angular/core';
 import {NavParams, NavController,AlertController,LoadingController } from 'ionic-angular';
-import {Day} from '../../models/day';
-import {Account} from '../../models/Account';
+import {Day,Account,PostFilter,Post,Station} from '../../models/models';
 import {MessageUserPage} from '../message-user/message-user';
 import {CreatePostPage} from '../create-post/create-post';
 import {CreateConversationPage} from '../create-conversation/create-conversation';
-import {PostFilter} from "../../models/post-filter";
-import {Post} from "../../models/post";
-import {Station} from "../../models/station";
 import {PostProvider} from "../../providers/post-provider";
 import {AccountProvider} from "../../providers/account-provider";
 import {PostBriefComponent} from "../../components/post-brief/post-brief";
@@ -161,7 +157,7 @@ export class CalendarDetailPage {
         {
           text: 'Yes',
           handler: () => {
-            this.postProvider.delete(post).subscribe(
+            this.postProvider.remove(post).subscribe(
               (response)=> {
                 this.reloadPosts();
               },

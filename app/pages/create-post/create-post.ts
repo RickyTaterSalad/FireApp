@@ -1,11 +1,9 @@
 import { Component } from '@angular/core';
 import { NavController,NavParams,AlertController } from 'ionic-angular';
-import {Post} from "../../models/post";
-import {Day} from "../../models/day";
+import {Post,Day,Department} from "../../models/models";
 import {DateUtils} from "../../utils/date-utils";
 import {DepartmentProvider} from "../../providers/department-provider";
 import {PostProvider} from "../../providers/post-provider";
-import {Department} from "../../models/department";
 
 /*
  Generated class for the CreatePostPage page.

@@ -1,9 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController,ActionSheetController,NavParams  } from 'ionic-angular';
-import {Account} from '../../models/Account';
-import {Post} from '../../models/Post';
-import {Station} from '../../models/station';
-import {Conversation} from "../../models/conversation";
+import {Account,Post,Station,Conversation} from '../../models/models';
 import {ConversationProvider} from "../../providers/conversation-provider";
 import {AccountProvider} from "../../providers/account-provider";
 import {PostProvider} from "../../providers/post-provider";

@@ -1,11 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController,NavParams,AlertController } from 'ionic-angular';
-import {Post} from "../../models/post";
-import {Conversation} from "../../models/conversation";
-import {Account} from '../../models/Account';
+import {Post,Conversation,Account,Message} from "../../models/models";
 import {AccountProvider} from "../../providers/account-provider";
 import {MomentToString} from "../../pipes/moment-to-string";
-import {Message} from "../../models/message";
 import {Toast} from 'ionic-native';
 import {MessageProvider} from "../../providers/message-provider";
 import {PlatformProvider} from "../../providers/platform-provider";
