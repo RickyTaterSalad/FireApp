@@ -31,7 +31,7 @@
 
   <ion-item>
     <ion-label stacked>Message</ion-label>
-    <ion-textarea [(ngModel)]="message.content"></ion-textarea>
+    <ion-textarea [(ngModel)]="message.content" autofocus ></ion-textarea>
   </ion-item>
   <button style="float:right" primary item-right
           (click)="sendMessage()"

@@ -33,13 +33,14 @@ export class MessageUserPage {
     this.message.conversation = navParams.data.conversation;
   }
 
+
   onPageDidEnter() {
     this.accountProvider.self().subscribe((account) => {
       this.account = account;
     });
   }
 
-  showMessage:Function = function (message,title) {
+  showMessage:Function = function (message, title) {
     if (this.platformProvider.isMobile) {
       Toast.show(message, "short", "bottom");
 
@@ -56,11 +57,17 @@ export class MessageUserPage {
   sendMessage:Function = function () {
     this.messageProvider.create(this.message).subscribe(
       (response) => {
-        this.nav.pop();
-        this.showMessage("Message Sent");
+        if (response && response.id) {
+          this.message.conversation.messages.push(response);
+          this.nav.pop();
+          this.showMessage("Message Sent");
+        }
+        else {
+          this.showMessage("Could Not Send Message", "Error");
+        }
       },
       (err) => {
-        this.showMessage(err && err._body ? err._body : "Could Not Send Message","Error");
+        this.showMessage(err && err._body ? err._body : "Could Not Send Message", "Error");
       }
     )
 

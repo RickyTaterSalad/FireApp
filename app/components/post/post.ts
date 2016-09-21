@@ -8,6 +8,7 @@ import {ConversationProvider} from "../../providers/conversation-provider";
 import {MessageUserPage} from "../../pages/message-user/message-user";
 import {CreateConversationPage} from '../../pages/create-conversation/create-conversation';
 import {ConversationsPage} from '../../pages/conversations/conversations';
+import {EventProvider} from "../../providers/event-provider";
 
 @Component({
   selector: 'post',
@@ -22,7 +23,7 @@ export class PostComponent {
   @Input() showuserinheader:boolean = false;
 
 
-  constructor(private nav:NavController, private actionSheetCtrl:ActionSheetController, private alertCtrl:AlertController, private postProvider:PostProvider ,private conversationProvider:ConversationProvider) {
+  constructor(private eventProvider:EventProvider, private nav:NavController, private actionSheetCtrl:ActionSheetController, private alertCtrl:AlertController, private postProvider:PostProvider, private conversationProvider:ConversationProvider) {
   }
 
   editPost:Function = function (post) {
@@ -46,7 +47,9 @@ export class PostComponent {
     }
     this.postProvider.remove(post).subscribe(
       (response)=> {
-        this.reloadPosts();
+        if (response && response.success) {
+          this.eventProvider.postRemoved.emit(post);
+        }
       },
       (err) => {
         this.showError("Could Not Delete Post.");
@@ -86,7 +89,7 @@ export class PostComponent {
   goToConversations:Function = function () {
     this.conversationProvider.getConversationsForPost(this.post.id).subscribe((conversations) => {
         //should be able to use the observable methods to add collapsed
-        this.nav.push(ConversationsPage, {conversations: conversations,account: this.account,post: this.post});
+        this.nav.push(ConversationsPage, {conversations: conversations, account: this.account, post: this.post});
 
       }
     )

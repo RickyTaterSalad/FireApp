@@ -18,6 +18,7 @@ import {ConnectivityProvider} from "./providers/connectivity-provider";
 import {AuthProvider} from "./providers/auth-provider";
 import {HttpProvider} from "./providers/http-provider";
 import {PlatformProvider} from "./providers/platform-provider";
+import {EventProvider} from "./providers/event-provider";
 
 @Component({
   templateUrl: 'build/app.html',
@@ -25,6 +26,7 @@ import {PlatformProvider} from "./providers/platform-provider";
     DepartmentProvider,
     AccountProvider,
     ConversationProvider,
+    EventProvider,
     PostProvider,
     MessageProvider,
     ConfigProvider,

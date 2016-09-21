@@ -37,7 +37,7 @@
       </ion-col>
     </ion-row>
 
-    <ion-row class="calenderOuterContainer" #slideElementRef (swiperight)="previousMonth()" (swipeleft)="nextMonth()">
+    <ion-row class="calenderOuterContainer"  (swiperight)="previousMonth()" (swipeleft)="nextMonth()">
         <ion-grid>
           <ion-row class="calendarDayNameRow">
             <ion-col *ngFor="let dayName of daysOfWeek" primary class="calendarDayLabelCol">

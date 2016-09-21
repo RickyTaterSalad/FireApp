@@ -5,6 +5,7 @@ import {Post,Account} from "../../models/models";
 import {ObjectContainsProperty} from "../../pipes/object-contains-property";
 import {AccountProvider} from "../../providers/account-provider";
 import {PostComponent} from "../../components/post/post";
+import {EventProvider} from "../../providers/event-provider";
 /*
  Generated class for the MyPostsPage page.
 
@@ -14,7 +15,7 @@ import {PostComponent} from "../../components/post/post";
 
 @Component({
   templateUrl: 'build/pages/my-posts/my-posts.html',
-  directives: [ PostComponent],
+  directives: [PostComponent],
   pipes: [ObjectContainsProperty]
 })
 export class MyPostsPage {
@@ -32,8 +33,18 @@ export class MyPostsPage {
     assignedHireCode: ""
   };
 
-  constructor(private nav:NavController, private postProvider:PostProvider, private actionSheetCtrl:ActionSheetController, private alertCtrl:AlertController, private accountProvider:AccountProvider) {
+  constructor(private eventProvider:EventProvider, private nav:NavController, private postProvider:PostProvider, private actionSheetCtrl:ActionSheetController, private alertCtrl:AlertController, private accountProvider:AccountProvider) {
     this.reloadPosts();
+    eventProvider.postRemoved.subscribe((post)=> {
+      console.log("post removed");
+      if (post) {
+        var idx = this.posts.indexOf(post);
+        if (idx > -1) {
+          console.log("removing post from view");
+          this.posts.splice(idx, 1);
+        }
+      }
+    });
   }
 
 
@@ -52,10 +63,10 @@ export class MyPostsPage {
         this.postProvider.getMyPosts().subscribe(
           (response) => {
             this.posts = [];
-            this.posts =  response.posts || [];
+            this.posts = response.posts || [];
             this.conversations = response.conversations || {};
             for (var i = 0; i < this.posts.length; i++) {
-                this.posts[i].conversationCount = this.conversations[this.posts[i].id] ? this.conversations[this.posts[i].id].length : 0;
+              this.posts[i].conversationCount = this.conversations[this.posts[i].id] ? this.conversations[this.posts[i].id].length : 0;
             }
             this.loading = false;
           },
