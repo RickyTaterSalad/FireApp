@@ -17,9 +17,10 @@ export interface Conversation {
   messages:Array<Message>;
 }
 export interface Department {
-  name:string,
-  platoons:string[]
-  schedule: Schedule
+  name:string;
+  platoons:string[];
+  schedule: Schedule;
+  ranks:string[];
 }
 export interface Message {
   conversation:Conversation;
@@ -119,8 +120,3 @@ export class Week {
     }
   }
 }
-
-
-
-
-
