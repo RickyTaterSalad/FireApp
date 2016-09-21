@@ -30,7 +30,6 @@ private departmentKey:string = "department";
       if (departmentString) {
         try {
           var asJson = JSON.parse(departmentString);
-          this.storage.set(this.departmentKey, asJson);
           this.department = asJson;
           subject.next(asJson);
           subject.complete();
