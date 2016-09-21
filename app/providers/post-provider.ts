@@ -4,7 +4,6 @@ import {Day,Account,Post} from "../models/models";
 import {Observable} from "rxjs";
 import {DateUtils} from "../utils/date-utils";
 import {HttpProvider} from "./http-provider";
-import 'rxjs/add/operator/map';
 
 /*
  Generated class for the PostProvider provider.

@@ -11,7 +11,6 @@ export class PlatformProvider {
 
   constructor(private platform:Platform) {
   }
-
   get isMobile() {
     return this.platform.is('ios') || this.platform.is('android');
   }

@@ -10,9 +10,7 @@ export class ConversationComponent {
   @Input() conversation:Conversation;
   @Input() account:Account;
 
-
   constructor(private nav:NavController,private actionSheetCtrl:ActionSheetController, private alertCtrl:AlertController) {
-    var x = "";
   }
   showConversationOptions:Function = function (conversation) {
     var buttons =

@@ -62,24 +62,14 @@ class MyApp {
     this.platform.ready().then(() => {
       StatusBar.styleDefault();
 
-      this.authProvider.loggedOut.subscribe(()=>{
-        this.nav.setRoot(LoginPage);
-      });
-
-      this.authProvider.isLoggedIn().subscribe((res)=> {
-          console.log(res);
-          if (!res) {
-            this.nav.setRoot(LoginPage);
-          }
-          else {
-            this.nav.setRoot(CalendarPage);
-          }
-        },
-        (err) => {
+      this.authProvider.loginState.subscribe((loggedIn)=>{
+        if(!loggedIn) {
           this.nav.setRoot(LoginPage);
         }
-      );
-
+        else{
+          this.nav.setRoot(CalendarPage);
+        }
+      });
     });
   }
 

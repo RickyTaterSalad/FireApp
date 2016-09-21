@@ -12,8 +12,7 @@ export class MessageProvider {
   }
   create:Function = function (message:Message) {
     if (message) {
-      let body = JSON.stringify(message);
-      return this.httpProvider.postJSON(this.messageEndpoint, body);
+      return this.httpProvider.postJSON(this.messageEndpoint, JSON.stringify(message));
     }
     else {
       return Observable.empty();
