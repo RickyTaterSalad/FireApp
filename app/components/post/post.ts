@@ -1,5 +1,5 @@
 import {Component,Input} from '@angular/core'
-import { NavController,ActionSheetController,AlertController} from 'ionic-angular';
+import { NavController,ActionSheetController} from 'ionic-angular';
 import {Post,Day,Account} from "../../models/models";
 import {EditPostPage} from "../../pages/edit-post/edit-post"
 import {MomentToString} from "../../pipes/moment-to-string";
@@ -9,6 +9,8 @@ import {MessageUserPage} from "../../pages/message-user/message-user";
 import {CreateConversationPage} from '../../pages/create-conversation/create-conversation';
 import {ConversationsPage} from '../../pages/conversations/conversations';
 import {EventProvider} from "../../providers/event-provider";
+import {AlertProvider} from "../../providers/alert-provider";
+
 
 @Component({
   selector: 'post',
@@ -23,7 +25,7 @@ export class PostComponent {
   @Input() showuserinheader:boolean = false;
 
 
-  constructor(private eventProvider:EventProvider, private nav:NavController, private actionSheetCtrl:ActionSheetController, private alertCtrl:AlertController, private postProvider:PostProvider, private conversationProvider:ConversationProvider) {
+  constructor(private alertProvider:AlertProvider, private eventProvider:EventProvider, private nav:NavController, private actionSheetCtrl:ActionSheetController,private postProvider:PostProvider, private conversationProvider:ConversationProvider) {
   }
 
   editPost:Function = function (post) {
@@ -33,14 +35,7 @@ export class PostComponent {
   messageUser:Function = function () {
     this.nav.push(CreateConversationPage, {day: this.day, post: this.post});
   };
-  private showError:Function = function (message) {
-    let alert = this.alertCtrl.create({
-      title: 'Error',
-      subTitle: message,
-      buttons: ['OK']
-    });
-    alert.present();
-  };
+
   removePost:Function = function (post) {
     if (!post) {
       return;
@@ -50,9 +45,9 @@ export class PostComponent {
         if (response && response.success) {
           this.eventProvider.postRemoved.emit(post);
         }
-      },
-      (err) => {
-        this.showError("Could Not Delete Post.");
+        else {
+          this.alertProvider.showMessage("Could Not Remove Post", "Error")
+        }
       }
     )
   };
@@ -88,11 +83,8 @@ export class PostComponent {
   };
   goToConversations:Function = function () {
     this.conversationProvider.getConversationsForPost(this.post.id).subscribe((conversations) => {
-        //should be able to use the observable methods to add collapsed
-        this.nav.push(ConversationsPage, {conversations: conversations, account: this.account, post: this.post});
-
-      }
-    )
+      //should be able to use the observable methods to add collapsed
+      this.nav.push(ConversationsPage, {conversations: conversations, account: this.account, post: this.post});
+    })
   }
-
 }

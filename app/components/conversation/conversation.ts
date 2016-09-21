@@ -2,6 +2,7 @@ import {Component,Input} from '@angular/core'
 import { NavController,ActionSheetController,AlertController} from 'ionic-angular';
 import {Conversation,Account} from "../../models/models";
 import {MessageUserPage} from "../../pages/message-user/message-user";
+
 @Component({
   selector: 'conversation',
   templateUrl: 'build/components/conversation/conversation.html'

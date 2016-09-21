@@ -7,11 +7,9 @@ import {CreateConversationPage} from '../create-conversation/create-conversation
 import {PostProvider} from "../../providers/post-provider";
 import {AccountProvider} from "../../providers/account-provider";
 import {PostBriefComponent} from "../../components/post-brief/post-brief";
-import {Observable} from "rxjs";
+import {Observable,Subject} from "rxjs";
 
 import * as moment from 'moment';
-
-
 
 /*
  Generated class for the CalendarDetailPage page.
@@ -53,59 +51,40 @@ export class CalendarDetailPage {
     this.day = navParams.data;
   }
 
-  private showMessage:Function = function (title, message) {
-    let alert = this.alertCtrl.create({
-      title: title,
-      subTitle: message,
-      buttons: ['OK']
-    });
-    alert.present();
-  };
-  private showError:Function = function (message) {
-    let alert = this.alertCtrl.create({
-      title: 'Error',
-      subTitle: message,
-      buttons: ['OK']
-    });
-    alert.present();
-  };
-
   onPageDidEnter() {
-    this.reloadPosts().subscribe();
+    this.reloadPosts();
   }
 
   private refreshPosts:Function = function (refresher) {
-    this.reloadPosts().subscribe((res)=> {
-      refresher.complete();
-    });
+    this.reloadPosts();
+    setTimeout(()=> {
+      refresher.complete()
+    }, 1000);
   };
-  private reloadPosts:Function = function () {
-    return Observable.create((observer) => {
-      this.loading = true;
-      this.accountProvider.self().subscribe((account) => {
-        this.account = account;
-        this.postProvider.getPostsForDay(this.day).subscribe(posts=> {
-          this.posts = posts;
-          this.filterResults();
-          this.loading = false;
-          if (this.posts != null) {
-            let hasWantsToWork = false;
-            let hasWantsOff = false;
-            for (let i = 0; i < this.posts.length; i++) {
-              if (this.posts[i].requestType == "on") {
-                hasWantsToWork = true;
-                break;
-              }
-              else {
-                hasWantsOff = true;
-              }
+  private  reloadPosts:Function = function () {
+    this.loading = true;
+    this.accountProvider.self().subscribe((account)=> {
+      this.account = account;
+      this.postProvider.getPostsForDay(this.day).subscribe((posts)=> {
+        this.posts = posts;
+        this.filterResults();
+        if (this.posts != null) {
+          let hasWantsToWork = false;
+          let hasWantsOff = false;
+          for (let i = 0; i < this.posts.length; i++) {
+            if (this.posts[i].requestType == "on") {
+              hasWantsToWork = true;
+              break;
             }
-            if (!hasWantsToWork && hasWantsOff) {
-              this.showWantsOff();
+            else {
+              hasWantsOff = true;
             }
           }
-          observer.next(true);
-        });
+          if (!hasWantsToWork && hasWantsOff) {
+            this.showWantsOff();
+          }
+        }
+        this.loading = false;
       });
     });
   };
@@ -158,11 +137,8 @@ export class CalendarDetailPage {
           text: 'Yes',
           handler: () => {
             this.postProvider.remove(post).subscribe(
-              (response)=> {
+              ()=> {
                 this.reloadPosts();
-              },
-              (err) => {
-                this.showError("Could Not Delete Post.");
               }
             )
           }
@@ -173,7 +149,6 @@ export class CalendarDetailPage {
 
           }
         }
-
       ]
     });
     confirm.present();
@@ -181,29 +156,22 @@ export class CalendarDetailPage {
   };
   createPost:Function = function () {
     this.postProvider.userHasPostForDate(this.day).subscribe(
-        response => {
+      () => {
         this.nav.push(CreatePostPage, {day: this.day});
-      },
-      (err) => {
-        this.showError(err && err._body ? err._body : "Could Not Create Post")
       }
     );
   };
 
   filterResults:Function = function () {
-    // console.dir(this.searchParameters);
     let tempFilteredPosts = this.posts.filter((post:Post) => {
       if (!this.searchParameters.isOffType && post.requestType == "off") {
-        // console.log("off type and shift is off. return false");
         return false;
       }
       if (!this.searchParameters.isOnType && post.requestType == "on") {
-        //  console.log("on type and shift is on. return false");
         return false;
       }
       var tradeGood = this.searchParameters.isTrade && post.isTrade;
       var overtimeGood = this.searchParameters.isOvertime && post.isOvertime;
-      //  console.log("trade good: " + tradeGood + " overtime: " + overtimeGood);
       return tradeGood || overtimeGood;
 
     });
@@ -230,7 +198,7 @@ export class CalendarDetailPage {
     }
   };
 
-  private sortByCreatedDescending:Function = function (a:Post, b:Post):Number {
+  private  sortByCreatedDescending:Function = function (a:Post, b:Post):Number {
     if (a.created < b.created) {
       return 1;
     } else if (a.created > b.created) {

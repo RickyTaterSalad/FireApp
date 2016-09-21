@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { NavController,ActionSheetController,AlertController } from 'ionic-angular';
 import {PostProvider} from "../../providers/post-provider";
 import {Post,Account} from "../../models/models";
 import {ObjectContainsProperty} from "../../pipes/object-contains-property";
@@ -33,14 +32,12 @@ export class MyPostsPage {
     assignedHireCode: ""
   };
 
-  constructor(private eventProvider:EventProvider, private nav:NavController, private postProvider:PostProvider, private actionSheetCtrl:ActionSheetController, private alertCtrl:AlertController, private accountProvider:AccountProvider) {
+  constructor(private eventProvider:EventProvider, private postProvider:PostProvider, private accountProvider:AccountProvider) {
     this.reloadPosts();
     eventProvider.postRemoved.subscribe((post)=> {
-      console.log("post removed");
       if (post) {
         var idx = this.posts.indexOf(post);
         if (idx > -1) {
-          console.log("removing post from view");
           this.posts.splice(idx, 1);
         }
       }
@@ -51,8 +48,6 @@ export class MyPostsPage {
   confirmShift:Function = function (conversation) {
     this.postProvider.claimPost(conversation.post, conversation.recipient).subscribe(
       (response)=> {
-      },
-      (err) => {
       }
     )
   };
@@ -68,13 +63,16 @@ export class MyPostsPage {
             for (var i = 0; i < this.posts.length; i++) {
               this.posts[i].conversationCount = this.conversations[this.posts[i].id] ? this.conversations[this.posts[i].id].length : 0;
             }
-            this.loading = false;
           },
-          (err) => {
+          ()=> {
+          },
+          () => {
             this.loading = false;
           });
       },
-      (err) => {
+      ()=> {
+      },
+      () => {
         this.loading = false;
       });
   }

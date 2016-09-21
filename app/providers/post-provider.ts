@@ -4,40 +4,61 @@ import {Day,Account,Post} from "../models/models";
 import {Observable} from "rxjs";
 import {DateUtils} from "../utils/date-utils";
 import {HttpProvider} from "./http-provider";
+import {AlertProvider} from "./alert-provider";
 
-/*
- Generated class for the PostProvider provider.
-
- See https://angular.io/docs/ts/latest/guide/dependency-injection.html
- for more info on providers and Angular 2 DI.
- */
 @Injectable()
 export class PostProvider {
   postsEndpoint:string;
   dateUtils:DateUtils;
 
-  constructor(private config:ConfigProvider, private httpProvider:HttpProvider) {
+  constructor(private config:ConfigProvider, private httpProvider:HttpProvider, private alertProvider:AlertProvider) {
     this.postsEndpoint = config.restApiUrl + "/posts";
     this.dateUtils = new DateUtils();
   }
 
   getMyPosts:Function = function () {
-    var url = this.postsEndpoint + "/myPosts";
-    return this.httpProvider.get(url);
+    var sub = this.httpProvider.get(this.postsEndpoint + "/myPosts");
+    var subscription = sub.subscribe(()=> {
+    }, (err)=> {
+      this.alertProvider.showMessage(err && err._body ? err._body : "Could Not Retrieve Your Posts", "Error");
+    }, ()=> {
+      subscription.unsubscribe();
+    });
+    return sub;
+
   };
   getMyOffers:Function = function () {
-    var url = this.postsEndpoint + "/myOffers";
-    return this.httpProvider.get(url);
+    var sub = this.httpProvider.get(this.postsEndpoint + "/myOffers");
+    var subscription = sub.subscribe(()=> {
+    }, (err)=> {
+      this.alertProvider.showMessage(err && err._body ? err._body : "Could Not Retrieve Your Offers", "Error");
+    }, ()=> {
+      subscription.unsubscribe();
+    });
+    return sub;
   };
   getPostsForDay:Function = function (date:Day) {
-    var url = this.postsEndpoint + "/" + date.year + "/" + (date.month + 1) + "/" + date.dayOfMonth;
-    return this.httpProvider.get(url);
+    var sub = this.httpProvider.get(this.postsEndpoint + "/" + date.year + "/" + (date.month + 1) + "/" + date.dayOfMonth);
+    var subscription = sub.subscribe(()=> {
+    }, (err)=> {
+      this.alertProvider.showMessage(err && err._body ? err._body : "Could Not Retrieve Posts For Day", "Error");
+    }, ()=> {
+      subscription.unsubscribe();
+    });
+    return sub;
   };
   remove:Function = function (post:Post) {
     if (post && post.id) {
-      let url = this.postsEndpoint + "/" + post.id;
-      return this.httpProvider.delete(url);
+      var sub = this.httpProvider.delete(this.postsEndpoint + "/" + post.id);
+      var subscription = sub.subscribe(()=> {
+      }, (err)=> {
+        this.alertProvider.showMessage(err && err._body ? err._body : "Could Not Remove Post", "Error");
+      }, ()=> {
+        subscription.unsubscribe();
+      });
+      return sub;
     }
+
     else {
       return Observable.empty();
     }
@@ -47,8 +68,14 @@ export class PostProvider {
       return Observable.empty();
     }
     else {
-      let url = this.postsEndpoint + "/postCounts/" + startDay.valueOf();
-      return this.httpProvider.get(url);
+      var sub = this.httpProvider.get(this.postsEndpoint + "/postCounts/" + startDay.valueOf());
+      var subscription = sub.subscribe(()=> {
+      }, (err)=> {
+        this.alertProvider.showMessage(err && err._body ? err._body : "Could Not Retrieve Post Counts", "Error");
+      }, ()=> {
+        subscription.unsubscribe();
+      });
+      return sub;
     }
   };
   userHasPostForDate:Function = function (day:Day) {
@@ -58,8 +85,16 @@ export class PostProvider {
       return Observable.empty();
     }
     else {
-      let url = this.postsEndpoint + "/hasPost/" + day.year + "/" + (day.month + 1) + "/" + day.dayOfMonth;
-      return this.httpProvider.get(url);
+      var sub = this.httpProvider.get(this.postsEndpoint + "/hasPost/" + day.year + "/" + (day.month + 1) + "/" + day.dayOfMonth);
+      /*
+       var subscription = sub.subscribe(()=> {
+       }, (err)=> {
+       this.alertProvider.showMessage(err && err._body ? err._body : "Could Not Claim Post", "Error");
+       }, ()=> {
+       subscription.unsubscribe();
+       });
+       */
+      return sub;
     }
   };
   claimPost:Function = function (post:Post, account:Account) {
@@ -72,8 +107,14 @@ export class PostProvider {
           id: account.id
         }
       });
-      let url = this.postsEndpoint + "/claim";
-      return this.httpProvider.postJSON(url, body);
+      var sub = this.httpProvider.postJSON(this.postsEndpoint + "/claim", body);
+      var subscription = sub.subscribe(()=> {
+      }, (err)=> {
+        this.alertProvider.showMessage(err && err._body ? err._body : "Could Not Claim Post", "Error");
+      }, ()=> {
+        subscription.unsubscribe();
+      });
+      return sub;
     }
     else {
       return Observable.empty();
@@ -92,7 +133,15 @@ export class PostProvider {
           comments: post.comments
         }
       });
-      return this.httpProvider.postJSON(this.postsEndpoint, body);
+      var sub = this.httpProvider.postJSON(this.postsEndpoint, body);
+      var subscription = sub.subscribe(()=> {
+      }, (err)=> {
+        this.alertProvider.showMessage(err && err._body ? err._body : "Could Not Create Post", "Error");
+      }, ()=> {
+        subscription.unsubscribe();
+      });
+      return sub;
+
     }
     else {
       return Observable.empty();

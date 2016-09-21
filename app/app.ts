@@ -19,6 +19,7 @@ import {AuthProvider} from "./providers/auth-provider";
 import {HttpProvider} from "./providers/http-provider";
 import {PlatformProvider} from "./providers/platform-provider";
 import {EventProvider} from "./providers/event-provider";
+import {AlertProvider} from "./providers/alert-provider";
 
 @Component({
   templateUrl: 'build/app.html',
@@ -35,7 +36,8 @@ import {EventProvider} from "./providers/event-provider";
     ConnectivityProvider,
     PlatformProvider,
     HttpProvider,
-    AuthProvider
+    AuthProvider,
+    AlertProvider
   ]
 })
 class MyApp {

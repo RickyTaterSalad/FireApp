@@ -15,7 +15,7 @@ import {ConversationComponent} from "../../components/conversation/conversation"
  */
 @Component({
   templateUrl: 'build/pages/conversations/conversations.html',
-  directives: [ ConversationComponent],
+  directives: [ConversationComponent],
   pipes: [MomentToString]
 })
 export class ConversationsPage {
@@ -32,11 +32,12 @@ export class ConversationsPage {
   post:Post;
   conversations:Array<Conversation> = [];
 
-  constructor(private navParams:NavParams,private postProvider:PostProvider, private actionSheetCtrl:ActionSheetController, private nav:NavController, private conversationProvider:ConversationProvider, private accountProvider:AccountProvider) {
-    this.conversations   = navParams.data.conversations || [];
+  constructor(private navParams:NavParams, private postProvider:PostProvider, private actionSheetCtrl:ActionSheetController, private nav:NavController, private conversationProvider:ConversationProvider, private accountProvider:AccountProvider) {
+    this.conversations = navParams.data.conversations || [];
     this.post = navParams.data.post;
     this.account = navParams.data.account;
   }
+
   replyToConversation:Function = function (conversation, evt:Event) {
     if (evt) {
       evt.stopPropagation();
@@ -61,8 +62,6 @@ export class ConversationsPage {
   confirmShift:Function = function (conversation) {
     this.postProvider.claimPost(conversation.post, conversation.recipient).subscribe(
       (response)=> {
-      },
-      (err) => {
       }
     )
   };
@@ -73,7 +72,7 @@ export class ConversationsPage {
           text: 'Reply',
           role: null,
           handler: () => {
-            this.replyToConversation(conversation,null);
+            this.replyToConversation(conversation, null);
           }
         },
 

@@ -12,6 +12,7 @@ import {DepartmentProvider} from "../../providers/department-provider";
 import {PostProvider} from "../../providers/post-provider";
 import {ObjectContainsProperty} from "../../pipes/object-contains-property";
 
+
 import {DateUtils} from "../../utils/date-utils";
 
 import * as moment from 'moment';
@@ -74,7 +75,6 @@ export class CalendarPage/* implements OnInit, OnDestroy */ {
 
     });
   }
-
 
   private updateCurrentSystemMonthAndYear:Function = function () {
     let dt = new Date();
@@ -148,8 +148,6 @@ export class CalendarPage/* implements OnInit, OnDestroy */ {
     this.postCounts = {};
     this.postProvider.postCountForCalendar(startMoment).subscribe(
       (response)=> {
-        console.log("POST COUNT");
-        console.dir(response);
         if (response) {
           this.postCounts = response.days || {};
           this.totalOn = response.totalOn || 0;
@@ -160,15 +158,10 @@ export class CalendarPage/* implements OnInit, OnDestroy */ {
           this.totalOff = 0;
           this.postCounts = {};
         }
-
-      },
-      (err) => {
       }
     );
-
     //load the calendar days
     var calendarMonth = new CalendarMonth();
-    calendarMonth.yearShort = this.currentCalendarMonthAndYear.year.toString().substr(2, 2);
     //loop through all cells in the calendar, populating the date
     for (let i = 0; i < 6; i++)
       for (let j = 0; j < 7; j++) {

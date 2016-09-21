@@ -2,24 +2,28 @@ import { Injectable } from '@angular/core';
 import { ConfigProvider } from "./config-provider";
 import {Observable} from "rxjs";
 import {HttpProvider} from "./http-provider";
-/*
- Generated class for the DepartmentProvider provider.
+import {AlertProvider} from "./alert-provider";
 
- See https://angular.io/docs/ts/latest/guide/dependency-injection.html
- for more info on providers and Angular 2 DI.
- */
 @Injectable()
 export class NotificationProvider {
   notificationsEndpoint:string;
 
-  constructor(private config:ConfigProvider, private httpProvider:HttpProvider) {
+  constructor(private config:ConfigProvider, private httpProvider:HttpProvider, private alertProvider:AlertProvider) {
     this.notificationsEndpoint = config.restApiUrl + "/notifications";
-    let timer = Observable.timer(0, 90000);
-    timer.subscribe(()=> this.Notifications)
+    Observable.timer(0, 90000).subscribe(()=> this.Notifications)
   }
 
   Notifications:Function = function () {
-    return this.httpProvider.get(this.notificationsEndpoint);
+    var sub =  this.httpProvider.get(this.notificationsEndpoint);
+    /*
+    var subscription = sub.subscribe(()=> {
+    }, (err)=> {
+      this.alertProvider.showMessage(err && err._body ? err._body : "Could Not Claim Post", "Error");
+    }, ()=> {
+      subscription.unsubscribe();
+    });
+    */
+    return sub;
   }
 
 

@@ -26,6 +26,7 @@ export class HttpProvider {
     headers.append('Authorization', 'Bearer ' + this.authProvider.token);
     return headers;
   }
+
   public get(url:string, options:HttpOptions) {
     options = this.setHeaders(options);
     let subject = new Subject();
@@ -37,11 +38,15 @@ export class HttpProvider {
         this.authProvider.logUserOut();
 
       }
+      else {
+        subject.error(err);
+      }
     }, ()=> {
       subject.complete()
     });
     return subject;
   }
+
   public postJSON(url:string, body:Object, options:HttpOptions) {
     options = this.setHeaders(options);
     if (!options.headers.has("Content-Type")) {
@@ -61,11 +66,15 @@ export class HttpProvider {
         this.authProvider.logUserOut();
 
       }
+      else {
+        subject.error(err);
+      }
     }, ()=> {
       subject.complete()
     });
     return subject;
   }
+
   public post(url:string, body:Object, options:HttpOptions) {
     options = this.setHeaders(options);
     let subject = new Subject();
@@ -75,7 +84,9 @@ export class HttpProvider {
     }, (err)=> {
       if (err.status == 401) {
         this.authProvider.logUserOut();
-
+      }
+      else {
+        subject.error(err);
       }
     }, ()=> {
       subject.complete()

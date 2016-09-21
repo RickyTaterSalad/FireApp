@@ -1,13 +1,10 @@
 import { Component } from '@angular/core';
-import { NavController,NavParams,AlertController} from 'ionic-angular';
+import { NavController,NavParams} from 'ionic-angular';
 import {Post,Day,Account,Conversation,Message} from "../../models/models";
 import {ConversationProvider} from "../../providers/conversation-provider"
-import {AccountProvider} from "../../providers/account-provider"
 import {MessageProvider} from "../../providers/message-provider"
 import {PostBriefComponent} from "../../components/post-brief/post-brief";
-import {PlatformProvider} from "../../providers/platform-provider";
-import {Toast} from 'ionic-native';
-import 'rxjs/add/operator/catch';
+import {AlertProvider} from "../../providers/alert-provider";
 
 interface CreateConversation {
   post:Post;
@@ -15,15 +12,9 @@ interface CreateConversation {
   swapType:string;
 }
 
-/*
- Generated class for the OfferPostPage page.
-
- See http://ionicframework.com/docs/v2/components/#navigation for more info on
- Ionic pages and navigation.
- */
 @Component({
   templateUrl: 'build/pages/create-conversation/create-conversation.html',
-  directives:[PostBriefComponent]
+  directives: [PostBriefComponent]
 })
 export class CreateConversationPage {
   private post:Post;
@@ -31,7 +22,7 @@ export class CreateConversationPage {
   private day:Day;
   private messageData:CreateConversation;
 
-  constructor(private platformProvider:PlatformProvider,private nav:NavController,private alertCtrl:AlertController, private navParams:NavParams, private conversationProvider:ConversationProvider, private accountProvider:AccountProvider, private messageProvider:MessageProvider) {
+  constructor(private alertProvider:AlertProvider, private nav:NavController, private navParams:NavParams, private conversationProvider:ConversationProvider, private messageProvider:MessageProvider) {
     this.post = navParams.data.post;
     this.day = navParams.data.day;
     this.messageData = {post: this.post, message: "", swapType: ""};
@@ -41,43 +32,23 @@ export class CreateConversationPage {
       }
     }
   }
-  showMessage:Function = function (message,title) {
-    if (this.platformProvider.isMobile) {
-      Toast.show(message, "short", "bottom")
-    }
-    else {
-      let alert = this.alertCtrl.create({
-        title: title || 'Alert',
-        subTitle: message,
-        buttons: ['OK']
-      });
-      alert.present();
-    }
-    this.nav.pop();
-  };
   createConversation:Function = function () {
     var conversation = {
       conversation: {
         post: {id: this.post.id}
       }
     };
-
-
-    this.accountProvider.self().subscribe(account => {
-      this.conversationProvider.create(conversation).subscribe(
-          response => {
-          var message = {
-            conversation: {id:response.id},
-            content: this.messageData.message
-          };
-          this.messageProvider.create(message).subscribe(
-              response => {
-              this.showMessage('Message Sent','Success');
-            }
-          )
-        },
-        (err) =>{this.showMessage(err && err._body? err._body : "Could Not Message User","Error")}
-      )
-    });
+    this.conversationProvider.create(conversation).subscribe(
+        response => {
+        var message = {
+          conversation: {id: response.id},
+          content: this.messageData.message
+        };
+        this.messageProvider.create(message).subscribe(
+          (response)=> {
+            this.alertProvider.showMessage('Created Conversation', 'Success');
+          }
+        )
+      });
   }
 }

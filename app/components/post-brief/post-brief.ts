@@ -1,11 +1,12 @@
 import {Component,Input} from '@angular/core'
-import { NavController,ActionSheetController,AlertController} from 'ionic-angular';
+import { NavController,ActionSheetController} from 'ionic-angular';
 import {Post,Day} from "../../models/models";
 import {EditPostPage} from "../../pages/edit-post/edit-post"
 import {MomentToString} from "../../pipes/moment-to-string";
 import {PostProvider} from "../../providers/post-provider";
 import {MessageUserPage} from "../../pages/message-user/message-user";
 import {CreateConversationPage} from '../../pages/create-conversation/create-conversation';
+import {AlertProvider} from "../../providers/alert-provider";
 @Component({
   selector: 'post-brief',
   templateUrl: 'build/components/post-brief/post-brief.html',
@@ -18,7 +19,7 @@ export class PostBriefComponent {
   @Input() showuserinheader:boolean = false;
 
 
-  constructor(private nav:NavController, private actionSheetCtrl:ActionSheetController, private alertCtrl:AlertController, private postProvider:PostProvider) {
+  constructor(private alertProvider:AlertProvider, private nav:NavController, private actionSheetCtrl:ActionSheetController, private postProvider:PostProvider) {
   }
 
   editPost:Function = function (post) {
@@ -28,14 +29,7 @@ export class PostBriefComponent {
   messageUser:Function = function () {
     this.nav.push(CreateConversationPage, {day: this.day, post: this.post});
   };
-  private showError:Function = function (message) {
-    let alert = this.alertCtrl.create({
-      title: 'Error',
-      subTitle: message,
-      buttons: ['OK']
-    });
-    alert.present();
-  };
+
   removePost:Function = function (post) {
     if (!post) {
       return;
@@ -43,11 +37,7 @@ export class PostBriefComponent {
     this.postProvider.remove(post).subscribe(
       (response)=> {
         this.reloadPosts();
-      },
-      (err) => {
-        this.showError("Could Not Delete Post.");
-      }
-    )
+      });
   };
   showPostOptions:Function = function (post) {
     var buttons = [];

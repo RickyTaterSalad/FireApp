@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
-import { NavController,NavParams,AlertController } from 'ionic-angular';
+import { NavController,NavParams } from 'ionic-angular';
 import {Post,Conversation,Account,Message} from "../../models/models";
 import {AccountProvider} from "../../providers/account-provider";
 import {MomentToString} from "../../pipes/moment-to-string";
-import {Toast} from 'ionic-native';
 import {MessageProvider} from "../../providers/message-provider";
-import {PlatformProvider} from "../../providers/platform-provider";
-
+import {AlertProvider} from "../../providers/alert-provider";
 @Component({
   templateUrl: 'build/pages/message-user/message-user.html',
   pipes: [MomentToString]
@@ -29,10 +27,9 @@ export class MessageUserPage {
     content: ""
   };
 
-  constructor(private platformProvider:PlatformProvider, private nav:NavController, private alertCtrl:AlertController, private navParams:NavParams, private accountProvider:AccountProvider, private messageProvider:MessageProvider) {
+  constructor(private alertProvider:AlertProvider, private nav:NavController, private navParams:NavParams, private accountProvider:AccountProvider, private messageProvider:MessageProvider) {
     this.message.conversation = navParams.data.conversation;
   }
-
 
   onPageDidEnter() {
     this.accountProvider.self().subscribe((account) => {
@@ -40,37 +37,18 @@ export class MessageUserPage {
     });
   }
 
-  showMessage:Function = function (message, title) {
-    if (this.platformProvider.isMobile) {
-      Toast.show(message, "short", "bottom");
-
-    }
-    else {
-      let alert = this.alertCtrl.create({
-        title: title || 'Alert',
-        subTitle: message,
-        buttons: ['OK']
-      });
-      alert.present();
-    }
-  };
   sendMessage:Function = function () {
     this.messageProvider.create(this.message).subscribe(
       (response) => {
         if (response && response.id) {
           this.message.conversation.messages.push(response);
           this.nav.pop();
-          this.showMessage("Message Sent");
+          this.alertProvider.showMessage("Message Sent", "Success");
         }
         else {
-          this.showMessage("Could Not Send Message", "Error");
+          this.alertProvider.showMessage("Could Not Send Message", "Error");
         }
-      },
-      (err) => {
-        this.showMessage(err && err._body ? err._body : "Could Not Send Message", "Error");
-      }
-    )
-
+      });
   }
 
 }
