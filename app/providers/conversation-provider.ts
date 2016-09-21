@@ -18,8 +18,6 @@ export class ConversationProvider {
     var subscription = sub.subscribe(()=> {
     }, (err)=> {
       this.alertProvider.showMessage(err && err._body ? err._body : "Could Not Retrieve Conversations", "Error");
-    }, ()=> {
-      subscription.unsubscribe();
     });
     return sub;
   };
@@ -30,8 +28,6 @@ export class ConversationProvider {
     var subscription = sub.subscribe(()=> {
     }, (err)=> {
       this.alertProvider.showMessage(err && err._body ? err._body : "Could Not Retrieve Post Conversations", "Error");
-    }, ()=> {
-      subscription.unsubscribe();
     });
     return sub;
   };
@@ -42,8 +38,6 @@ export class ConversationProvider {
       var subscription = sub.subscribe(()=> {
       }, (err)=> {
         this.alertProvider.showMessage(err && err._body ? err._body : "Could Not Create Conversation", "Error");
-      }, ()=> {
-        subscription.unsubscribe();
       });
       return sub;
     }

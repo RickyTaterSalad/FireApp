@@ -21,8 +21,6 @@ export class PostProvider {
     var subscription = sub.subscribe(()=> {
     }, (err)=> {
       this.alertProvider.showMessage(err && err._body ? err._body : "Could Not Retrieve Your Posts", "Error");
-    }, ()=> {
-      subscription.unsubscribe();
     });
     return sub;
 
@@ -32,8 +30,6 @@ export class PostProvider {
     var subscription = sub.subscribe(()=> {
     }, (err)=> {
       this.alertProvider.showMessage(err && err._body ? err._body : "Could Not Retrieve Your Offers", "Error");
-    }, ()=> {
-      subscription.unsubscribe();
     });
     return sub;
   };
@@ -42,8 +38,6 @@ export class PostProvider {
     var subscription = sub.subscribe(()=> {
     }, (err)=> {
       this.alertProvider.showMessage(err && err._body ? err._body : "Could Not Retrieve Posts For Day", "Error");
-    }, ()=> {
-      subscription.unsubscribe();
     });
     return sub;
   };
@@ -53,8 +47,6 @@ export class PostProvider {
       var subscription = sub.subscribe(()=> {
       }, (err)=> {
         this.alertProvider.showMessage(err && err._body ? err._body : "Could Not Remove Post", "Error");
-      }, ()=> {
-        subscription.unsubscribe();
       });
       return sub;
     }
@@ -72,8 +64,6 @@ export class PostProvider {
       var subscription = sub.subscribe(()=> {
       }, (err)=> {
         this.alertProvider.showMessage(err && err._body ? err._body : "Could Not Retrieve Post Counts", "Error");
-      }, ()=> {
-        subscription.unsubscribe();
       });
       return sub;
     }
@@ -111,8 +101,6 @@ export class PostProvider {
       var subscription = sub.subscribe(()=> {
       }, (err)=> {
         this.alertProvider.showMessage(err && err._body ? err._body : "Could Not Claim Post", "Error");
-      }, ()=> {
-        subscription.unsubscribe();
       });
       return sub;
     }
@@ -137,8 +125,6 @@ export class PostProvider {
       var subscription = sub.subscribe(()=> {
       }, (err)=> {
         this.alertProvider.showMessage(err && err._body ? err._body : "Could Not Create Post", "Error");
-      }, ()=> {
-        subscription.unsubscribe();
       });
       return sub;
 

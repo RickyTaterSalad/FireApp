@@ -17,8 +17,6 @@ export class MessageProvider {
       var subscription = sub.subscribe(()=> {
       }, (err)=> {
         this.alertProvider.showMessage(err && err._body ? err._body : "Could Not Create Message", "Error");
-      }, ()=> {
-        subscription.unsubscribe();
       });
       return sub;
     }

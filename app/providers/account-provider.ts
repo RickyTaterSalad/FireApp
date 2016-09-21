@@ -30,8 +30,6 @@ export class AccountProvider {
       }
     }, (err)=> {
       this.alertProvider.showMessage(err && err._body ? err._body : "Could Not Load User", "Error");
-    }, ()=> {
-      subscription.unsubscribe();
     });
     return subject;
   };

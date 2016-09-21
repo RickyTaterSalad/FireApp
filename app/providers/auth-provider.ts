@@ -102,9 +102,8 @@ export class AuthProvider {
 
     }, (err)=> {
       this.alertProvider.showMessage(err && err._body ? err._body : "Could Not Retrieve Debug Token", "Error");
-    }, ()=> {
-      subscription.unsubscribe();
     });
+    return sub;
   };
   private loginGoogle:Function = function () {
     return Observable.create((observer) => {
