@@ -2,14 +2,10 @@
   <ion-navbar>
     <ion-title>{{day.date |date:'mediumDate'}}</ion-title>
     <ion-buttons end>
-      <button primary medium
+      <button primary medium style="margin-right:10px;font-size:1.6rem;"
               (click)="createPost()"
         >
         <ion-icon name="add"></ion-icon>
-      </button>
-      <button primary medium
-              (click)="searchParameters.showListOptions = !searchParameters.showListOptions">
-        <ion-icon name="switch"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
@@ -26,14 +22,14 @@
       Wants Off
     </ion-segment-button>
   </ion-segment>
-  <ion-grid [hidden]="!searchParameters.showListOptions">
+  <ion-grid>
     <ion-row>
       <ion-col width-50>
         <ion-item>
           <ion-label class="smallLabel">Trade</ion-label>
           <ion-toggle [(ngModel)]="searchParameters.isTrade" (ionChange)="filterResults()"></ion-toggle>
         </ion-item>
-        </ion-col>
+      </ion-col>
       <ion-col width-50>
         <ion-item>
           <ion-label class="smallLabel">Overtime</ion-label>
@@ -43,7 +39,8 @@
     </ion-row>
   </ion-grid>
   <p [hidden]="loading || (filteredPosts != null && filteredPosts.length > 0)">There Are No Posts</p>
-  <post-brief class="shiftPostingCard" *ngFor="let post of filteredPosts;let ndx=index"  [(showuserinheader)]="yes" [(account)]="account" [(day)]="day" [(post)]="filteredPosts[ndx]">
+  <post-brief class="shiftPostingCard" *ngFor="let post of filteredPosts;let ndx=index" [(showuserinheader)]="yes"
+              [(account)]="account" [(day)]="day" [(post)]="filteredPosts[ndx]">
   </post-brief>
 
 </ion-content>

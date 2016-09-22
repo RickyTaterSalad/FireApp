@@ -6,13 +6,16 @@
     // background: dodgerblue;
     color: white;
     position: absolute;
-    bottom: 10px;
-    right: 5px;
+    bottom: 3px;
+    right: 3px;
 
     .postOnContainer, .postOffContainer {
-      font-size: 1.2rem;
-      padding: 2px 4px;
-      border-radius: 3px;
+      padding: 2px 5px;
+    }
+
+    .postOnContainer {
+      margin-top: 5px;
+      display: block;
     }
     .postOnContainer {
       background: #3F51B5;
@@ -40,6 +43,9 @@
   .calendarEntry-NotInMonth {
     background: rgba(233, 233, 233, 0.6);
   }
+  .calendarEntry-InPast {
+    opacity: .3;
+  }
 
   .calendarCol:nth-child(even) {
     border-right: 1px solid lightgray;
@@ -56,9 +62,9 @@
       }
     }
   }
-  .calenderOuterContainer, .calendarWeekRow{
+  .calenderOuterContainer, .calendarWeekRow {
     flex: 1;
-    display:flex;
+    display: flex;
   }
   .calendarWeekRow {
     border: 1px solid lightgray;
@@ -132,13 +138,18 @@
   .calendarWeekRow-5 {
     border-radius: 0 0 3px 3px;
   }
+  /*
   .wantOffForMonth, .wantToWorkForMonth {
     font-size: 1.2rem;
-    color:white;
-    padding:2px 5px;
-    border-radius:5px;
-    margin-right:5px;
+    color: white;
+    padding: 2px 5px;
+    border-radius: 5px;
 
+
+  }
+  */
+  .wantOffForMonth, .wantToWorkForMonth {
+    margin-right: 5px;
   }
   .wantOffForMonth {
     background: #00897B;

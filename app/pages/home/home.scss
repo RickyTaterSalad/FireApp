@@ -1,0 +1,25 @@
+.home {
+  .homeGrid {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  .homeGridRow {
+    flex: 1;
+    ion-col {
+      padding: 10px;
+      text-align: center;
+      button {
+        width: 98%;
+        margin-left: 1%;
+        height: 100%;
+
+        ion-icon {
+          display: block;
+          font-size: 4rem;
+        }
+      }
+    }
+  }
+
+}

@@ -75,6 +75,15 @@ export class DateUtils {
     }
     return date.isAfter(this.todayUtc(), this.DAY);
   };
+  todayStartUtc:Function = function () {
+    var date = moment().utc();
+    date.minute(0);
+    date.second(0);
+    date.hour(0);
+    date.millisecond(0);
+    return date;
+
+  };
   todayUtc:Function = function () {
     return moment().utc();
   };

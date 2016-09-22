@@ -7,6 +7,7 @@ import {NotificationsPage} from './pages/notifications/notifications';
 import {MyPostsPage} from './pages/my-posts/my-posts';
 import {LoginPage} from './pages/login/login';
 import {MyOffersPage} from './pages/my-offers/my-offers';
+import {HomePage} from './pages/home/home';
 import {DepartmentProvider} from "./providers/department-provider";
 import {AccountProvider} from "./providers/account-provider";
 import {ConversationProvider} from "./providers/conversation-provider";
@@ -52,11 +53,13 @@ class MyApp {
     this.initializeApp();
     // set our app's pages
     this.pages = [
-      {title: "Notifications", component: NotificationsPage},
       {title: 'Calendar', component: CalendarPage},
+      {title: "Notifications", component: NotificationsPage},
       {title: "My Posts", component: MyPostsPage},
       {title: "My Offers", component: MyOffersPage},
       {title: 'Account', component: AccountPage},
+      {title: "Home", component: HomePage},
+
     ];
   }
 
@@ -64,12 +67,12 @@ class MyApp {
     this.platform.ready().then(() => {
       StatusBar.styleDefault();
 
-      this.authProvider.loginState.subscribe((loggedIn)=>{
-        if(!loggedIn) {
+      this.authProvider.loginState.subscribe((loggedIn)=> {
+        if (!loggedIn) {
           this.nav.setRoot(LoginPage);
         }
-        else{
-          this.nav.setRoot(CalendarPage);
+        else {
+          this.nav.setRoot(HomePage);
         }
       });
     });

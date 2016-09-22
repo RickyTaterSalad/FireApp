@@ -1,12 +1,15 @@
 import { Component } from '@angular/core';
 import { NavController,NavParams } from 'ionic-angular';
-import {Post,Day,Department} from "../../models/models";
+import {Post,Day,Department,Account} from "../../models/models";
 import {DateUtils} from "../../utils/date-utils";
 import {DepartmentProvider} from "../../providers/department-provider";
 import {PostProvider} from "../../providers/post-provider";
 import {AlertProvider} from "../../providers/alert-provider";
+import {MomentToString} from "../../pipes/moment-to-string";
 @Component({
   templateUrl: 'build/pages/create-post/create-post.html',
+  pipes: [MomentToString]
+
 })
 export class CreatePostPage {
   post:Post = {
@@ -28,10 +31,12 @@ export class CreatePostPage {
   };
   day:Day;
   dateUtils:DateUtils;
+  account:Account;
 
   constructor(private alertProvider:AlertProvider, private nav:NavController, private navParams:NavParams, private departmentProvider:DepartmentProvider, private postProvider:PostProvider) {
     this.dateUtils = new DateUtils();
     this.day = navParams.data.day;
+    this.account = navParams.data.account;
     if (!this.day) {
       this.nav.pop();
       this.alertProvider.showMessage("No Date To Create Post On", "Error");

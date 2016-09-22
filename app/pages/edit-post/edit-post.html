@@ -14,6 +14,10 @@
 
 
 <ion-content padding>
+  <p class="postBriefHeader">
+    <ion-icon name="clock" class="inlinePostIcon"></ion-icon>
+    {{post.shift | momentToString}}
+  </p>
   <ion-item>
     <ion-label>Trade</ion-label>
     <ion-checkbox [(ngModel)]="postModel.isTrade"></ion-checkbox>
@@ -27,7 +31,7 @@
     <ion-textarea [(ngModel)]="postModel.comments"></ion-textarea>
   </ion-item>
   <button style="float:right" primary item-right
-          (click)="editPost()"item-right>
+          (click)="editPost()" item-right>
     <ion-label>Update</ion-label>
   </button>
 </ion-content>

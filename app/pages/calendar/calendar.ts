@@ -55,6 +55,7 @@ export class CalendarPage/* implements OnInit, OnDestroy */ {
   flyInOutState:string = "in";
   fadeState:string = "visible";
   systemMonthAndYear:MonthAndYear;
+  systemDayStart:Number;
   currentCalendarMonthAndYear:MonthAndYear;
   postCounts:Object = {};
   totalOn:number = 0;
@@ -79,6 +80,7 @@ export class CalendarPage/* implements OnInit, OnDestroy */ {
   private updateCurrentSystemMonthAndYear:Function = function () {
     let dt = new Date();
     this.systemMonthAndYear = new MonthAndYear(dt.getMonth(), dt.getFullYear());
+    this.systemDayStart = this.dateUtils.todayStartUtc();
   };
   showDetails:Function = function (evt:Event, day:Day) {
     if (evt && evt.srcElement) {

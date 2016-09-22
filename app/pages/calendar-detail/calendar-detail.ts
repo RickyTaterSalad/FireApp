@@ -42,8 +42,7 @@ export class CalendarDetailPage {
     isTrade: true,
     isOnType: true,
     isOffType: false,
-    sortField: "sortByCreatedDescending",
-    showListOptions: false
+    sortField: "sortByCreatedDescending"
   };
   private filteredPosts:Array<Post>;
 
@@ -157,7 +156,7 @@ export class CalendarDetailPage {
   createPost:Function = function () {
     this.postProvider.userHasPostForDate(this.day).subscribe(
       () => {
-        this.nav.push(CreatePostPage, {day: this.day});
+        this.nav.push(CreatePostPage, {day: this.day,account:this.account});
       }
     );
   };

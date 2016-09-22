@@ -14,6 +14,10 @@
 
 
 <ion-content padding>
+  <p class="postBriefHeader">
+    <ion-icon name="clock" class="inlinePostIcon"></ion-icon>
+    {{day.utcDayStart | momentToString}}
+  </p>
   <ion-item>
     <ion-label>Trade</ion-label>
     <ion-checkbox [(ngModel)]="post.isTrade"></ion-checkbox>
@@ -24,11 +28,11 @@
   </ion-item>
   <ion-item>
     <ion-label stacked>Message</ion-label>
-    <ion-textarea [(ngModel)]="post.comments"></ion-textarea>
+    <ion-textarea autofocus [(ngModel)]="post.comments"></ion-textarea>
   </ion-item>
   <button style="float:right" primary item-right
-          (click)="createPost()"item-right>
+          (click)="createPost()" item-right>
     <ion-icon name="checkmark"></ion-icon>
-    <ion-label>Create Post</ion-label>
+    <ion-label>Create</ion-label>
   </button>
 </ion-content>

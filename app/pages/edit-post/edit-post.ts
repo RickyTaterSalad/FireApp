@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController,NavParams } from 'ionic-angular';
-import {Post} from "../../models/models"
-
+import {Post,Account} from "../../models/models"
+import {MomentToString} from "../../pipes/moment-to-string";
 /*
  Generated class for the EditPostPage page.
 
@@ -10,26 +10,29 @@ import {Post} from "../../models/models"
  */
 @Component({
   templateUrl: 'build/pages/edit-post/edit-post.html',
+  pipes: [MomentToString]
 })
 export class EditPostPage {
-  post:any = {};
+  post:Post;
+  account:Account;
   postModel:any = {
     isTrade: false,
-    isOvertime:false,
-    comments:""
-  }
+    isOvertime: false,
+    comments: ""
+  };
 
   constructor(private navCtrl:NavController, private navParams:NavParams) {
     this.post = navParams.data.post;
-
-    if(this.post){
+    this.account = navParams.data.account;
+    if (this.post) {
       this.postModel.isTrade = this.post.isTrade;
       this.postModel.isOvertime = this.post.isOvertime;
       this.postModel.comments = this.post.comments;
     }
 
   }
-  editPost:Function = function(){
+
+  editPost:Function = function () {
 
   }
 

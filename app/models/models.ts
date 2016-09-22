@@ -50,8 +50,8 @@ export interface PostFilter {
   isOvertime:boolean,
   isOnType:boolean,
   isOffType:boolean,
-  sortField:string,
-  showListOptions:boolean
+  sortField:string
+
 }
 export interface Schedule {
   name:string,

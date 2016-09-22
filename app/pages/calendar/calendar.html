@@ -12,7 +12,8 @@
     <ion-row class="calendarHeader">
       <ion-col responsive-sm>
         <div style="float:left">
-          <button primary (click)="previousMonth()" [disabled]="currentCalendarMonthAndYear.month == systemMonthAndYear.month && currentCalendarMonthAndYear.year == systemMonthAndYear.year">
+          <button primary (click)="previousMonth()"
+                  [disabled]="currentCalendarMonthAndYear.month == systemMonthAndYear.month && currentCalendarMonthAndYear.year == systemMonthAndYear.year">
             <ion-icon class="calendarActionIcon calendarMonthForwardIcon" name="arrow-back"></ion-icon>
           </button>
           <button title="Current Month"
@@ -25,42 +26,44 @@
           </button>
         </div>
         <div style="float:right">
-          <span class="wantOffForMonth">Want off {{totalOff}}</span>
-          <span class="wantToWorkForMonth">Want To Work {{totalOn}}</span>
+          <ion-badge class="wantOffForMonth">Want off {{totalOff}}</ion-badge>
+          <ion-badge class="wantToWorkForMonth">Want To Work {{totalOn}}</ion-badge>
 
           <div>
             <h5 class="calendarMonthLabel">{{calendarMonth.month}}</h5>
             <h5 class="calendarMonthYearSplitter">|</h5>
-            <h5 class="calendarYearLabel" primary>{{calendarMonth.yearShort}}</h5>
+            <h5 class="calendarYearLabel" primary>{{calendarMonth.year}}</h5>
           </div>
         </div>
       </ion-col>
     </ion-row>
 
-    <ion-row class="calenderOuterContainer"  (swiperight)="previousMonth()" (swipeleft)="nextMonth()">
-        <ion-grid>
-          <ion-row class="calendarDayNameRow">
-            <ion-col *ngFor="let dayName of daysOfWeek" primary class="calendarDayLabelCol">
-              <div class="calendarDayOfWeekLabel">{{dayName}}</div>
-            </ion-col>
-          </ion-row>
-          <ion-row @flyInOut="flyInOutState" class="calendarContent"
-                   *ngFor="let week of calendarMonth.weeks; let i = index"
-                   class="calendarWeekRow calendarWeekRow-{{i}}">
-            <ion-col [class.calendarEntry-NotInMonth]="day.month != currentCalendarMonthAndYear.month"
-                     class="calendarEntry"
-                     *ngFor="let day of week.days" class="calendarCol" (click)="showDetails($event,day)">
-              <div style="float:left;">
-                <label class="calendarDateLabel" [style.color]="day.color">{{day.dayOfMonth}}</label>
-
-              </div>
-              <div *ngIf="postCounts | objectContainsProperty:day.utcDayStart" class="postCountContainer">
-                <span [hidden]="postCounts[day.utcDayStart].on==0" class="postOnContainer">{{postCounts[day.utcDayStart].on}}</span>
-                <span [hidden]="postCounts[day.utcDayStart].off==0" class="postOffContainer">{{postCounts[day.utcDayStart].off}}</span>
-              </div>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
+    <ion-row class="calenderOuterContainer" (swiperight)="previousMonth()" (swipeleft)="nextMonth()">
+      <ion-grid>
+        <ion-row class="calendarDayNameRow">
+          <ion-col *ngFor="let dayName of daysOfWeek" primary class="calendarDayLabelCol">
+            <div class="calendarDayOfWeekLabel">{{dayName}}</div>
+          </ion-col>
+        </ion-row>
+        <ion-row @flyInOut="flyInOutState" class="calendarContent"
+                 *ngFor="let week of calendarMonth.weeks; let i = index"
+                 class="calendarWeekRow calendarWeekRow-{{i}}">
+          <ion-col
+            [class.calendarEntry-InPast]="day.utcDayStart  < systemDayStart"
+            [class.calendarEntry-NotInMonth]="day.utcDayStart  >= systemDayStart && day.month != currentCalendarMonthAndYear.month"
+            class="calendarEntry"
+            *ngFor="let day of week.days" class="calendarCol"
+            (click)="day.utcDayStart  >= systemDayStart && showDetails($event,day)">
+            <div style="float:left;">
+              <label class="calendarDateLabel" [style.color]="day.color">{{day.dayOfMonth}}</label>
+            </div>
+            <div *ngIf="postCounts | objectContainsProperty:day.utcDayStart" class="postCountContainer">
+              <ion-badge [hidden]="postCounts[day.utcDayStart].off==0" class="postOffContainer">{{postCounts[day.utcDayStart].off}}</ion-badge>
+              <ion-badge [hidden]="postCounts[day.utcDayStart].on==0" class="postOnContainer">{{postCounts[day.utcDayStart].on}}</ion-badge>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
     </ion-row>
   </ion-grid>
 </ion-content>

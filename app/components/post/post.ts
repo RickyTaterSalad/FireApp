@@ -29,7 +29,7 @@ export class PostComponent {
   }
 
   editPost:Function = function (post) {
-    this.nav.push(EditPostPage, {post: post});
+    this.nav.push(EditPostPage, {post: post,account:this.account});
   };
 
   messageUser:Function = function () {

@@ -17,5 +17,21 @@
 
 
 <ion-content padding>
-<button primary (click)="logUserOut()">Log Out</button>
+  <ion-grid>
+    <ion-row>
+      <ion-col width-33>
+        <ion-avatar>
+          <img src="{{account.photo}}"/>
+        </ion-avatar>
+      </ion-col>
+      <ion-col width-66>
+        <h3>{{account.firstName}} {{account.lastName}}</h3>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col width-100>
+        <button primary (click)="logUserOut()">Log Out</button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
