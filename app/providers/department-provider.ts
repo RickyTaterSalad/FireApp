@@ -48,7 +48,7 @@ private departmentKey:string = "department";
           }
         },
         (err)=> {
-          this.alertProvider.showMessage(err && err._body ? err._body : "Could Not Load Department", "Error");
+          this.alertProvider.showShortMessage(err && err._body ? err._body : "Could Not Load Department", "Error");
         }
       );
     });

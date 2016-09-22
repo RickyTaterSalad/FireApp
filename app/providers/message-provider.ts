@@ -16,7 +16,7 @@ export class MessageProvider {
       var sub = this.httpProvider.postJSON(this.messageEndpoint, JSON.stringify(message));
       var subscription = sub.subscribe(()=> {
       }, (err)=> {
-        this.alertProvider.showMessage(err && err._body ? err._body : "Could Not Create Message", "Error");
+        this.alertProvider.showShortMessage(err && err._body ? err._body : "Could Not Create Message", "Error");
       });
       return sub;
     }

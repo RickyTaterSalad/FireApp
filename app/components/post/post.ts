@@ -24,7 +24,6 @@ export class PostComponent {
   @Input() showmessageuser:boolean = false;
   @Input() showuserinheader:boolean = false;
 
-
   constructor(private alertProvider:AlertProvider, private eventProvider:EventProvider, private nav:NavController, private actionSheetCtrl:ActionSheetController,private postProvider:PostProvider, private conversationProvider:ConversationProvider) {
   }
 
@@ -44,9 +43,10 @@ export class PostComponent {
       (response)=> {
         if (response && response.success) {
           this.eventProvider.postRemoved.emit(post);
+          this.alertProvider.showShortMessage("Post Removed", "Success")
         }
         else {
-          this.alertProvider.showMessage("Could Not Remove Post", "Error")
+          this.alertProvider.showShortMessage("Could Not Remove Post", "Error")
         }
       }
     )

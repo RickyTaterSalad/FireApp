@@ -20,7 +20,7 @@
   </ion-list>
   <ion-item>
     <ion-label stacked>Message</ion-label>
-    <ion-textarea [(ngModel)]="messageData.message"></ion-textarea>
+    <ion-textarea  autofocus [(ngModel)]="messageData.message"></ion-textarea>
   </ion-item>
   <button style="float:right" primary item-right
           (click)="createConversation()"

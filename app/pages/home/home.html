@@ -1,27 +1,23 @@
-<!--
-  Generated template for the HomePage page.
-
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
-
   <ion-navbar>
+    <button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Fire App</ion-title>
   </ion-navbar>
-
 </ion-header>
 
 <ion-content padding class="home">
-  <ion-grid class="homeGrid">
+  <ion-grid class="homeGrid" style="margin-top:5vh;">
     <ion-row class="homeGridRow">
       <ion-col width-50>
-        <button  (click)="goToCalendar()">
+        <button (click)="goToCalendar()">
           <ion-icon name="calendar"></ion-icon>
-         Schedule
+          Schedule
         </button>
       </ion-col>
       <ion-col width-50>
-        <button  (click)="goToMessages()">
+        <button (click)="goToMessages()">
           <ion-icon stacked name="mail"></ion-icon>
           Messages
         </button>
@@ -29,13 +25,13 @@
     </ion-row>
     <ion-row class="homeGridRow">
       <ion-col width-50>
-        <button  (click)="goToShiftManager()">
+        <button (click)="goToShiftManager()">
           <ion-icon stacked name="swap"></ion-icon>
           Shift Manager
         </button>
       </ion-col>
       <ion-col width-50>
-        <button  (click)="goToPayback()">
+        <button (click)="goToPayback()">
           <ion-icon stacked name="repeat"></ion-icon>
           Payback
         </button>
@@ -43,13 +39,13 @@
     </ion-row>
     <ion-row class="homeGridRow">
       <ion-col width-50>
-        <button  (click)="goToAccount()">
+        <button (click)="goToAccount()">
           <ion-icon stacked name="person"></ion-icon>
           Profile
         </button>
       </ion-col>
       <ion-col width-50>
-        <button  (click)="goToSettings()">
+        <button (click)="goToSettings()">
           <ion-icon stacked name="settings"></ion-icon>
           Options
         </button>

@@ -18,7 +18,7 @@ export class NotificationProvider {
     /*
     var subscription = sub.subscribe(()=> {
     }, (err)=> {
-      this.alertProvider.showMessage(err && err._body ? err._body : "Could Not Claim Post", "Error");
+      this.alertProvider.showShortMessage(err && err._body ? err._body : "Could Not Claim Post", "Error");
     }, ()=> {
       subscription.unsubscribe();
     });

@@ -43,10 +43,10 @@ export class MessageUserPage {
         if (response && response.id) {
           this.message.conversation.messages.push(response);
           this.nav.pop();
-          this.alertProvider.showMessage("Message Sent", "Success");
+          this.alertProvider.showShortMessage("Message Sent", "Success");
         }
         else {
-          this.alertProvider.showMessage("Could Not Send Message", "Error");
+          this.alertProvider.showShortMessage("Could Not Send Message", "Error");
         }
       });
   }

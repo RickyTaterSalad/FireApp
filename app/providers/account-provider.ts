@@ -29,7 +29,7 @@ export class AccountProvider {
         this._self = selfResponse;
       }
     }, (err)=> {
-      this.alertProvider.showMessage(err && err._body ? err._body : "Could Not Load User", "Error");
+      this.alertProvider.showShortMessage(err && err._body ? err._body : "Could Not Load User", "Error");
     });
     return subject;
   };

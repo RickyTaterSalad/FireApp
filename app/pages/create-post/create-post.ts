@@ -39,7 +39,7 @@ export class CreatePostPage {
     this.account = navParams.data.account;
     if (!this.day) {
       this.nav.pop();
-      this.alertProvider.showMessage("No Date To Create Post On", "Error");
+      this.alertProvider.showShortMessage("No Date To Create Post On", "Error");
       return;
     }
     departmentProvider.Department().subscribe((dept:Department) => {
@@ -58,6 +58,6 @@ export class CreatePostPage {
   };
   handleCreated:Function = function () {
     this.nav.pop();
-    this.alertProvider.showMessage("Your Post Was Created", "Success");
+    this.alertProvider.showShortMessage("Your Post Was Created", "Success");
   };
 }

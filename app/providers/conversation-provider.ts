@@ -17,7 +17,7 @@ export class ConversationProvider {
     var sub = this.httpProvider.get(this.conversationEndpoint);
     var subscription = sub.subscribe(()=> {
     }, (err)=> {
-      this.alertProvider.showMessage(err && err._body ? err._body : "Could Not Retrieve Conversations", "Error");
+      this.alertProvider.showShortMessage(err && err._body ? err._body : "Could Not Retrieve Conversations", "Error");
     });
     return sub;
   };
@@ -27,7 +27,7 @@ export class ConversationProvider {
     var sub = this.httpProvider.get(url);
     var subscription = sub.subscribe(()=> {
     }, (err)=> {
-      this.alertProvider.showMessage(err && err._body ? err._body : "Could Not Retrieve Post Conversations", "Error");
+      this.alertProvider.showShortMessage(err && err._body ? err._body : "Could Not Retrieve Post Conversations", "Error");
     });
     return sub;
   };
@@ -37,7 +37,7 @@ export class ConversationProvider {
       var sub = this.httpProvider.postJSON(this.conversationEndpoint, body);
       var subscription = sub.subscribe(()=> {
       }, (err)=> {
-        this.alertProvider.showMessage(err && err._body ? err._body : "Could Not Create Conversation", "Error");
+        this.alertProvider.showShortMessage(err && err._body ? err._body : "Could Not Create Conversation", "Error");
       });
       return sub;
     }

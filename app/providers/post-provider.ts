@@ -20,7 +20,7 @@ export class PostProvider {
     var sub = this.httpProvider.get(this.postsEndpoint + "/myPosts");
     var subscription = sub.subscribe(()=> {
     }, (err)=> {
-      this.alertProvider.showMessage(err && err._body ? err._body : "Could Not Retrieve Your Posts", "Error");
+      this.alertProvider.showShortMessage(err && err._body ? err._body : "Could Not Retrieve Your Posts", "Error");
     });
     return sub;
 
@@ -29,7 +29,7 @@ export class PostProvider {
     var sub = this.httpProvider.get(this.postsEndpoint + "/myOffers");
     var subscription = sub.subscribe(()=> {
     }, (err)=> {
-      this.alertProvider.showMessage(err && err._body ? err._body : "Could Not Retrieve Your Offers", "Error");
+      this.alertProvider.showShortMessage(err && err._body ? err._body : "Could Not Retrieve Your Offers", "Error");
     });
     return sub;
   };
@@ -37,7 +37,7 @@ export class PostProvider {
     var sub = this.httpProvider.get(this.postsEndpoint + "/" + date.year + "/" + (date.month + 1) + "/" + date.dayOfMonth);
     var subscription = sub.subscribe(()=> {
     }, (err)=> {
-      this.alertProvider.showMessage(err && err._body ? err._body : "Could Not Retrieve Posts For Day", "Error");
+      this.alertProvider.showShortMessage(err && err._body ? err._body : "Could Not Retrieve Posts For Day", "Error");
     });
     return sub;
   };
@@ -46,7 +46,7 @@ export class PostProvider {
       var sub = this.httpProvider.delete(this.postsEndpoint + "/" + post.id);
       var subscription = sub.subscribe(()=> {
       }, (err)=> {
-        this.alertProvider.showMessage(err && err._body ? err._body : "Could Not Remove Post", "Error");
+        this.alertProvider.showShortMessage(err && err._body ? err._body : "Could Not Remove Post", "Error");
       });
       return sub;
     }
@@ -63,7 +63,7 @@ export class PostProvider {
       var sub = this.httpProvider.get(this.postsEndpoint + "/postCounts/" + startDay.valueOf());
       var subscription = sub.subscribe(()=> {
       }, (err)=> {
-        this.alertProvider.showMessage(err && err._body ? err._body : "Could Not Retrieve Post Counts", "Error");
+        this.alertProvider.showShortMessage(err && err._body ? err._body : "Could Not Retrieve Post Counts", "Error");
       });
       return sub;
     }
@@ -79,7 +79,7 @@ export class PostProvider {
       /*
        var subscription = sub.subscribe(()=> {
        }, (err)=> {
-       this.alertProvider.showMessage(err && err._body ? err._body : "Could Not Claim Post", "Error");
+       this.alertProvider.showShortMessage(err && err._body ? err._body : "Could Not Claim Post", "Error");
        }, ()=> {
        subscription.unsubscribe();
        });
@@ -100,7 +100,7 @@ export class PostProvider {
       var sub = this.httpProvider.postJSON(this.postsEndpoint + "/claim", body);
       var subscription = sub.subscribe(()=> {
       }, (err)=> {
-        this.alertProvider.showMessage(err && err._body ? err._body : "Could Not Claim Post", "Error");
+        this.alertProvider.showShortMessage(err && err._body ? err._body : "Could Not Claim Post", "Error");
       });
       return sub;
     }
@@ -124,7 +124,7 @@ export class PostProvider {
       var sub = this.httpProvider.postJSON(this.postsEndpoint, body);
       var subscription = sub.subscribe(()=> {
       }, (err)=> {
-        this.alertProvider.showMessage(err && err._body ? err._body : "Could Not Create Post", "Error");
+        this.alertProvider.showShortMessage(err && err._body ? err._body : "Could Not Create Post", "Error");
       });
       return sub;
 

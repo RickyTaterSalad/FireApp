@@ -15,46 +15,44 @@
 
 <ion-content padding>
   <ion-segment [(ngModel)]="loginMode">
-    <ion-segment-button  value="login">
-     Log In
+    <ion-segment-button value="login">
+      Log In
     </ion-segment-button>
     <ion-segment-button value="register">
       Register
     </ion-segment-button>
   </ion-segment>
 
-  <ion-item [hidden]="loginMode != 'login'">
-      <button primary (click)="logUserIn()">Log In</button>
-</ion-item>
-<ion-list [hidden]="loginMode != 'register'">
+  <button [hidden]="loginMode != 'login'" primary (click)="logUserIn()" style="width:100%;margin-top:10px;">Log In</button>
+  <ion-list [hidden]="loginMode != 'register'">
     <ion-item>
-        <ion-label floating>First Name</ion-label>
-        <ion-input></ion-input>
-      </ion-item>
+      <ion-label floating>First Name</ion-label>
+      <ion-input></ion-input>
+    </ion-item>
 
-      <ion-item>
-        <ion-label floating>Last Name</ion-label>
-        <ion-input></ion-input>
-      </ion-item>
+    <ion-item>
+      <ion-label floating>Last Name</ion-label>
+      <ion-input></ion-input>
+    </ion-item>
 
-      <ion-item>
-        <ion-label floating>Email</ion-label>
-        <ion-input type="email"></ion-input>
-      </ion-item>
+    <ion-item>
+      <ion-label floating>Email</ion-label>
+      <ion-input type="email"></ion-input>
+    </ion-item>
 
-      <ion-item name="rank">
-        <ion-label>Rank</ion-label>
-        <ion-select>
-            <ion-option *ngFor="let rank of ranks" value="{{rank}}">{{rank}}</ion-option>
-        </ion-select>
-      </ion-item>
+    <ion-item name="rank">
+      <ion-label>Rank</ion-label>
+      <ion-select>
+        <ion-option *ngFor="let rank of ranks" value="{{rank}}">{{rank}}</ion-option>
+      </ion-select>
+    </ion-item>
 
-      <ion-item>
-          <ion-label>AH Code</ion-label>
-          <ion-select>
-              <ion-option value="A01" selected="true">A01</ion-option>
-              <ion-option value="A02">A02</ion-option>
-          </ion-select>
-      </ion-item>
+    <ion-item>
+      <ion-label>AH Code</ion-label>
+      <ion-select>
+        <ion-option value="A01" selected="true">A01</ion-option>
+        <ion-option value="A02">A02</ion-option>
+      </ion-select>
+    </ion-item>
   </ion-list>
 </ion-content>

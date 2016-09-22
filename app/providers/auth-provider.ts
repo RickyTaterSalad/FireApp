@@ -89,19 +89,21 @@ export class AuthProvider {
     this.storage.set(this.userDataKey, JSON.stringify(userData));
   };
   private loginRemote:Function = function () {
+    /*
     if (this.platformProvider.isMobile) {
       return this.loginGoogle();
     }
     else {
+    */
       return this.loginDebugToken();
-    }
+   // }
   };
   private loginDebugToken:Function = function () {
     var sub = this.http.get(this.configProvider.debugTokenUrl).map(res => res.json());
     var subscription = sub.subscribe(()=> {
 
     }, (err)=> {
-      this.alertProvider.showMessage(err && err._body ? err._body : "Could Not Retrieve Debug Token", "Error");
+      this.alertProvider.showShortMessage(err && err._body ? err._body : "Could Not Retrieve Debug Token", "Error");
     });
     return sub;
   };
@@ -122,7 +124,7 @@ export class AuthProvider {
               (res)=> {
                 observer.next(res);
               }, (err)=> {
-                this.alertProvider.showMessage(err && err._body ? err._body : "Could Not Log Into Google", "Error");
+                this.alertProvider.showShortMessage(err && err._body ? err._body : "Could Not Log Into Google", "Error");
                 observer.next(null);
               }, () => {
                 observer.complete();
@@ -131,7 +133,7 @@ export class AuthProvider {
           }
         },
         (err) => {
-          this.alertProvider.showMessage(err && err._body ? err._body : "Could Not Log Into Google", "Error");
+          this.alertProvider.showShortMessage(err && err._body ? err._body : "Could Not Log Into Google", "Error");
         });
     });
   };

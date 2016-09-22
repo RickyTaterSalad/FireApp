@@ -46,7 +46,7 @@ export class CreateConversationPage {
         };
         this.messageProvider.create(message).subscribe(
           (response)=> {
-            this.alertProvider.showMessage('Created Conversation', 'Success');
+            this.alertProvider.showShortMessage('Created Conversation', 'Success');
           }
         )
       });
