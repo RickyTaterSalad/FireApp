@@ -2,8 +2,10 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { Headers } from '@angular/http';
-import {AuthProvider} from "../providers/auth-provider";
+import {AuthProvider} from "./auth-provider";
 import {Observable,Subject} from "rxjs";
+import {ConnectivityProvider} from "./connectivity-provider"
+import {AlertProvider} from "./alert-provider"
 /*
  Generated class for the HttpProvider provider.
 
@@ -18,7 +20,8 @@ interface HttpOptions {
 @Injectable()
 export class HttpProvider {
 
-  constructor(private http:Http, private authProvider:AuthProvider) {
+  constructor(private alertProvider:AlertProvider,private http:Http, private authProvider:AuthProvider, private connectivityProvider:ConnectivityProvider) {
+
   }
 
   public createAuthorizationHeader() {
@@ -27,7 +30,16 @@ export class HttpProvider {
     return headers;
   }
 
+
+  private showNoNetwork:Function = function () {
+    this.alertProvider.showShortMessage("No Internet Connection", "Error");
+    return Observable.empty();
+  };
   public get(url:string, options:HttpOptions) {
+    console.log("GET: " + url + " Online: " + this.connectivityProvider.isOnline);
+    if (!this.connectivityProvider.isOnline) {
+      return this.showNoNetwork();
+    }
     options = this.setHeaders(options);
     let subject = new Subject();
     this.http.get(url, options).subscribe((res)=> {
@@ -36,7 +48,6 @@ export class HttpProvider {
     }, (err)=> {
       if (err.status == 401) {
         this.authProvider.logUserOut();
-
       }
       else {
         subject.error(err);
@@ -46,8 +57,11 @@ export class HttpProvider {
     });
     return subject;
   }
-
   public postJSON(url:string, body:Object, options:HttpOptions) {
+    console.log("postJSON: " + url + " Online: " + this.connectivityProvider.isOnline);
+    if (!this.connectivityProvider.isOnline) {
+      return this.showNoNetwork();
+    }
     options = this.setHeaders(options);
     if (!options.headers.has("Content-Type")) {
       options.headers.append('Content-Type', 'application/json');
@@ -56,6 +70,10 @@ export class HttpProvider {
   }
 
   public delete(url, options:HttpOptions) {
+    console.log("delete: " + url + " Online: " + this.connectivityProvider.isOnline);
+    if (!this.connectivityProvider.isOnline) {
+      return this.showNoNetwork();
+    }
     options = this.setHeaders(options);
     let subject = new Subject();
     this.http.delete(url, options).subscribe((res)=> {
@@ -76,6 +94,10 @@ export class HttpProvider {
   }
 
   public post(url:string, body:Object, options:HttpOptions) {
+    console.log("post: " + url + " Online: " + this.connectivityProvider.isOnline);
+    if (!this.connectivityProvider.isOnline) {
+      return this.showNoNetwork();
+    }
     options = this.setHeaders(options);
     let subject = new Subject();
     this.http.post(url, body, options).subscribe((res)=> {

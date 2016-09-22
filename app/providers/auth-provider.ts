@@ -6,6 +6,7 @@ import {ConfigProvider} from "./config-provider"
 import {Storage, LocalStorage} from 'ionic-angular';
 import {PlatformProvider} from "./platform-provider";
 import {AlertProvider} from "./alert-provider";
+import {ConnectivityProvider} from "./connectivity-provider"
 
 import 'rxjs/add/operator/map';
 
@@ -21,7 +22,7 @@ export class AuthProvider {
   public token:string;
   public loginState:BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-  constructor(private configProvider:ConfigProvider, private http:Http, private platformProvider:PlatformProvider, private alertProvider:AlertProvider) {
+  constructor(private connectivityProvider:ConnectivityProvider, private configProvider:ConfigProvider, private http:Http, private platformProvider:PlatformProvider, private alertProvider:AlertProvider) {
     this.storage = new Storage(LocalStorage);
     this.loadUserFromStorage();
   }
@@ -74,10 +75,8 @@ export class AuthProvider {
       }
     });
     tokenSubject.subscribe((userData:UserData)=> {
-      console.log("persisting user");
       console.dir(userData);
       if (userData && userData.token) {
-        console.log("setting token");
         this.token = userData.token;
         this.persistUser(userData);
         this.loginState.next(true);
@@ -88,15 +87,13 @@ export class AuthProvider {
   private persistUser:Function = function (userData) {
     this.storage.set(this.userDataKey, JSON.stringify(userData));
   };
+
   private loginRemote:Function = function () {
-    /*
-    if (this.platformProvider.isMobile) {
-      return this.loginGoogle();
+    if (!this.connectivityProvider.isOnline) {
+      return this.alertProvider.showLongMessage("No Internet","Error");
     }
-    else {
-    */
-      return this.loginDebugToken();
-   // }
+    return this.loginDebugToken();
+
   };
   private loginDebugToken:Function = function () {
     var sub = this.http.get(this.configProvider.debugTokenUrl).map(res => res.json());

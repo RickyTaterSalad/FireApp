@@ -37,7 +37,6 @@
         </div>
       </ion-col>
     </ion-row>
-
     <ion-row class="calenderOuterContainer" (swiperight)="previousMonth()" (swipeleft)="nextMonth()">
       <ion-grid>
         <ion-row class="calendarDayNameRow">
@@ -53,6 +52,7 @@
             [class.calendarEntry-NotInMonth]="day.utcDayStart  >= systemDayStart && day.month != currentCalendarMonthAndYear.month"
             class="calendarEntry"
             *ngFor="let day of week.days" class="calendarCol"
+            tappable
             (click)="day.utcDayStart  >= systemDayStart && showDetails($event,day)">
             <div style="float:left;">
               <label class="calendarDateLabel" [style.color]="day.color">{{day.dayOfMonth}}</label>

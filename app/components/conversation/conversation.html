@@ -1,4 +1,4 @@
-<ion-item (click)="toggleConversation(conversation)" style="cursor:pointer">
+<ion-item tappable (click)="toggleConversation(conversation)" style="cursor:pointer">
   <p [hidden]="account._id != conversation.creator.id">
     {{conversation.recipient.firstName}} {{conversation.recipient.lastName}}
   </p>

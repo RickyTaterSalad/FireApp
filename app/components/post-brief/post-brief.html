@@ -1,4 +1,4 @@
-<ion-card class="shiftPostingCard">
+<ion-card class="shiftPostingCard" (click)="messageUser()" tappable>
   <ion-item class="postBrief" [ngClass]="{onRequestType: post.requestType == 'on', offRequestType: post.requestType == 'off'}">
     <ion-card-header style="padding:0">
       <p class="postBriefHeader">
@@ -24,7 +24,7 @@
         <ion-avatar item-left class="postAvatar" [hidden]="!post.creator.photo">
           <img src="{{post.creator.photo}}"/>
         </ion-avatar>
-        <button clear item-right (click)="messageUser()">
+        <button clear item-right>
           <ion-icon name="chatboxes"></ion-icon>
         </button>
         <ion-item text-wrap [hidden]="post.comments">

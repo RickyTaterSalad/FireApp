@@ -12,6 +12,20 @@ import {Toast} from 'ionic-native';
 export class AlertProvider {
   constructor(private alertCtrl:AlertController, private platformProvider:PlatformProvider) {
   }
+  showLongMessage:Function = function (message, title) {
+    if (this.platformProvider.isMobile) {
+      Toast.showLongBottom(message).subscribe();
+    }
+
+    else {
+      let alert = this.alertCtrl.create({
+        title: title || 'Alert',
+        subTitle: message,
+        buttons: ['OK']
+      });
+      alert.present();
+    }
+  };
   showShortMessage:Function = function (message, title) {
     if (this.platformProvider.isMobile) {
       Toast.showShortBottom(message).subscribe();

@@ -32,7 +32,6 @@
   "name": "fireapp",
   "description": "FireApp: An Ionic project",
   "cordovaPlugins": [
-    "cordova-plugin-x-toast",
     "cordova-plugin-device",
     "cordova-plugin-console",
     "cordova-plugin-whitelist",

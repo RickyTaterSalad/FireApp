@@ -1,24 +1,15 @@
 import {Injectable} from '@angular/core';
 import {Platform} from 'ionic-angular';
 import {Observable, BehaviorSubject} from 'rxjs';
-
+import {PlatformProvider} from "./platform-provider"
+import {Network} from 'ionic-native';
 @Injectable()
 export class ConnectivityProvider {
 
-  private _connectionStatus: BehaviorSubject<boolean> = new BehaviorSubject(true);
-  public connectionStatus: Observable<boolean> = this._connectionStatus.asObservable();
+  constructor(private platformProvider:PlatformProvider) {
 
-  constructor(){
-    this.watchConnectivity();
   }
-
-  private watchConnectivity(): void {
-    window.addEventListener('online',  () => this._connectionStatus.next(true));
-    window.addEventListener('offline', () => this._connectionStatus.next(false));
+  get isOnline():boolean {
+    return this.platformProvider.isMobile ? Network.connection != 'none' : navigator.onLine;
   }
-
-  public getStatus(): boolean {
-    return navigator.onLine;
-  }
-
 }
