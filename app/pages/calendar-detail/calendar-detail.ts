@@ -23,6 +23,7 @@ import * as moment from 'moment';
 })
 export class CalendarDetailPage {
   private day:any;
+  private calendarStart:number = null;
   private loading:boolean = true;
   yes:boolean = true;
   postTypeToDisplay:string = "on";
@@ -47,7 +48,8 @@ export class CalendarDetailPage {
   private filteredPosts:Array<Post>;
 
   constructor(private Loading:LoadingController, private nav:NavController, private accountProvider:AccountProvider, private alertCtrl:AlertController, private navParams:NavParams, private postProvider:PostProvider) {
-    this.day = navParams.data;
+    this.day = navParams.data.day;
+    this.calendarStart = navParams.data.calendarStart;
   }
 
   onPageDidEnter() {
@@ -156,7 +158,7 @@ export class CalendarDetailPage {
   createPost:Function = function () {
     this.postProvider.userHasPostForDate(this.day).subscribe(
       () => {
-        this.nav.push(CreatePostPage, {day: this.day,account:this.account});
+        this.nav.push(CreatePostPage, {day: this.day,account:this.account,calendarStart:this.calendarStart});
       }
     );
   };

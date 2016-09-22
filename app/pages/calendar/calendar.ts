@@ -49,6 +49,7 @@ import * as moment from 'moment';
 })
 export class CalendarPage/* implements OnInit, OnDestroy */ {
 
+  calendarStart:any = null;
   calendarMonth:CalendarMonth = new CalendarMonth();
   daysOfWeek:string[] = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
   monthLookup:string[] = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -89,7 +90,7 @@ export class CalendarPage/* implements OnInit, OnDestroy */ {
         evt.srcElement.classList.toggle("pressed");
       }, 450);
     }
-    this.nav.push(CalendarDetailPage, day);
+    this.nav.push(CalendarDetailPage, {day:day, calendarStart:this.calendarStart});
   };
   previousMonth:Function = function () {
     if (this.currentCalendarMonthAndYear.month == this.systemMonthAndYear.month && this.currentCalendarMonthAndYear.year == this.systemMonthAndYear.year) {
@@ -146,9 +147,9 @@ export class CalendarPage/* implements OnInit, OnDestroy */ {
     //load the post count
     var obj = {year: date.getFullYear(), month: date.getMonth(), day: date.getDate()};
     console.dir(obj);
-    var startMoment = moment.utc(obj);
+    this.calendarStart = moment.utc(obj);
     this.postCounts = {};
-    this.postProvider.postCountForCalendar(startMoment).subscribe(
+    this.postProvider.postCountForCalendar(this.calendarStart).subscribe(
       (response)=> {
         if (response) {
           this.postCounts = response.days || {};

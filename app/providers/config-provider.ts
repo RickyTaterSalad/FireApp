@@ -12,8 +12,8 @@ export class ConfigProvider {
   }
 
 
-  private serverUrl = "https://fireappdev.herokuapp.com";
-//  private serverUrl = "http://localhost:3000";
+//  private serverUrl = "https://fireappdev.herokuapp.com";
+  private serverUrl = "http://localhost:3000";
   googleAuthUrl:string = this.serverUrl + "/auth/google";
   debugTokenUrl:string = this.serverUrl + "/auth/generateToken";
   restApiUrl:string = this.serverUrl + "/api/v1";

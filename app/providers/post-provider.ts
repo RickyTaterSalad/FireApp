@@ -108,9 +108,11 @@ export class PostProvider {
       return Observable.empty();
     }
   };
-  create:Function = function (post:Post) {
-    if (post) {
+  create:Function = function (postObj:any) {
+    if (postObj && postObj.post && postObj.calendarStart &&  postObj.calendarStart.valueOf) {
+      let post = postObj.post;
       let body = JSON.stringify({
+        calendarStart: postObj.calendarStart.valueOf(),
         post: {
           isTrade: post.isTrade,
           isOvertime: post.isOvertime,
@@ -121,6 +123,7 @@ export class PostProvider {
           comments: post.comments
         }
       });
+
       var sub = this.httpProvider.postJSON(this.postsEndpoint, body);
       var subscription = sub.subscribe(()=> {
       }, (err)=> {

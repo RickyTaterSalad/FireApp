@@ -32,10 +32,12 @@ export class CreatePostPage {
   day:Day;
   dateUtils:DateUtils;
   account:Account;
+  calendarStart:number;
 
   constructor(private alertProvider:AlertProvider, private nav:NavController, private navParams:NavParams, private departmentProvider:DepartmentProvider, private postProvider:PostProvider) {
     this.dateUtils = new DateUtils();
     this.day = navParams.data.day;
+    this.calendarStart = navParams.data.calendarStart;
     this.account = navParams.data.account;
     if (!this.day) {
       this.nav.pop();
@@ -49,8 +51,9 @@ export class CreatePostPage {
       }
     });
   }
+
   createPost:Function = function () {
-    this.postProvider.create(this.post).subscribe(
+    this.postProvider.create({post:this.post,calendarStart:this.calendarStart}).subscribe(
       () => {
         this.handleCreated();
       }
