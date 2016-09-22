@@ -12,10 +12,12 @@ import {AlertProvider} from "../../providers/alert-provider";
   templateUrl: 'build/components/post-brief/post-brief.html',
   pipes: [MomentToString]
 })
+
 export class PostBriefComponent {
   @Input() post:Post;
   @Input() account:any;
   @Input() day:Day;
+  @Input() allowmessage:boolean = true;
   @Input() showuserinheader:boolean = false;
 
 
@@ -27,6 +29,9 @@ export class PostBriefComponent {
   };
 
   messageUser:Function = function () {
+    if(!this.allowmessage){
+      return
+    }
     this.nav.push(CreateConversationPage, {day: this.day, post: this.post});
   };
 

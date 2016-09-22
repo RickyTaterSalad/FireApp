@@ -24,9 +24,6 @@
         <ion-avatar item-left class="postAvatar" [hidden]="!post.creator.photo">
           <img src="{{post.creator.photo}}"/>
         </ion-avatar>
-        <button clear item-right>
-          <ion-icon name="chatboxes"></ion-icon>
-        </button>
         <ion-item text-wrap [hidden]="post.comments">
           <span style="font-size:1.3rem;">No Comments</span>
         </ion-item>

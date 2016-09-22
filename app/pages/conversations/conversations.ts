@@ -19,6 +19,7 @@ import {ConversationComponent} from "../../components/conversation/conversation"
   pipes: [MomentToString]
 })
 export class ConversationsPage {
+  private static  allowUserMessageInPost:boolean = false;
   account:Account = {
     firstName: "",
     lastName: "",

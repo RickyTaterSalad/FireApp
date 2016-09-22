@@ -4,7 +4,7 @@
   </ion-navbar>
 </ion-header>
 <ion-content padding>
- <post-brief [(post)]="post" [(account)]="account"></post-brief>
+ <post-brief [(post)]="post" [(account)]="account" [(allowmessage)]="allowUserMessageInPost"></post-brief>
   <ion-list radio-group [(ngModel)]="swapType" [hidden]="!post.isOvertime || !post.isTrade">
     <ion-label>
       Swap Type
