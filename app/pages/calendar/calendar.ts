@@ -89,7 +89,7 @@ export class CalendarPage/* implements OnInit, OnDestroy */ {
         evt.srcElement.classList.toggle("pressed");
       }, 450);
     }
-    this.nav.push(CalendarDetailPage, {day:day, calendarStart:this.calendarStart});
+    this.nav.push(CalendarDetailPage, {day: day});
   };
   previousMonth:Function = function () {
     if (this.currentCalendarMonthAndYear.month == this.systemMonthAndYear.month && this.currentCalendarMonthAndYear.year == this.systemMonthAndYear.year) {
@@ -136,17 +136,19 @@ export class CalendarPage/* implements OnInit, OnDestroy */ {
   populateCalendar:Function = function () {
     this.updateCurrentSystemMonthAndYear();
     let scheduleOffset = this.getScheduleOffset(this.currentCalendarMonthAndYear.month, this.currentCalendarMonthAndYear.year);
-    let date = new Date(this.currentCalendarMonthAndYear.year, this.currentCalendarMonthAndYear.month, 1);
+    var startOfMonthMoment = moment().utc().year(this.currentCalendarMonthAndYear.year).month(this.currentCalendarMonthAndYear.month).date(1);//new Date(this.currentCalendarMonthAndYear.year, this.currentCalendarMonthAndYear.month, 1);
+    startOfMonthMoment.minute(0);
+    startOfMonthMoment.second(0);
+    startOfMonthMoment.hour(0);
+    startOfMonthMoment.millisecond(0);
     //get the day of the week the first day of the month falls on
-    let dayOfTheWeekOffset = date.getDay();
+    let dayOfTheWeekOffset = startOfMonthMoment.day();
     //back up the date so we fill in dates before the first day of the month (previous month)
-    date.setDate(date.getDate() - dayOfTheWeekOffset);
-
-    console.dir(date);
+    startOfMonthMoment.date(startOfMonthMoment.date() - dayOfTheWeekOffset);
+    console.dir("Start of month: " + startOfMonthMoment);
     //load the post count
-    var obj = {year: date.getFullYear(), month: date.getMonth(), day: date.getDate()};
-    console.dir(obj);
-    this.calendarStart = moment.utc(obj);
+    this.calendarStart = startOfMonthMoment;
+    let startCalenderHere = startOfMonthMoment.clone();
     this.postCounts = {};
     this.postProvider.postCountForCalendar(this.calendarStart).subscribe(
       (response)=> {
@@ -168,17 +170,16 @@ export class CalendarPage/* implements OnInit, OnDestroy */ {
     for (let i = 0; i < 6; i++)
       for (let j = 0; j < 7; j++) {
         var day = new Day();
-        day.dayOfMonth = date.getDate();
-        day.year = date.getFullYear();
-        day.month = date.getMonth();
+        day.dayOfMonth = startCalenderHere.date();
+        day.year = startCalenderHere.year();
+        day.month = startCalenderHere.month();
         day.utcDayStart = this.dateUtils.dateFromDay(day).valueOf();
-        day.date = new Date(date.getTime());
-
+        day.date = startCalenderHere.clone();
         calendarMonth.weeks[i].days[j] = day;
         day.platoon = this.department.schedule.platoonSchedule[scheduleOffset % this.department.schedule.platoonSchedule.length];
         day.startTime = this.department.schedule.shiftStartTime;
         day.color = this.department.schedule.platoonColorCodes[day.platoon] || "#ffffff";
-        date.setDate(date.getDate() + 1);
+        startCalenderHere.date(startCalenderHere.date() + 1);
         scheduleOffset++
       }
     calendarMonth.year = this.currentCalendarMonthAndYear.year;

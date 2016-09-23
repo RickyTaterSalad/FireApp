@@ -4,6 +4,7 @@ import * as moment from 'moment';
 export class DateUtils {
   DAY:string = "day";
 
+
   public dateFromDay:Function = function (day:Day) {
     if (!day) {
       return null;

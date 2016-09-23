@@ -1,4 +1,5 @@
 //interfaces
+
 export interface Account {
   firstName:string;
   lastName:string;
@@ -91,7 +92,7 @@ export class CalendarMonth {
   }
 }
 export class Day {
-  date:Date;
+  date:any;
   month:number;
   year:number;
   dayOfMonth:number;

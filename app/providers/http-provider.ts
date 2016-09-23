@@ -20,7 +20,7 @@ interface HttpOptions {
 @Injectable()
 export class HttpProvider {
 
-  constructor(private alertProvider:AlertProvider,private http:Http, private authProvider:AuthProvider, private connectivityProvider:ConnectivityProvider) {
+  constructor(private alertProvider:AlertProvider, private http:Http, private authProvider:AuthProvider, private connectivityProvider:ConnectivityProvider) {
 
   }
 
@@ -35,6 +35,7 @@ export class HttpProvider {
     this.alertProvider.showShortMessage("No Internet Connection", "Error");
     return Observable.empty();
   };
+
   public get(url:string, options:HttpOptions) {
     console.log("GET: " + url + " Online: " + this.connectivityProvider.isOnline);
     if (!this.connectivityProvider.isOnline) {
@@ -49,14 +50,21 @@ export class HttpProvider {
       if (err.status == 401) {
         this.authProvider.logUserOut();
       }
-      else {
+      else if (err.status == 400) {
         subject.error(err);
       }
+
+       else {
+       //network error of some sort
+       subject.error("Could Not Perform Request");
+       }
+
     }, ()=> {
       subject.complete()
     });
     return subject;
   }
+
   public postJSON(url:string, body:Object, options:HttpOptions) {
     console.log("postJSON: " + url + " Online: " + this.connectivityProvider.isOnline);
     if (!this.connectivityProvider.isOnline) {
@@ -84,9 +92,15 @@ export class HttpProvider {
         this.authProvider.logUserOut();
 
       }
-      else {
+      else if (err.status == 400) {
         subject.error(err);
       }
+
+       else {
+       //network error of some sort
+       subject.error("Could Not Perform Request");
+       }
+
     }, ()=> {
       subject.complete()
     });
@@ -107,9 +121,15 @@ export class HttpProvider {
       if (err.status == 401) {
         this.authProvider.logUserOut();
       }
-      else {
+      else if (err.status == 400) {
         subject.error(err);
       }
+
+       else {
+       //network error of some sort
+       subject.error("Could Not Perform Request");
+       }
+
     }, ()=> {
       subject.complete()
     });

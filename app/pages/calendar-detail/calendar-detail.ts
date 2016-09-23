@@ -8,6 +8,7 @@ import {PostProvider} from "../../providers/post-provider";
 import {AccountProvider} from "../../providers/account-provider";
 import {PostBriefComponent} from "../../components/post-brief/post-brief";
 import {Observable,Subject} from "rxjs";
+import {MomentToString} from "../../pipes/moment-to-string";
 
 import * as moment from 'moment';
 
@@ -20,6 +21,7 @@ import * as moment from 'moment';
 @Component({
   templateUrl: 'build/pages/calendar-detail/calendar-detail.html',
   directives: [PostBriefComponent],
+  pipes: [MomentToString],
 })
 export class CalendarDetailPage {
   private day:any;

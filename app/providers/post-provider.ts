@@ -109,10 +109,9 @@ export class PostProvider {
     }
   };
   create:Function = function (postObj:any) {
-    if (postObj && postObj.post && postObj.calendarStart &&  postObj.calendarStart.valueOf) {
+    if (postObj && postObj.post) {
       let post = postObj.post;
       let body = JSON.stringify({
-        calendarStart: postObj.calendarStart.valueOf(),
         post: {
           isTrade: post.isTrade,
           isOvertime: post.isOvertime,

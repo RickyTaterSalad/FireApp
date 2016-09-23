@@ -1,6 +1,6 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>{{day.date |date:'mediumDate'}}</ion-title>
+    <ion-title>{{day.date |momentToString}}</ion-title>
     <ion-buttons end>
       <button primary medium style="margin-right:10px;font-size:1.6rem;"
               (click)="createPost()"
