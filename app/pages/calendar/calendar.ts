@@ -12,7 +12,6 @@ import {DepartmentProvider} from "../../providers/department-provider";
 import {PostProvider} from "../../providers/post-provider";
 import {ObjectContainsProperty} from "../../pipes/object-contains-property";
 
-
 import {DateUtils} from "../../utils/date-utils";
 
 import * as moment from 'moment';

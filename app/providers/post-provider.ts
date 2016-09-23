@@ -93,7 +93,7 @@ export class PostProvider {
         post: {
           id: post.id
         },
-        claiment: {
+        claimant: {
           id: account.id
         }
       });
