@@ -12,7 +12,7 @@ export class DepartmentProvider {
   private storage:Storage;
 private departmentKey:string = "department";
   constructor(private config:ConfigProvider, private httpProvider:HttpProvider, private authProvider:AuthProvider, private alertProvider:AlertProvider) {
-    this.departmentEndpoint = config.restApiUrl + "/department/" + config.departmentName;
+    this.departmentEndpoint = config.serverUrl + "/department/" + config.departmentName;
     this.storage = new Storage(LocalStorage);
     this.authProvider.loginState.subscribe((loggedIn)=> {
       if (!loggedIn) {
