@@ -8,6 +8,7 @@ import {MyPostsPage} from './pages/my-posts/my-posts';
 import {LoginPage} from './pages/login/login';
 import {MyOffersPage} from './pages/my-offers/my-offers';
 import {HomePage} from './pages/home/home';
+import {RegisterPage} from './pages/register/register';
 import {DepartmentProvider} from "./providers/department-provider";
 import {AccountProvider} from "./providers/account-provider";
 import {ConversationProvider} from "./providers/conversation-provider";
@@ -21,6 +22,7 @@ import {HttpProvider} from "./providers/http-provider";
 import {PlatformProvider} from "./providers/platform-provider";
 import {EventProvider} from "./providers/event-provider";
 import {AlertProvider} from "./providers/alert-provider";
+import {StationProvider} from "./providers/station-provider";
 
 @Component({
   templateUrl: 'build/app.html',
@@ -38,7 +40,8 @@ import {AlertProvider} from "./providers/alert-provider";
     PlatformProvider,
     HttpProvider,
     AuthProvider,
-    AlertProvider
+    AlertProvider,
+    StationProvider
   ]
 })
 class MyApp {
@@ -67,14 +70,21 @@ class MyApp {
     this.platform.ready().then(() => {
       StatusBar.styleDefault();
 
-      this.authProvider.loginState.subscribe((loggedIn)=> {
-        if (!loggedIn) {
-          this.nav.setRoot(LoginPage);
-        }
-        else {
-          this.nav.setRoot(HomePage);
-        }
-      });
+        this.authProvider.loginState.subscribe((loggedIn)=> {
+            if (!loggedIn) {
+              this.nav.setRoot(LoginPage);
+            }
+            else {
+                this.accountProvider.registeredState.subscribe((registered)=> {
+                    if(!registered){
+                        this.nav.setRoot(RegisterPage);
+                    }
+                    else {
+                        this.nav.setRoot(HomePage);
+                    }
+                });
+            }
+        });
     });
   }
 
