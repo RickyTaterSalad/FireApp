@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {ConfigProvider} from "./config-provider";
-import {Observable, Subject} from "rxjs";
+import {Observable, Subject, BehaviorSubject} from "rxjs";
 import {HttpProvider} from "./http-provider";
 import {AuthProvider} from "./auth-provider";
 import {AlertProvider} from "./alert-provider";
@@ -9,12 +9,14 @@ import {AlertProvider} from "./alert-provider";
 export class AccountProvider {
   selfEndpoint:string;
   _self:Object;
+  public registeredState:BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor(private config:ConfigProvider, private httpProvider:HttpProvider, private authProvider:AuthProvider, private alertProvider:AlertProvider) {
     this.selfEndpoint = config.restApiUrl + "/self";
     authProvider.loginState.subscribe((loggedIn)=> {
       if (!loggedIn) {
         this._self = null;
+        this.registeredState.next(false);
       }
       else {
         this.loadSelf();
@@ -27,9 +29,11 @@ export class AccountProvider {
     var subscription = subject.subscribe((selfResponse)=> {
       if (selfResponse) {
         this._self = selfResponse;
+        this.registeredState.next(this.isRegistered());
       }
     }, (err)=> {
-      this.alertProvider.showShortMessage(err && err._body ? err._body : "Could Not Load User", "Error");
+        this.registeredState.next(false);
+        this.alertProvider.showShortMessage(err && err._body ? err._body : "Could Not Load User", "Error");
     });
     return subject;
   };
@@ -43,5 +47,14 @@ export class AccountProvider {
     }
   };
 
-}
+  private isRegistered:Function = function(){
+    return  this._self
+            && !this._self.platoon
+            && !this._self.station
+            && !this._self.assignedHireCode;
+  };
 
+  register: Function = function(platoon:String, ahCode:String, shift:String) {
+      this.registeredState.next(true);
+  };
+}

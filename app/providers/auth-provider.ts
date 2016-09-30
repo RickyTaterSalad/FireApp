@@ -93,7 +93,6 @@ export class AuthProvider {
       return this.alertProvider.showLongMessage("No Internet","Error");
     }
     return this.loginDebugToken();
-
   };
   private loginDebugToken:Function = function () {
     var sub = this.http.get(this.configProvider.debugTokenUrl).map(res => res.json());
@@ -140,5 +139,3 @@ export class AuthProvider {
     this.loginState.next(false);
   }
 }
-
-

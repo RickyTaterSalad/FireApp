@@ -5,14 +5,18 @@ import {AuthProvider} from "./auth-provider";
 import {Observable,Subject} from "rxjs";
 import {AlertProvider} from "./alert-provider";
 import {Storage, LocalStorage} from 'ionic-angular';
+
 @Injectable()
 export class DepartmentProvider {
   departmentEndpoint:string;
   department:any;
   private storage:Storage;
-private departmentKey:string = "department";
+  private departmentKey:string = "department";
+
   constructor(private config:ConfigProvider, private httpProvider:HttpProvider, private authProvider:AuthProvider, private alertProvider:AlertProvider) {
-    this.departmentEndpoint = config.serverUrl + "/department/" + config.departmentName;
+    this.departmentEndpoint =   config.restApiUrl +
+                                "/department/" +
+                                config.departmentName;
     this.storage = new Storage(LocalStorage);
     this.authProvider.loginState.subscribe((loggedIn)=> {
       if (!loggedIn) {
@@ -64,4 +68,3 @@ private departmentKey:string = "department";
     }
   }
 }
-

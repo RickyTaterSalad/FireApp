@@ -16,9 +16,6 @@ import {DepartmentProvider} from "../../providers/department-provider";
 export class LoginPage {
   public loginMode:string = "login";
 
-  selectedRank: string;
-  department : Department;
-  ranks : string[];
 
   constructor(  private navCtrl:NavController,
                 private navParams: NavParams,
@@ -27,10 +24,7 @@ export class LoginPage {
                 private departmentProvider:DepartmentProvider) {
 
 
-        departmentProvider.Department().subscribe((dept) => {
-          this.department = dept;
-          this.ranks = this.department.ranks;
-        });
+        
   }
 
   private logUserIn:Function = function () {
