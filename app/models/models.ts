@@ -3,6 +3,7 @@
 export interface Account {
   firstName:string;
   lastName:string;
+  //email:string;
   platoon:string;
   department:string;
   station:string;
@@ -10,6 +11,19 @@ export interface Account {
   photo:string;
   assignedHireCode:string;
 }
+
+export interface AssignHireCode {
+    department:string;
+    ahCode:string;
+    shifts:Array<Shift>;
+}
+
+export interface Shift {
+    start:Number;
+    hours:Number;
+    platoon:String;
+}
+
 export interface Conversation {
   id:string;
   creator:string;

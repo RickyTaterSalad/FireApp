@@ -54,7 +54,16 @@ export class AccountProvider {
             && !this._self.assignedHireCode;
   };
 
-  register: Function = function(platoon:String, ahCode:String, shift:String) {
+  register: Function = function() {
+      var account = this._self;
+      let body = JSON.stringify(account);
+      var sub = this.httpProvider.postJSON(this.selfEndpoint, body);
+      var subscription = sub.subscribe(()=> {
+      }, (err)=> {
+         this.registeredState.next(false);
+        this.alertProvider.showShortMessage(err && err._body ? err._body : "Could Not Register User", "Error");
+      });
       this.registeredState.next(true);
+      return sub;
   };
 }

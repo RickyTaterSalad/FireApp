@@ -23,12 +23,14 @@ import {PlatformProvider} from "./providers/platform-provider";
 import {EventProvider} from "./providers/event-provider";
 import {AlertProvider} from "./providers/alert-provider";
 import {StationProvider} from "./providers/station-provider";
+import {AssignHireCodeProvider} from "./providers/assign-hire-provider";
 
 @Component({
   templateUrl: 'build/app.html',
   providers: [
     DepartmentProvider,
     AccountProvider,
+    AssignHireCodeProvider,
     ConversationProvider,
     EventProvider,
     PostProvider,
