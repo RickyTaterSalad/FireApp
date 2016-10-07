@@ -15,47 +15,46 @@
 
 <ion-content padding>
     <ion-list>
-      <ion-item>
+      <!-- <ion-item [(ngModel)]="firstName">
         <ion-label floating>First Name</ion-label>
         <ion-input></ion-input>
       </ion-item>
 
-      <ion-item>
+      <ion-item [(ngModel)]="lastName">
         <ion-label floating>Last Name</ion-label>
         <ion-input></ion-input>
       </ion-item>
 
-      <ion-item>
+      <ion-item [(ngModel)]="email">
         <ion-label floating>Email</ion-label>
         <ion-input type="email"></ion-input>
-      </ion-item>
+      </ion-item> -->
 
-      <ion-item name="rank">
+      <ion-item>
         <ion-label>Rank</ion-label>
-        <ion-select>
+        <ion-select [(ngModel)]="rank">
           <ion-option *ngFor="let rank of ranks" value="{{rank}}">{{rank}}</ion-option>
         </ion-select>
       </ion-item>
 
-      <ion-item name="station">
+      <ion-item>
         <ion-label>Station</ion-label>
-        <ion-select>
+        <ion-select [(ngModel)]="station">
           <ion-option *ngFor="let station of stations" value="{{station.id}}">{{station.stationNumber}}</ion-option>
         </ion-select>
       </ion-item>
 
-      <ion-item name="platoon">
+      <ion-item>
         <ion-label>Platoon</ion-label>
-        <ion-select>
+        <ion-select [(ngModel)]="platoon">
           <ion-option *ngFor="let platoon of platoons" value="{{platoon}}">{{platoon}}</ion-option>
         </ion-select>
       </ion-item>
 
       <ion-item>
         <ion-label>AH Code</ion-label>
-        <ion-select>
-          <ion-option value="A01" selected="true">A01</ion-option>
-          <ion-option value="A02">A02</ion-option>
+        <ion-select [(ngModel)]="ahCode">
+          <ion-option *ngFor="let code of ahCodes" value="{{code.id}}">{{code.ahCode}}</ion-option>
         </ion-select>
       </ion-item>
       <button primary (click)="register()" style="width:100%;margin-top:10px;">Register</button>

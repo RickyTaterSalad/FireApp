@@ -30,7 +30,6 @@ export class AuthProvider {
   //reads local storage for JWT. if JWT not found it will fire the loggedOut subject
   private loadUserFromStorage:Function = function () {
     this.storage.get(this.userDataKey).then((userData:string) => {
-      console.log(userData);
       if (userData) {
         try {
           var userDataObj:UserData = JSON.parse(userData);
@@ -71,6 +70,7 @@ export class AuthProvider {
         }
       }
       else {
+
         this.loginRemote().subscribe(tokenSubject)
       }
     });
